@@ -3,7 +3,15 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import TestComponent from "./components/test/test.component.tsx";
+import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
+import StatsChart from "./components/statistique/components/stats-chart/stats-chart.component.tsx";
+import { ThemeProvider, createTheme } from "@mui/material";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "Jost",
+  },
+});
 
 const routes = createBrowserRouter([
   {
@@ -16,7 +24,11 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "test",
-        element: <TestComponent />,
+        element: <StatsChart />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
       },
     ],
   },
@@ -24,6 +36,8 @@ const routes = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={routes} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={routes} />
+    </ThemeProvider>
   </React.StrictMode>
 );
