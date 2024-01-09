@@ -1,0 +1,15 @@
+.stats_card {
+    width: fit-content;
+    h1, h2, h3, h4 {
+        margin: 0;
+    }
+    .MuiCardContent-root {
+        padding: 2rem 3rem 0rem;
+    }
+    .stats_label {
+        text-align: right;
+        padding-inline: 10%;
+        font-size: 1rem;
+        // margin-top: 0;
+    }
+}
