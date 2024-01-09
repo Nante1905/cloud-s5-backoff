@@ -1,3 +1,5 @@
+@import url('./variables.module.scss');
+
 #root {
   /* max-width: 1280px; */
   width: 100%;
@@ -32,4 +34,12 @@
 
 .text-left {
   text-align: left;
+}
+
+.big {
+  font-size: 1.2rem;
+}
+
+.strong {
+  font-weight: bold;
 }

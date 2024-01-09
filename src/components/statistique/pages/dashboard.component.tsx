@@ -4,6 +4,7 @@ import "./dashboard.component.scss";
 import { Tab, Tabs } from "@mui/material";
 import StatsGenerales from "../components/stats-generale/stats-generale-root.component";
 import StatsBenefice from "../components/stats-benefice/stats-benefice/stats-benefice.component";
+import StatsApp from "../components/stats-app/stats-app.component";
 
 interface DashboardState {
   tab: string;
@@ -38,10 +39,11 @@ const Dashboard = () => {
         >
           <Tab value="1" label="Générale" />
           <Tab value="2" label="Bénéfice" />
-          <Tab value="3" label="Application" />
+          <Tab value="3" label="Utilisation de l'application" />
         </Tabs>
         {state.tab === "1" && <StatsGenerales />}
         {state.tab === "2" && <StatsBenefice />}
+        {state.tab === "3" && <StatsApp />}
       </div>
     </>
   );

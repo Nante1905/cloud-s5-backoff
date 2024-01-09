@@ -6,12 +6,16 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import StatsChart from "./components/statistique/components/stats-chart/stats-chart.component.tsx";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { frFR } from "@mui/x-date-pickers";
 
-const theme = createTheme({
-  typography: {
-    fontFamily: "Jost",
+const theme = createTheme(
+  {
+    typography: {
+      fontFamily: "Jost",
+    },
   },
-});
+  frFR
+);
 
 const routes = createBrowserRouter([
   {

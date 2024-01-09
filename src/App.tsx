@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import "./App.css";
+import "./App.scss";
 
 function App({ children }: any) {
   return <>{children}</>;

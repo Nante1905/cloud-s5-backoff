@@ -1,8 +1,9 @@
 import { Button } from "@mui/material";
-import { DatePicker, LocalizationProvider, frFR } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Dayjs } from "dayjs";
 import "./recherche-statistique.component.scss";
+import "dayjs/locale/fr";
 
 const RechercheStatistique = () => {
   // ça dépend an'izay ilain'ilay backend ny format
@@ -10,13 +11,7 @@ const RechercheStatistique = () => {
   return (
     <div>
       <form className="form_stat">
-        <LocalizationProvider
-          dateAdapter={AdapterDayjs}
-          adapterLocale="fr-FR"
-          localeText={
-            frFR.components.MuiLocalizationProvider.defaultProps.localeText
-          }
-        >
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
           <DatePicker
             label={"Mois et année"}
             views={["month", "year"]}
@@ -26,7 +21,9 @@ const RechercheStatistique = () => {
             }}
           />
         </LocalizationProvider>
-        <Button variant="contained">Rechercher</Button>
+        <Button variant="contained" className="btn">
+          Rechercher
+        </Button>
       </form>
     </div>
   );

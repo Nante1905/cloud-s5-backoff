@@ -72,6 +72,7 @@ const BeneficeParMarque = () => {
       <div className="div_table_marque">
         <DataGrid
           rows={data}
+          rowHeight={100}
           columns={columns}
           initialState={{
             pagination: {
@@ -79,7 +80,6 @@ const BeneficeParMarque = () => {
             },
           }}
           pageSizeOptions={[5, 10]}
-          // checkboxSelection
           localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
         />
       </div>
