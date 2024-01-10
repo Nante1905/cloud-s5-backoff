@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
-import StatsChart from "./components/statistique/components/stats-chart/stats-chart.component.tsx";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { frFR } from "@mui/x-date-pickers";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import App from "./App.tsx";
+import CouleurFormComponent from "./components/crud/couleur/components/couleur-form.components.tsx";
+import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
+import "./index.css";
 
 const theme = createTheme(
   {
@@ -28,8 +28,12 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "test",
-        element: <StatsChart />,
+        element: <CouleurFormComponent />,
       },
+      // {
+      //   path: "test",
+      //   element: <StatsChart />,
+      // },
       {
         path: "dashboard",
         element: <Dashboard />,
