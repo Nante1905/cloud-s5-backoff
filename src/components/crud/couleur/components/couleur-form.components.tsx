@@ -1,5 +1,5 @@
 import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Title from "../../../shared/title/title.component";
 import { Couleur } from "../../../shared/types/Couleur";
 import "./couleur-form.component.scss";
@@ -10,6 +10,19 @@ interface CouleurFormProps {
 
 const CouleurFormComponent = (props: CouleurFormProps) => {
   const [state, setState] = useState<CouleurFormState>(initialState);
+
+  useEffect(() => {
+    if (props.entity) {
+      setState((state) => ({
+        ...state,
+        form: {
+          ...(props.entity as Couleur),
+        },
+      }));
+    }
+  }, []);
+
+  // apiana ny mandefa anle requete axios any am WS sisa
 
   const couleur = props.entity;
   return (
@@ -27,6 +40,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
               },
             }))
           }
+          value={state.form.nom}
         />
         <TextField
           label="Valeur hexadecimale"
@@ -39,6 +53,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
               },
             }))
           }
+          value={state.form.hexa}
         />
         <Button variant="contained">{couleur ? "Modifier" : "Creer"}</Button>
       </div>
