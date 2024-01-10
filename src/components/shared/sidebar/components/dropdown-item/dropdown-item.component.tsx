@@ -43,8 +43,8 @@ const DropdownItemComponent = (props: DropdownItemProps) => {
     <div className="dropdown-item">
       <li className="nav-link">
         <a href="#" onClick={(event) => handleClick(event)}>
-          <span className="text nav-text">{props.text}</span>
           <i className="bx bx-home-alt icon"></i>
+          <span className="text nav-text">{props.text}</span>
         </a>
       </li>
       <div className="collapse close" ref={collapseElement}>
