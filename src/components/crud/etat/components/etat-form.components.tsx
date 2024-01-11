@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import Title from "../../../shared/title/title.component";
-import { Couleur } from "../../../shared/types/Couleur";
+import { Etat } from "../../../shared/types/Etat";
 import "../../../../assets/fontawesome-5/css/all.min.css"
-import "./couleur-form.component.css";
-import "./couleur-form.component.scss";
+import "./etat-form.component.css";
+import "./etat-form.component.scss";
 import { Url_api } from "../../../shared/constants/global";
 import { Link } from 'react-router-dom';
 
-interface CouleurFormProps {
-  entity?: Couleur;
+interface EtatFormProps {
+  entity?: Etat;
 }
 
-const CouleurFormComponent = (props: CouleurFormProps) => {
-  const [state, setState] = useState<CouleurFormState>(initialState);
+const EtatFormComponent = (props: EtatFormProps) => {
+  const [state, setState] = useState<EtatFormState>(initialState);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   useEffect(() => {
@@ -21,7 +21,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
       setState((state) => ({
         ...state,
         form: {
-          ...(props.entity as Couleur),
+          ...(props.entity as Etat),
         },
       }));
     }
@@ -31,8 +31,8 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
     console.log("ny alefa : ");
     console.log( state );
     try {
-      const method_name = couleur ? "PUT" : "POST";
-      const response = await fetch(Url_api + "couleurs", {
+      const method_name = etat ? "PUT" : "POST";
+      const response = await fetch(Url_api + "etats", {
         method: method_name,
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +48,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
         return;
       }
 
-      setSuccessMessage("Modifié avec succès !");
+      setSuccessMessage("Inseré avec succès !");
       setErrorMessage(null);
       console.log("Form submitted successfully!" + response);
     } catch (error) {
@@ -58,15 +58,15 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
     }
   };
 
-  const couleur = props.entity;
+  const etat = props.entity;
 
   return (
-    <div className="form-temp couleur-form">
+    <div className="form-temp etat-form">
       <div className="container-form" > 
-      <Link to="/couleurs">
+      <Link to="/etats">
           <i className="form-return fas fa-arrow-left"></i>
         </Link>        <div className="title-form" > 
-          <Title >{couleur ? "Modifier couleur" : "Créer couleur"}</Title>
+          <Title >{etat ? "Modifier etat" : "Créer etat"}</Title>
         </div>
         {errorMessage && <div className="success-error-form" style={{ color: 'red' }}>{errorMessage}</div>}
         {successMessage && <div className="success-error-form" style={{ color: 'green' }}>{successMessage}</div>}
@@ -85,21 +85,21 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
             value={state.form.nom}
           />
           <TextField
-          type="color"
-            label="Valeur hexadécimale"
+            label="valeur"
             onChange={(event) =>
               setState((state) => ({
                 ...state,
                 form: {
                   ...state.form,
-                  hexa: event.target.value as string,
+                  valeur: event.target.value as string,
                 },
               }))
             }
-            value={state.form.hexa}
+            value={state.form.valeur}
           />
+          
           <Button variant="contained" onClick={handleSubmit}>
-            {couleur ? "Modifier" : "Créer"}
+            {etat ? "Modifier" : "Créer"}
           </Button>
         </div>
         </div>
@@ -107,15 +107,15 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
   );
 };
 
-interface CouleurFormState {
-  form: Couleur;
+interface EtatFormState {
+  form: Etat;
 }
 
-const initialState: CouleurFormState = {
+const initialState: EtatFormState = {
   form: {
     nom: "",
-    hexa: "",
+    valeur:0.
   },
 };
 
-export default CouleurFormComponent;
+export default EtatFormComponent;
