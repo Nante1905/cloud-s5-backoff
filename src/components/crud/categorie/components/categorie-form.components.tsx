@@ -2,9 +2,9 @@ import { Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
+import { insertCategorie, updateCategorie } from "../../../service/categorie.service";
 import Title from "../../../shared/title/title.component";
 import { Categorie } from "../../../shared/types/Categorie";
-import { updateCategorie } from "../service/categorie.service";
 import "./couleur-form.component.css";
 import "./couleur-form.component.scss";
 
@@ -14,8 +14,7 @@ interface CategorieFormProps {
 
 const CategorieFormComponent = (props: CategorieFormProps) => {
   const [state, setState] = useState<CategorieFormState>(initialState);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   useEffect(() => {
     if (props.entity) {
       setState((state) => ({
@@ -31,45 +30,20 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
     console.log("ny alefa : ");
     console.log(state);
     try {
-      // const method_name = couleur ? "PUT" : "POST";
-      // const response = await fetch(Url_api + "categories", {
-      //   method: method_name,
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(state.form),
-      // });
-
-      if (couleur) {
-        updateCategorie(state.form)
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((err) => {
-            console.log(err.response.data);
-          });
+      if (state.form.id) {
+        await updateCategorie(state.form);
+        console.log("Mise à jour effectuée avec succès!");
+        setState((state) => ({ ...state, success: "Modifié avec succès !", error: null }));
+      } else {
+        await insertCategorie(state.form);
+        console.log("Insertion effectuée avec succès!");
+        setState((state) => ({ ...state, success: "Insertion effectuée avec succès !", error: null }));
       }
-
-      if (!response.ok) {
-        const responseData = await response.json();
-        const errorMessageFromAPI =
-          responseData.err || "Une erreur s'est produite";
-        setErrorMessage(errorMessageFromAPI);
-        setSuccessMessage(null);
-        return;
-      }
-
-      setSuccessMessage("Modifié avec succès !");
-      setErrorMessage(null);
-      console.log("Form submitted successfully!" + response);
     } catch (error) {
       console.error("An error occurred:", error);
-      setErrorMessage("Une erreur s'est produite");
-      setSuccessMessage(null);
+      setState((state) => ({ ...state, error: "Une erreur s'est produite", success: null }));
     }
   };
-
-  const couleur = props.entity;
 
   return (
     <div className="form-temp couleur-form">
@@ -78,16 +52,16 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
           <i className="form-return fas fa-arrow-left"></i>
         </Link>{" "}
         <div className="title-form">
-          <Title>{couleur ? "Modifier categorie" : "Créer categorie"}</Title>
+          <Title>{state.form.id ? "Modifier categorie" : "Créer categorie"}</Title>
         </div>
-        {errorMessage && (
+        {state.error && (
           <div className="success-error-form" style={{ color: "red" }}>
-            {errorMessage}
+            {state.error}
           </div>
         )}
-        {successMessage && (
+        {state.success && (
           <div className="success-error-form" style={{ color: "green" }}>
-            {successMessage}
+            {state.success}
           </div>
         )}
         <div className="form">
@@ -105,7 +79,7 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
             value={state.form.nom}
           />
           <Button variant="contained" onClick={handleSubmit}>
-            {couleur ? "Modifier" : "Créer"}
+            {state.form.id ? "Modifier" : "Créer"}
           </Button>
         </div>
       </div>
@@ -115,12 +89,16 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
 
 interface CategorieFormState {
   form: Categorie;
+  success: string | null;
+  error: string | null;
 }
 
 const initialState: CategorieFormState = {
   form: {
     nom: "",
   },
+  success: null,
+  error: null,
 };
 
 export default CategorieFormComponent;

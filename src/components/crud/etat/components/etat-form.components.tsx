@@ -7,6 +7,7 @@ import "./etat-form.component.css";
 import "./etat-form.component.scss";
 import { Url_api } from "../../../shared/constants/global";
 import { Link } from 'react-router-dom';
+import { insertEtat, updateEtat } from "../../../service/etat.service";
 
 interface EtatFormProps {
   entity?: Etat;
@@ -14,8 +15,6 @@ interface EtatFormProps {
 
 const EtatFormComponent = (props: EtatFormProps) => {
   const [state, setState] = useState<EtatFormState>(initialState);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   useEffect(() => {
     if (props.entity) {
       setState((state) => ({
@@ -31,30 +30,18 @@ const EtatFormComponent = (props: EtatFormProps) => {
     console.log("ny alefa : ");
     console.log( state );
     try {
-      const method_name = etat ? "PUT" : "POST";
-      const response = await fetch(Url_api + "etats", {
-        method: method_name,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(state.form),
-      });
-
-      if (!response.ok) {
-        const responseData = await response.json();
-        const errorMessageFromAPI = responseData.err || "Une erreur s'est produite";
-        setErrorMessage(errorMessageFromAPI);
-        setSuccessMessage(null);
-        return;
+      if (state.form.id) {
+        await updateEtat(state.form);
+        console.log("Mise à jour effectuée avec succès!");
+        setState((state) => ({ ...state, success: "Modifié avec succès !", error: null }));
+      } else {
+        await insertEtat(state.form);
+        console.log("Insertion effectuée avec succès!");
+        setState((state) => ({ ...state, success: "Insertion effectuée avec succès !", error: null }));
       }
-
-      setSuccessMessage("Inseré avec succès !");
-      setErrorMessage(null);
-      console.log("Form submitted successfully!" + response);
     } catch (error) {
       console.error("An error occurred:", error);
-      setErrorMessage("Une erreur s'est produite");
-      setSuccessMessage(null);
+      setState((state) => ({ ...state, error: "Une erreur s'est produite", success: null }));
     }
   };
 
@@ -68,8 +55,16 @@ const EtatFormComponent = (props: EtatFormProps) => {
         </Link>        <div className="title-form" > 
           <Title >{etat ? "Modifier etat" : "Créer etat"}</Title>
         </div>
-        {errorMessage && <div className="success-error-form" style={{ color: 'red' }}>{errorMessage}</div>}
-        {successMessage && <div className="success-error-form" style={{ color: 'green' }}>{successMessage}</div>}
+        {state.error && (
+          <div className="success-error-form" style={{ color: "red" }}>
+            {state.error}
+          </div>
+        )}
+        {state.success && (
+          <div className="success-error-form" style={{ color: "green" }}>
+            {state.success}
+          </div>
+        )}
         <div className="form">
           <TextField
             label="Nom"
@@ -116,6 +111,8 @@ const initialState: EtatFormState = {
     nom: "",
     valeur:0.
   },
+  success: null,
+  error: null,
 };
 
 export default EtatFormComponent;
