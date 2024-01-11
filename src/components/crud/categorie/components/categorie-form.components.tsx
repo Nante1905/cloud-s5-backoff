@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import Title from "../../../shared/title/title.component";
-import { Couleur } from "../../../shared/types/Couleur";
+import { Categorie } from "../../../shared/types/Categorie";
 import "../../../../assets/fontawesome-5/css/all.min.css"
 import "./couleur-form.component.css";
 import "./couleur-form.component.scss";
 import { Url_api } from "../../../shared/constants/global";
 import { Link } from 'react-router-dom';
 
-interface CouleurFormProps {
-  entity?: Couleur;
+interface CategorieFormProps {
+  entity?: Categorie;
 }
 
-const CouleurFormComponent = (props: CouleurFormProps) => {
-  const [state, setState] = useState<CouleurFormState>(initialState);
+const CategorieFormComponent = (props: CategorieFormProps) => {
+  const [state, setState] = useState<CategorieFormState>(initialState);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   useEffect(() => {
@@ -21,7 +21,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
       setState((state) => ({
         ...state,
         form: {
-          ...(props.entity as Couleur),
+          ...(props.entity as Categorie),
         },
       }));
     }
@@ -32,7 +32,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
     console.log( state );
     try {
       const method_name = couleur ? "PUT" : "POST";
-      const response = await fetch(Url_api + "couleurs", {
+      const response = await fetch(Url_api + "categories", {
         method: method_name,
         headers: {
           "Content-Type": "application/json",
@@ -63,10 +63,10 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
   return (
     <div className="form-temp couleur-form">
       <div className="container-form" > 
-      <Link to="/couleurs">
+      <Link to="/categories">
           <i className="form-return fas fa-arrow-left"></i>
         </Link>        <div className="title-form" > 
-          <Title >{couleur ? "Modifier couleur" : "Créer couleur"}</Title>
+          <Title >{couleur ? "Modifier categorie" : "Créer categorie"}</Title>
         </div>
         {errorMessage && <div className="success-error-form" style={{ color: 'red' }}>{errorMessage}</div>}
         {successMessage && <div className="success-error-form" style={{ color: 'green' }}>{successMessage}</div>}
@@ -84,20 +84,6 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
             }
             value={state.form.nom}
           />
-          <TextField
-          type="color"
-            label="Valeur hexadécimale"
-            onChange={(event) =>
-              setState((state) => ({
-                ...state,
-                form: {
-                  ...state.form,
-                  hexa: event.target.value as string,
-                },
-              }))
-            }
-            value={state.form.hexa}
-          />
           <Button variant="contained" onClick={handleSubmit}>
             {couleur ? "Modifier" : "Créer"}
           </Button>
@@ -107,15 +93,14 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
   );
 };
 
-interface CouleurFormState {
-  form: Couleur;
+interface CategorieFormState {
+  form: Categorie;
 }
 
-const initialState: CouleurFormState = {
+const initialState: CategorieFormState = {
   form: {
-    nom: "",
-    hexa: "",
+    nom: ""
   },
 };
 
-export default CouleurFormComponent;
+export default CategorieFormComponent;

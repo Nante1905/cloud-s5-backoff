@@ -8,6 +8,30 @@ interface SidebarRootProps {
 const SidebarRoot = ({ children }: SidebarRootProps) => {
   const navs: NavItem[] = [
     {
+      text: "Couleurs",
+      icon: "bx bx-home-alt",
+      link: "/couleurs/",
+      authorization: ["Direction des Achats", "Direction Financière"],
+    },
+    {
+      text: "Categories",
+      icon: "bx bx-home-alt",
+      link: "/categories/",
+      authorization: ["Direction des Achats", "Direction Financière"],
+    },
+    {
+      text: "Energies",
+      icon: "bx bx-home-alt",
+      link: "/energies/",
+      authorization: ["Direction des Achats", "Direction Financière"],
+    },
+    {
+      text: "Etat",
+      icon: "bx bx-home-alt",
+      link: "/etats/",
+      authorization: ["Direction des Achats", "Direction Financière"],
+    },
+    {
       text: "Liste des demandes",
       icon: "bx bx-home-alt",
       link: "/demandes/",

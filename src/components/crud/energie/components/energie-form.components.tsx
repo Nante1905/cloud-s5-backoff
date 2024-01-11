@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import Title from "../../../shared/title/title.component";
-import { Couleur } from "../../../shared/types/Couleur";
+import { Energie } from "../../../shared/types/Energie";
 import "../../../../assets/fontawesome-5/css/all.min.css"
 import "./couleur-form.component.css";
 import "./couleur-form.component.scss";
 import { Url_api } from "../../../shared/constants/global";
 import { Link } from 'react-router-dom';
 
-interface CouleurFormProps {
-  entity?: Couleur;
+interface EnergieFormProps {
+  entity?: Energie;
 }
 
-const CouleurFormComponent = (props: CouleurFormProps) => {
-  const [state, setState] = useState<CouleurFormState>(initialState);
+const EnergieFormComponent = (props: EnergieFormProps) => {
+  const [state, setState] = useState<EnergieFormState>(initialState);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   useEffect(() => {
@@ -21,7 +21,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
       setState((state) => ({
         ...state,
         form: {
-          ...(props.entity as Couleur),
+          ...(props.entity as Energie),
         },
       }));
     }
@@ -31,8 +31,8 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
     console.log("ny alefa : ");
     console.log( state );
     try {
-      const method_name = couleur ? "PUT" : "POST";
-      const response = await fetch(Url_api + "couleurs", {
+      const method_name = energie ? "PUT" : "POST";
+      const response = await fetch(Url_api + "energies", {
         method: method_name,
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +48,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
         return;
       }
 
-      setSuccessMessage("Modifié avec succès !");
+      setSuccessMessage("Inseré avec succès !");
       setErrorMessage(null);
       console.log("Form submitted successfully!" + response);
     } catch (error) {
@@ -58,15 +58,15 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
     }
   };
 
-  const couleur = props.entity;
+  const energie = props.entity;
 
   return (
-    <div className="form-temp couleur-form">
+    <div className="form-temp energie-form">
       <div className="container-form" > 
-      <Link to="/couleurs">
+      <Link to="/energies">
           <i className="form-return fas fa-arrow-left"></i>
         </Link>        <div className="title-form" > 
-          <Title >{couleur ? "Modifier couleur" : "Créer couleur"}</Title>
+          <Title >{energie ? "Modifier energie" : "Créer energie"}</Title>
         </div>
         {errorMessage && <div className="success-error-form" style={{ color: 'red' }}>{errorMessage}</div>}
         {successMessage && <div className="success-error-form" style={{ color: 'green' }}>{successMessage}</div>}
@@ -84,22 +84,9 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
             }
             value={state.form.nom}
           />
-          <TextField
-          type="color"
-            label="Valeur hexadécimale"
-            onChange={(event) =>
-              setState((state) => ({
-                ...state,
-                form: {
-                  ...state.form,
-                  hexa: event.target.value as string,
-                },
-              }))
-            }
-            value={state.form.hexa}
-          />
+          
           <Button variant="contained" onClick={handleSubmit}>
-            {couleur ? "Modifier" : "Créer"}
+            {energie ? "Modifier" : "Créer"}
           </Button>
         </div>
         </div>
@@ -107,15 +94,14 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
   );
 };
 
-interface CouleurFormState {
-  form: Couleur;
+interface EnergieFormState {
+  form: Energie;
 }
 
-const initialState: CouleurFormState = {
+const initialState: EnergieFormState = {
   form: {
-    nom: "",
-    hexa: "",
+    nom: ""
   },
 };
 
-export default CouleurFormComponent;
+export default EnergieFormComponent;
