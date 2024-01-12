@@ -92,7 +92,7 @@ const routes = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "test",
+        path: "validation/:id",
         element: <DetailsAnnonceRoot />,
       },
     ],

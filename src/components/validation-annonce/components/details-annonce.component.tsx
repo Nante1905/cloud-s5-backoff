@@ -3,61 +3,16 @@ import "./details-annonce.component.scss";
 import { Annonce } from "../../shared/types/Annonce";
 import dayjs from "dayjs";
 
-const DetailsAnnonce = () => {
-  document.title = "Validation annonce";
-  // alaina am props
-  const annonce: Annonce = {
-    id: 1,
-    reference: "ANu8177",
-    description: "Lieu: Ambodivona",
-    dateCreation: "2024-01-08",
-    prix: 2.5e7,
-    commission: 10.0,
-    nbVues: 200,
-    utilisateur: {
-      id: 1,
-      nom: "Rakotonirina",
-      prenom: "Tiavina Irintsoa",
-      email: "rakotonirinairintsoa0@gmail.com",
-      dateInscription: "2022-12-15",
-      adresse: "Ankadifotsy",
-    },
-    voiture: {
-      id: 4,
-      consommation: 10.0,
-      kilometrage: 2000,
-      etat: 1,
-      couleur: {
-        id: 1,
-        nom: "Noir",
-        hexa: "#12a",
-      },
-      modele: {
-        id: 88,
-        nom: "Corolla",
-        nbPlace: 5,
-        nbPorte: 4,
-        anneeSortie: 2021,
-        categorie: {
-          id: 2,
-          nom: "Berlines",
-        },
-        marque: {
-          id: 1,
-          nom: "Toyota",
-          logo: "Toyota.jpg",
-        },
-      },
-      vitesse: {
-        id: 1,
-        nom: "Automatique",
-      },
-      energie: {
-        id: 4,
-        nom: "Hybride",
-      },
-    },
-  };
+interface DetailsAnnonceProps {
+  annonce: Annonce;
+  loading: boolean;
+  onValider: () => void;
+  onRefuser: () => void;
+}
+
+const DetailsAnnonce = (props: DetailsAnnonceProps) => {
+  const annonce: Annonce = props.annonce;
+  // lay bouton mila atao anaty appLoader d props.loading no omena azy
 
   const photos = [
     {
@@ -101,16 +56,7 @@ const DetailsAnnonce = () => {
             </div>
             <div className="div_info_item_no_flex">
               <strong>Description</strong>
-              <p>
-                {annonce.description} Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Tenetur illum debitis, rem natus neque nihil
-                voluptatem similique saepe consequatur corporis labore
-                exercitationem repellat quo non consectetur, blanditiis corrupti
-                obcaecati omnis maiores quisquam enim possimus et? Voluptate
-                commodi quis tenetur voluptatibus ad voluptatem necessitatibus
-                ipsum architecto officiis recusandae? Natus, minus.
-                Consequuntur.
-              </p>
+              <p>{annonce.description}</p>
             </div>
             <div className="div_info_item">
               <strong>Prix: </strong>
@@ -188,10 +134,18 @@ const DetailsAnnonce = () => {
       </div>
       <div className="div_images">
         <div className="actions">
-          <Button variant="contained" className="div-success">
+          <Button
+            variant="contained"
+            className="div-success"
+            onClick={props.onValider}
+          >
             Valider
           </Button>
-          <Button variant="contained" className="div-danger">
+          <Button
+            variant="contained"
+            className="div-danger"
+            onClick={props.onRefuser}
+          >
             Refuser
           </Button>
         </div>
@@ -201,7 +155,7 @@ const DetailsAnnonce = () => {
               <p>
                 {index + 1}/{photos.length}
               </p>
-              <img src={p.url} />
+              <img src={`/${p.url}`} loading="lazy" />
             </div>
           ))}
         </div>
