@@ -11,7 +11,7 @@ export interface StatsCardProps {
 const StatsCard = (props: StatsCardProps) => {
   return (
     <Card className={`stats_card ${props.className}`}>
-      <CardContent>{props.data}</CardContent>
+      <CardContent className="text-center">{props.data}</CardContent>
       <p className="stats_label text-right">{props.label}</p>
     </Card>
   );
