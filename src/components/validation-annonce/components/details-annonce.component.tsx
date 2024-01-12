@@ -93,7 +93,7 @@ const DetailsAnnonce = () => {
       <div className="div_info">
         <Card className="card card_annonce">
           <CardContent className="card_content">
-            <h1 className="title">Annonce</h1>
+            <h2 className="title">Annonce</h2>
             {/* <Title>Annonce</Title> */}
             <div className="div_info_item">
               <strong>Création: </strong>
@@ -139,7 +139,7 @@ const DetailsAnnonce = () => {
 
         <Card className="card card_voiture">
           <CardContent className="card_content">
-            <h1 className="title">Voiture</h1>
+            <h2 className="title">Voiture</h2>
             <div className="div_info_item">
               <strong>Marque: </strong>
               <span>{annonce.voiture.modele.marque.nom}</span>
