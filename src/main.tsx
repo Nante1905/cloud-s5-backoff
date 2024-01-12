@@ -6,26 +6,22 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import AjoutCategorieComponent from "./components/crud/categorie/pages/ajout-categorie.component";
 import EditCategorieComponent from "./components/crud/categorie/pages/edit-categorie.components";
-import AjoutCouleurComponent from "./components/crud/couleur/pages/ajout-couleur.component";
-import EditCouleurComponent from "./components/crud/couleur/pages/edit-couleur.components";
 import CategorieListComponentRoot from "./components/crud/categorie/pages/list.component";
+import EditCouleurComponent from "./components/crud/couleur/pages/edit-couleur.components";
 import CouleurListComponentRoot from "./components/crud/couleur/pages/list.component";
-import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
-import "./index.css";
 import AjoutEnergieComponent from "./components/crud/energie/pages/ajout-energie.component";
-import EnergieListComponentRoot from "./components/crud/energie/pages/list.component";
 import EditEnergieComponent from "./components/crud/energie/pages/edit-energie.components";
+import EnergieListComponentRoot from "./components/crud/energie/pages/list.component";
 import AjoutEtatComponent from "./components/crud/etat/pages/ajout-etat.component";
-import EtatListComponentRoot from "./components/crud/etat/pages/list.component";
 import EditEtatComponent from "./components/crud/etat/pages/edit-etat.components";
-<<<<<<< HEAD
+import EtatListComponentRoot from "./components/crud/etat/pages/list.component";
 import MarqueFormComponent from "./components/crud/marque/components/marque-form.components";
 import FirebaseImageUpload from "./components/crud/marque/components/test";
-import MarqueListRoot from "./components/crud/marque/pages/list.component";
 import EditMarqueComponent from "./components/crud/marque/pages/edit-marque.components";
-=======
+import MarqueListRoot from "./components/crud/marque/pages/list.component";
+import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
->>>>>>> f13c41d60323d6f52b619da54470b7526b507db2
+import "./index.css";
 
 const theme = createTheme(
   {
@@ -106,7 +102,6 @@ const routes = createBrowserRouter([
         path: "etats/edit/:id",
         element: <EditEtatComponent />,
       },
-<<<<<<< HEAD
 
       {
         path: "marques/add",
@@ -117,8 +112,6 @@ const routes = createBrowserRouter([
       //   path: "test",
       //   element: <StatsChart />,
       // },
-=======
->>>>>>> f13c41d60323d6f52b619da54470b7526b507db2
       {
         path: "dashboard",
         element: <Dashboard />,
