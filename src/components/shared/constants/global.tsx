@@ -1,6 +1,23 @@
+<<<<<<< HEAD
 const Url_api = 'https://nba-1840-1892-1906.el.r.appspot.com/'
 const firebase_img = "https://firebasestorage.googleapis.com/v0/b/crypto-hallway-387021.appspot.com/o/logo%2F260c808a-78b0-4c8c-a9b2-f8f641bce608?alt=media&token=d13dfa35-ee78-4c4b-bae5-d25e5ba3a767";
 const imagkit = "https://ik.imagekit.io/vfyu3fmed/";
 
 
 export { Url_api , firebase_img , imagkit  }
+=======
+// const Url_api = 'https://nba-1840-1892-1906.el.r.appspot.com/'
+const Url_api = "http://localhost:8080";
+const errorMessage = [
+  {
+    code: "ERR_NETWORK",
+    message:
+      "Connexion au serveur impossible. Veuillez vérifier votre connexion internet.",
+  },
+  {
+    code: "ERR_BAD_REQUEST",
+    message: "Ressource introuvable.",
+  },
+];
+export { Url_api, errorMessage };
+>>>>>>> f13c41d60323d6f52b619da54470b7526b507db2

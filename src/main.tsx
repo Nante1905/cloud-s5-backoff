@@ -18,10 +18,14 @@ import EditEnergieComponent from "./components/crud/energie/pages/edit-energie.c
 import AjoutEtatComponent from "./components/crud/etat/pages/ajout-etat.component";
 import EtatListComponentRoot from "./components/crud/etat/pages/list.component";
 import EditEtatComponent from "./components/crud/etat/pages/edit-etat.components";
+<<<<<<< HEAD
 import MarqueFormComponent from "./components/crud/marque/components/marque-form.components";
 import FirebaseImageUpload from "./components/crud/marque/components/test";
 import MarqueListRoot from "./components/crud/marque/pages/list.component";
 import EditMarqueComponent from "./components/crud/marque/pages/edit-marque.components";
+=======
+import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
+>>>>>>> f13c41d60323d6f52b619da54470b7526b507db2
 
 const theme = createTheme(
   {
@@ -102,6 +106,7 @@ const routes = createBrowserRouter([
         path: "etats/edit/:id",
         element: <EditEtatComponent />,
       },
+<<<<<<< HEAD
 
       {
         path: "marques/add",
@@ -112,9 +117,15 @@ const routes = createBrowserRouter([
       //   path: "test",
       //   element: <StatsChart />,
       // },
+=======
+>>>>>>> f13c41d60323d6f52b619da54470b7526b507db2
       {
         path: "dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "validation/:id",
+        element: <DetailsAnnonceRoot />,
       },
     ],
   },
