@@ -2,7 +2,6 @@
 import axios from "axios";
 import { Etat } from "../shared/types/Etat";
 import { Url_api } from "../shared/constants/global";
-
 const updateEtat = async (form : Etat ) => {
   try {
     const response = await axios.put(`${Url_api}etats/${form.id}`, form, {

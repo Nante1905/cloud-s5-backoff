@@ -18,6 +18,10 @@ import EditEnergieComponent from "./components/crud/energie/pages/edit-energie.c
 import AjoutEtatComponent from "./components/crud/etat/pages/ajout-etat.component";
 import EtatListComponentRoot from "./components/crud/etat/pages/list.component";
 import EditEtatComponent from "./components/crud/etat/pages/edit-etat.components";
+import MarqueFormComponent from "./components/crud/marque/components/marque-form.components";
+import FirebaseImageUpload from "./components/crud/marque/components/test";
+import MarqueListRoot from "./components/crud/marque/pages/list.component";
+import EditMarqueComponent from "./components/crud/marque/pages/edit-marque.components";
 
 const theme = createTheme(
   {
@@ -38,8 +42,20 @@ const routes = createBrowserRouter([
     ),
     children: [
       {
-        path: "couleurs/add",
-        element: <AjoutCouleurComponent />,
+        path: "marques/edit/:id",
+        element: <EditMarqueComponent />,
+      },
+      {
+        path: "marques",
+        element: <MarqueListRoot />,
+      },
+      {
+        path: "marques/add",
+        element: <MarqueFormComponent />,
+      },
+      {
+        path: "test/test",
+        element: <FirebaseImageUpload />,
       },
       {
         path: "couleurs",
@@ -85,6 +101,11 @@ const routes = createBrowserRouter([
       {
         path: "etats/edit/:id",
         element: <EditEtatComponent />,
+      },
+
+      {
+        path: "marques/add",
+        element: <MarqueFormComponent />,
       },
 
       // {
