@@ -2,19 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import Title from "../../../shared/title/title.component";
 import { Etat } from "../../../shared/types/Etat";
-import "../../../../assets/fontawesome-5/css/all.min.css"
+import "../../../../assets/fontawesome-5/css/all.min.css";
 import "./etat-form.component.css";
 import "./etat-form.component.scss";
-import { Url_api } from "../../../shared/constants/global";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { insertEtat, updateEtat } from "../../../service/etat.service";
+import { ApiResponse } from "../../../shared/types/Response";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
 
 interface EtatFormProps {
   entity?: Etat;
 }
 
 const EtatFormComponent = (props: EtatFormProps) => {
+  const etat = props.entity;
   const [state, setState] = useState<EtatFormState>(initialState);
+
   useEffect(() => {
     if (props.entity) {
       setState((state) => ({
@@ -24,47 +30,103 @@ const EtatFormComponent = (props: EtatFormProps) => {
         },
       }));
     }
-  }, [props.entity]);
+  }, []);
 
   const handleSubmit = async () => {
-    console.log("ny alefa : ");
-    console.log( state );
-    try {
-      if (state.form.id) {
-        await updateEtat(state.form);
-        console.log("Mise à jour effectuée avec succès!");
-        setState((state) => ({ ...state, success: "Modifié avec succès !", error: null }));
-      } else {
-        await insertEtat(state.form);
-        console.log("Insertion effectuée avec succès!");
-        setState((state) => ({ ...state, success: "Insertion effectuée avec succès !", error: null }));
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      setState((state) => ({ ...state, error: "Une erreur s'est produite", success: null }));
+    setState((state) => ({
+      ...state,
+      submitLoading: true,
+    }));
+    if (state.form.id) {
+      updateEtat(state.form)
+        .then((res) => {
+          const response: ApiResponse = res.data;
+          if (response.ok) {
+            setState((state) => ({
+              ...state,
+              success: response.message,
+              submitLoading: false,
+              openSuccess: true,
+            }));
+          } else {
+            setState((state) => ({
+              ...state,
+              error: response.err,
+              submitLoading: false,
+              openError: true,
+            }));
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          let errorMessage = "";
+          if (
+            !err.response.data.err ||
+            err.response.data.err == "" ||
+            err.response.data.err == null
+          ) {
+            errorMessage = getErrorMessage(err.code);
+          } else {
+            errorMessage = err.response.data.err;
+          }
+          setState((state) => ({
+            ...state,
+            error: errorMessage,
+            submitLoading: false,
+            openError: true,
+          }));
+        });
+    } else {
+      insertEtat(state.form)
+        .then((res) => {
+          const response: ApiResponse = res.data;
+          if (response.ok) {
+            setState((state) => ({
+              ...state,
+              success: response.message,
+              submitLoading: false,
+              openSuccess: true,
+            }));
+          } else {
+            setState((state) => ({
+              ...state,
+              error: response.err,
+              submitLoading: false,
+              openError: true,
+            }));
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          let errorMessage = "";
+          if (
+            !err.response.data.err ||
+            err.response.data.err == "" ||
+            err.response.data.err == null
+          ) {
+            errorMessage = getErrorMessage(err.code);
+          } else {
+            errorMessage = err.response.data.err;
+          }
+          setState((state) => ({
+            ...state,
+            error: errorMessage,
+            submitLoading: false,
+            openError: true,
+          }));
+        });
     }
   };
 
-  const etat = props.entity;
-
   return (
-    <div className="form-temp etat-form">
-      <div className="container-form" > 
-      <Link to="/etats">
+    <div className="form-temp couleur-form">
+      <div className="container-form">
+        <Link to="/etats">
           <i className="form-return fas fa-arrow-left"></i>
-        </Link>        <div className="title-form" > 
-          <Title >{etat ? "Modifier etat" : "Créer etat"}</Title>
+        </Link>{" "}
+        <div className="title-form">
+          <Title>{etat ? "Modifier etat" : "Créer etat"}</Title>
         </div>
-        {state.error && (
-          <div className="success-error-form" style={{ color: "red" }}>
-            {state.error}
-          </div>
-        )}
-        {state.success && (
-          <div className="success-error-form" style={{ color: "green" }}>
-            {state.success}
-          </div>
-        )}
         <div className="form">
           <TextField
             label="Nom"
@@ -81,38 +143,68 @@ const EtatFormComponent = (props: EtatFormProps) => {
           />
           <TextField
             label="valeur"
-            onChange={(event) =>
+            onChange={(event) => {
               setState((state) => ({
                 ...state,
                 form: {
                   ...state.form,
-                  valeur: event.target.value as string,
+                  valeur: Number(event.target.value),
                 },
-              }))
-            }
+              }));
+            }}
             value={state.form.valeur}
           />
-          
+
           <Button variant="contained" onClick={handleSubmit}>
-            {etat ? "Modifier" : "Créer"}
+            <AppLoaderComponent loading={state.submitLoading}>
+              <span>{etat ? "Modifier" : "Créer"}</span>
+            </AppLoaderComponent>
           </Button>
         </div>
-        </div>
+      </div>
+      <ErrorSnackBar
+        open={state.openError}
+        onClose={() =>
+          setState(() => ({
+            ...state,
+            openError: false,
+          }))
+        }
+        error={state.error}
+      />
+      <SuccessSnackBar
+        open={state.openSuccess}
+        onClose={() =>
+          setState(() => ({
+            ...state,
+            openSuccess: false,
+          }))
+        }
+        message={state.success}
+      />
     </div>
   );
 };
 
 interface EtatFormState {
   form: Etat;
+  success: string;
+  error: string;
+  submitLoading: boolean;
+  openError: boolean;
+  openSuccess: boolean;
 }
 
 const initialState: EtatFormState = {
   form: {
     nom: "",
-    valeur:0.
+    valeur: 0,
   },
-  success: null,
-  error: null,
+  success: "",
+  error: "",
+  submitLoading: false,
+  openError: false,
+  openSuccess: false,
 };
 
 export default EtatFormComponent;

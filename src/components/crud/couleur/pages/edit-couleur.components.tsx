@@ -3,29 +3,56 @@ import { useParams } from "react-router-dom";
 import { findCouleurById } from "../../../service/couleur.service";
 import { Couleur } from "../../../shared/types/Couleur";
 import CouleurFormComponent from "../components/couleur-form.components";
+import { ApiResponse } from "../../../shared/types/Response";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+
+interface EditCouleurState {
+  couleur: Couleur | null;
+  error: string;
+}
+
+const initialState: EditCouleurState = {
+  couleur: null,
+  error: "",
+};
 
 const EditCouleurComponent = () => {
   const { id } = useParams<{ id: string }>(); // Récupère l'ID de la couleur depuis la barre d'adresse
-  const [couleur, setCouleur] = useState<Couleur | null>(null);
+  const [state, setState] = useState<EditCouleurState>(initialState);
 
   useEffect(() => {
     findCouleurById(Number(id))
       .then((res) => {
-        setCouleur(res.data.data);
+        const response: ApiResponse = res.data;
+        if (response.ok) {
+          setState((state) => ({
+            ...state,
+            couleur: response.data,
+          }));
+        } else {
+          setState((state) => ({
+            ...state,
+            error: response.err,
+          }));
+        }
       })
       .catch((err) => {
-        console.log(err);
+        setState((state) => ({
+          ...state,
+          error: err?.response?.data.message
+            ? err?.response?.data.message
+            : "Une erreur s'est produite.",
+        }));
       });
   }, [id]);
 
-  if (!couleur) {
-    // Peut être affiché un indicateur de chargement ou un message d'erreur ici
-    return null;
-  }
+  document.title = `Modifier la couleur - ${state.couleur?.nom}`;
 
-  document.title = `Modifier la couleur - ${couleur.nom}`;
-
-  return <CouleurFormComponent entity={couleur} />;
+  return (
+    <AppLoaderComponent loading={state.couleur == null}>
+      <CouleurFormComponent entity={state.couleur as Couleur} />
+    </AppLoaderComponent>
+  );
 };
 
 export default EditCouleurComponent;

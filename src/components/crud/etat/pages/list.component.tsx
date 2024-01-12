@@ -1,45 +1,76 @@
 import { useEffect, useState } from "react";
-import { Url_api } from "../../../shared/constants/global";
 import { Etat } from "../../../shared/types/Etat";
 import EtatListComponent from "../components/etat-list.components";
+import { findAllEtat } from "../../../service/etat.service";
+import { ApiResponse } from "../../../shared/types/Response";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+
+interface EtatListRootState {
+  etats: Etat[];
+  loading: boolean;
+  errorMessage: string;
+  openError: boolean;
+}
+
+const initialState: EtatListRootState = {
+  etats: [],
+  loading: true,
+  errorMessage: "",
+  openError: false,
+};
 
 const EtatListComponentRoot = () => {
   document.title = "Etats";
 
-  const [etats, setEtats] = useState<Etat[]>([]);
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(Url_api + "etats");
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des données");
+    findAllEtat()
+      .then((res) => {
+        const response: ApiResponse = res.data;
+        if (response.ok) {
+          setState((state) => ({
+            ...state,
+            etats: response.data,
+            loading: false,
+          }));
+        } else {
+          setState((state) => ({
+            ...state,
+            loading: false,
+            openError: true,
+            errorMessage: response.err,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        let errorMessage = "";
+        if (
+          !err.response.data.err ||
+          err.response.data.err == "" ||
+          err.response.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
         }
 
-        const data = await response.json();
-
-        // Transformation des données en un tableau de type Etat[]
-        const couleursData: Etat[] = data.data.map((item: any) => ({
-          id: item.id,
-          nom: item.nom,
-          hexa: item.hexa,
+        setState((state) => ({
+          ...state,
+          loading: false,
+          openError: true,
+          errorMessage: errorMessage,
         }));
-
-        setEtats(couleursData);
-      } catch (error) {
-        console.error(
-          "Une erreur s'est produite lors de la récupération des données:",
-          error.message
-        );
-      }
-    };
-
-    fetchData();
+      });
   }, []);
 
   return (
     <div>
-      <EtatListComponent etats={etats} />
+      <AppLoaderComponent loading={state.loading}>
+        <EtatListComponent etats={state.etats} />
+      </AppLoaderComponent>
     </div>
   );
 };

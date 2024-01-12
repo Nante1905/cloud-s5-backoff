@@ -44,7 +44,9 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
         .catch((err) => {
           setState((state) => ({
             ...state,
-            error: err?.response?.data.message,
+            error: err?.response?.data.message
+              ? err?.response?.data.message
+              : "Une erreur s'est produite.",
             submitLoading: false,
           }));
         });

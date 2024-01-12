@@ -9,7 +9,7 @@ export const findEnergieById = async (id: number) =>
   axios.get(`${Url_api}/energies/${id}`);
 
 export const updateEnergie = async (form: Energie) =>
-  axios.put(`${Url_api}energies/${form.id}`, form);
+  axios.put(`${Url_api}/energies/${form.id}`, form);
 
 export const insertEnergie = async (form: Energie) =>
-  axios.post(`${Url_api}energies`, form);
+  axios.post(`${Url_api}/energies`, form);

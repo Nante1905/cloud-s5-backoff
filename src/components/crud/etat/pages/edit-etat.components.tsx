@@ -1,39 +1,60 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EtatFormComponent from "../components/etat-form.components";
-import { Url_api } from "../../../shared/constants/global";
 import { Etat } from "../../../shared/types/Etat";
+import { findCouleurById } from "../../../service/couleur.service";
+import { ApiResponse } from "../../../shared/types/Response";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+
+interface EditEtatState {
+  etat: Etat | null;
+  error: string;
+}
+
+const initialState: EditEtatState = {
+  etat: null,
+  error: "",
+};
 
 const EditEtatComponent = () => {
-  const { id } = useParams<{ id: string }>(); // Récupère l'ID de la etat depuis la barre d'adresse
-  const [etat, setEtat] = useState<Etat | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const [state, setState] = useState<EditEtatState>(initialState);
 
   useEffect(() => {
-    const fetchEtat = async () => {
-      try {
-        const response = await fetch(`${Url_api}/etats/${id}`);
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération de la etat");
+    findCouleurById(Number(id))
+      .then((res) => {
+        const response: ApiResponse = res.data;
+        if (response.ok) {
+          setState((state) => ({
+            ...state,
+            etat: response.data,
+          }));
+        } else {
+          setState((state) => ({
+            ...state,
+            error: response.err,
+          }));
         }
+      })
+      .catch((err) => {
+        console.error(err);
 
-        const data = await response.json();
-        setEtat(data.data);
-      } catch (error) {
-        console.error("Une erreur s'est produite:", error.message);
-      }
-    };
-
-    fetchEtat();
+        setState((state) => ({
+          ...state,
+          error: err?.response?.data.message
+            ? err?.response?.data.message
+            : "Une erreur s'est produite.",
+        }));
+      });
   }, [id]);
 
-  if (!etat) {
-    // Peut être affiché un indicateur de chargement ou un message d'erreur ici
-    return null;
-  }
+  document.title = `Modifier l'état - ${state.etat?.nom}`;
 
-  document.title = `Modifier la etat - ${etat.nom}`;
-  
-  return <EtatFormComponent entity={etat} />;
+  return (
+    <AppLoaderComponent loading={state.etat == null}>
+      <EtatFormComponent entity={state.etat as Etat} />
+    </AppLoaderComponent>
+  );
 };
 
 export default EditEtatComponent;
