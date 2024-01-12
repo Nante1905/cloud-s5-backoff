@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, Snackbar, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../../../../assets/fontawesome-5/css/all.min.css";
+import { insertEnergie, updateEnergie } from "../../../service/energie.service";
 import Title from "../../../shared/title/title.component";
 import { Energie } from "../../../shared/types/Energie";
-import "../../../../assets/fontawesome-5/css/all.min.css"
 import "./couleur-form.component.css";
 import "./couleur-form.component.scss";
-import { Url_api } from "../../../shared/constants/global";
-import { Link } from 'react-router-dom';
-import { insertEnergie, updateEnergie } from "../../../service/energie.service";
 
 interface EnergieFormProps {
   entity?: Energie;
@@ -24,24 +23,37 @@ const EnergieFormComponent = (props: EnergieFormProps) => {
         },
       }));
     }
-  }, [props.entity]);
+  }, []);
 
   const handleSubmit = async () => {
-    console.log("ny alefa : ");
-    console.log( state );
-    try {
-      if (state.form.id) {
-        await updateEnergie(state.form);
-        console.log("Mise à jour effectuée avec succès!");
-        setState((state) => ({ ...state, success: "Modifié avec succès !", error: null }));
-      } else {
-        await insertEnergie(state.form);
-        console.log("Insertion effectuée avec succès!");
-        setState((state) => ({ ...state, success: "Insertion effectuée avec succès !", error: null }));
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      setState((state) => ({ ...state, error: "Une erreur s'est produite", success: null }));
+    if (state.form.id) {
+      updateEnergie(state.form)
+        .then((res) => {
+          setState((state) => ({
+            ...state,
+            success: res.data?.message,
+          }));
+        })
+        .catch((err) => {
+          setState((state) => ({
+            ...state,
+            error: err.response?.data?.message,
+          }));
+        });
+    } else {
+      insertEnergie(state.form)
+        .then((res) => {
+          setState((state) => ({
+            ...state,
+            success: res.data?.message,
+          }));
+        })
+        .catch((err) => {
+          setState((state) => ({
+            ...state,
+            error: err.response?.data?.message,
+          }));
+        });
     }
   };
 
@@ -49,22 +61,13 @@ const EnergieFormComponent = (props: EnergieFormProps) => {
 
   return (
     <div className="form-temp couleur-form">
-      <div className="container-form" > 
-      <Link to="/energies">
+      <div className="container-form">
+        <Link to="/energies">
           <i className="form-return fas fa-arrow-left"></i>
-        </Link>        <div className="title-form" > 
-          <Title >{energie ? "Modifier energie" : "Créer energie"}</Title>
+        </Link>{" "}
+        <div className="title-form">
+          <Title>{energie ? "Modifier energie" : "Créer energie"}</Title>
         </div>
-        {state.error && (
-          <div className="success-error-form" style={{ color: "red" }}>
-            {state.error}
-          </div>
-        )}
-        {state.success && (
-          <div className="success-error-form" style={{ color: "green" }}>
-            {state.success}
-          </div>
-        )}
         <div className="form">
           <TextField
             label="Nom"
@@ -83,13 +86,21 @@ const EnergieFormComponent = (props: EnergieFormProps) => {
             {energie ? "Modifier" : "Créer"}
           </Button>
         </div>
-        </div>
+      </div>
+      <Snackbar open={state.error !== null}>
+        <Alert severity="error">{state.error as string}</Alert>
+      </Snackbar>
+      <Snackbar open={state.success !== null}>
+        <Alert severity="success">{state.success as string}</Alert>
+      </Snackbar>
     </div>
   );
 };
 
 interface EnergieFormState {
   form: Energie;
+  success: string | null;
+  error: string | null;
 }
 
 const initialState: EnergieFormState = {

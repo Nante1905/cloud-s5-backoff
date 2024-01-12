@@ -1,32 +1,15 @@
 // apiService.js
 import axios from "axios";
-import { Energie } from "../shared/types/Energie";
 import { Url_api } from "../shared/constants/global";
+import { Energie } from "../shared/types/Energie";
 
-const updateEnergie = async (form : Energie ) => {
-  try {
-    const response = await axios.put(`${Url_api}energies/${form.id}`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const findAllEnergie = async () => axios.get(`${Url_api}/energies`);
 
-const insertEnergie = async (form : Energie ) => {
-  try {
-    const response = await axios.post(`${Url_api}energies`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const findEnergieById = async (id: number) =>
+  axios.get(`${Url_api}/energies/${id}`);
 
-export { updateEnergie, insertEnergie };
+export const updateEnergie = async (form: Energie) =>
+  axios.put(`${Url_api}energies/${form.id}`, form);
+
+export const insertEnergie = async (form: Energie) =>
+  axios.post(`${Url_api}energies`, form);
