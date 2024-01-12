@@ -5,6 +5,7 @@ import { Tab, Tabs } from "@mui/material";
 import StatsGenerales from "../components/stats-generale/stats-generale-root.component";
 import StatsBenefice from "../components/stats-benefice/stats-benefice/stats-benefice.component";
 import StatsApp from "../components/stats-app/stats-app.component";
+import Title from "../../shared/title/title.component";
 
 interface DashboardState {
   tab: string;
@@ -28,7 +29,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <h1>Statistique</h1>
+      <Title>Statistique</Title>
       <div className="dashboard">
         <RechercheStatistique />
         <Tabs

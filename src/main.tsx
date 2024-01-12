@@ -18,6 +18,7 @@ import EditEnergieComponent from "./components/crud/energie/pages/edit-energie.c
 import AjoutEtatComponent from "./components/crud/etat/pages/ajout-etat.component";
 import EtatListComponentRoot from "./components/crud/etat/pages/list.component";
 import EditEtatComponent from "./components/crud/etat/pages/edit-etat.components";
+import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 
 const theme = createTheme(
   {
@@ -86,14 +87,13 @@ const routes = createBrowserRouter([
         path: "etats/edit/:id",
         element: <EditEtatComponent />,
       },
-
-      // {
-      //   path: "test",
-      //   element: <StatsChart />,
-      // },
       {
         path: "dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "validation/:id",
+        element: <DetailsAnnonceRoot />,
       },
     ],
   },
