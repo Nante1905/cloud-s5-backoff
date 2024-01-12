@@ -1,5 +1,6 @@
 // CategorieListComponent.tsx
 
+import { Button } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,7 +12,7 @@ import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import Title from "../../../shared/title/title.component";
 import { Categorie } from "../../../shared/types/Categorie";
-import "./couleur-list.components.css";
+import "./couleur-list.components.scss";
 
 interface CategorieListComponentProps {
   categories: Categorie[];
@@ -24,14 +25,14 @@ const CategorieListComponent = ({
     <>
       <div className="list-couleur">
         <div className="title-form">
-          <Title className="list-couleur-title"> Liste des categories </Title>
+          <Title> Liste des categories </Title>
         </div>
         <div className="add-button">
-          <div className="add-list-form">
-            <Link to="/categories/add">
-              <i className="add-button fas fa-plus"></i>
-            </Link>
-          </div>
+          <Link to="/categories/add">
+            <Button variant="contained">
+              <i className="fas fa-plus"></i>
+            </Button>
+          </Link>
         </div>
         <TableContainer
           style={{ boxShadow: "2px 3px 20px #adaaaa", borderRadius: "10px" }}

@@ -1,32 +1,14 @@
 // apiService.js
 import axios from "axios";
-import { Couleur } from "../shared/types/Couleur";
 import { Url_api } from "../shared/constants/global";
+import { Couleur } from "../shared/types/Couleur";
 
-const updateCouleur = async (form : Couleur ) => {
-  try {
-    const response = await axios.put(`${Url_api}couleurs/${form.id}`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const findAllCouleur = () => axios.get(`${Url_api}/couleurs`);
+export const findCouleurById = (id: number) =>
+  axios.get(`${Url_api}/couleurs/${id}`);
 
-const insertCouleur = async (form : Couleur ) => {
-  try {
-    const response = await axios.post(`${Url_api}couleurs`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const updateCouleur = async (form: Couleur) =>
+  axios.put(`${Url_api}/couleurs/${form.id}`, form);
 
-export { updateCouleur, insertCouleur };
+export const insertCouleur = async (form: Couleur) =>
+  axios.post(`${Url_api}/couleurs`, form);
