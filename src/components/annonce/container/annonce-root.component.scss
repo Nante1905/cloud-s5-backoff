@@ -1,0 +1,8 @@
+.annonce-root {
+  .annonce-container {
+    display: grid;
+    grid-template-columns: 100%;
+    place-items: center;
+    margin-top: 3rem;
+  }
+}
