@@ -1,8 +1,12 @@
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, Snackbar, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
-import { insertCategorie, updateCategorie } from "../../../service/categorie.service";
+import {
+  insertCategorie,
+  updateCategorie,
+} from "../../../service/categorie.service";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import Title from "../../../shared/title/title.component";
 import { Categorie } from "../../../shared/types/Categorie";
 import "./couleur-form.component.css";
@@ -24,24 +28,40 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
         },
       }));
     }
-  }, [props.entity]);
+  }, []);
 
   const handleSubmit = async () => {
     console.log("ny alefa : ");
     console.log(state);
-    try {
-      if (state.form.id) {
-        await updateCategorie(state.form);
-        console.log("Mise à jour effectuée avec succès!");
-        setState((state) => ({ ...state, success: "Modifié avec succès !", error: null }));
-      } else {
-        await insertCategorie(state.form);
-        console.log("Insertion effectuée avec succès!");
-        setState((state) => ({ ...state, success: "Insertion effectuée avec succès !", error: null }));
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      setState((state) => ({ ...state, error: "Une erreur s'est produite", success: null }));
+
+    setState((state) => ({
+      ...state,
+      submitLoading: true,
+    }));
+
+    if (state.form.id) {
+      updateCategorie(state.form)
+        .then((res) => {
+          setState((state) => ({
+            ...state,
+            success: res.data.message,
+            error: null,
+            submitLoading: false,
+          }));
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      insertCategorie(state.form)
+        .then((res) => {
+          setState((state) => ({
+            ...state,
+            success: res.data.message,
+            error: null,
+            submitLoading: false,
+          }));
+        })
+        .catch((err) => console.log(err));
     }
   };
 
@@ -52,18 +72,10 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
           <i className="form-return fas fa-arrow-left"></i>
         </Link>{" "}
         <div className="title-form">
-          <Title>{state.form.id ? "Modifier categorie" : "Créer categorie"}</Title>
+          <Title>
+            {state.form.id ? "Modifier categorie" : "Créer categorie"}
+          </Title>
         </div>
-        {state.error && (
-          <div className="success-error-form" style={{ color: "red" }}>
-            {state.error}
-          </div>
-        )}
-        {state.success && (
-          <div className="success-error-form" style={{ color: "green" }}>
-            {state.success}
-          </div>
-        )}
         <div className="form">
           <TextField
             label="Nom"
@@ -78,11 +90,19 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
             }
             value={state.form.nom}
           />
-          <Button variant="contained" onClick={handleSubmit}>
-            {state.form.id ? "Modifier" : "Créer"}
-          </Button>
+          <AppLoaderComponent loading={state.submitLoading}>
+            <Button variant="contained" onClick={handleSubmit}>
+              <>{state.form.id ? "Modifier" : "Créer"}</>
+            </Button>
+          </AppLoaderComponent>
         </div>
       </div>
+      <Snackbar open={state.error !== null}>
+        <Alert severity="error">{state.error as string}</Alert>
+      </Snackbar>
+      <Snackbar open={state.success !== null}>
+        <Alert severity="success">{state.success as string}</Alert>
+      </Snackbar>
     </div>
   );
 };
@@ -91,6 +111,7 @@ interface CategorieFormState {
   form: Categorie;
   success: string | null;
   error: string | null;
+  submitLoading: boolean;
 }
 
 const initialState: CategorieFormState = {
@@ -99,6 +120,7 @@ const initialState: CategorieFormState = {
   },
   success: null,
   error: null,
+  submitLoading: false,
 };
 
 export default CategorieFormComponent;

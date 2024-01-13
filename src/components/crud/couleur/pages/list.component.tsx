@@ -1,44 +1,52 @@
-import React, { useEffect, useState } from "react";
-import { Categorie } from "../../../shared/types/Categorie";
-import { Url_api } from "../../../shared/constants/global";
-import CategorieListComponent from "../components/couleur-list.components";
+import { useEffect, useState } from "react";
+import { findAllCouleur } from "../../../service/couleur.service";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { Couleur } from "../../../shared/types/Couleur";
+import CouleurListComponent from "../components/couleur-list.components";
 
 const CategorieListComponentRoot = () => {
-  document.title = "Categories";
+  document.title = "Couleurs";
 
-  const [couleurs, setCategories] = useState<Categorie[]>([]);
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(Url_api+"/couleurs");
-        if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des données');
-        }
-
-        const data = await response.json();
-
-        // Transformation des données en un tableau de type Categorie[]
-        const couleursData: Categorie[] = data.data.map((item: any) => ({
-          id: item.id,
-          nom: item.nom,
-          hexa: item.hexa,
+    findAllCouleur()
+      .then((res) => {
+        setState((state) => ({
+          ...state,
+          couleurs: res.data.data,
+          loading: false,
         }));
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
 
-        setCategories(couleursData);
-      } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des données:', error.message);
-      }
-    };
-
-    fetchData();
+        setState((state) => ({
+          ...state,
+          loading: false,
+        }));
+      });
   }, []);
 
   return (
     <div>
-      <CategorieListComponent couleurs={couleurs} />
+      <AppLoaderComponent loading={state.loading}>
+        <CouleurListComponent couleurs={state.couleurs} />
+      </AppLoaderComponent>
     </div>
   );
 };
 
 export default CategorieListComponentRoot;
+
+interface CouleurListRootState {
+  couleurs: Couleur[];
+  loading: boolean;
+}
+
+// initial state
+const initialState: CouleurListRootState = {
+  couleurs: [],
+  loading: true,
+};

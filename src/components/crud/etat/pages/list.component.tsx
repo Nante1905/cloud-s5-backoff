@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Etat } from "../../../shared/types/Etat";
+import { useEffect, useState } from "react";
 import { Url_api } from "../../../shared/constants/global";
+import { Etat } from "../../../shared/types/Etat";
 import EtatListComponent from "../components/etat-list.components";
 
 const EtatListComponentRoot = () => {
@@ -11,9 +11,9 @@ const EtatListComponentRoot = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(Url_api+"/etats");
+        const response = await fetch(Url_api + "etats");
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des données');
+          throw new Error("Erreur lors de la récupération des données");
         }
 
         const data = await response.json();
@@ -27,7 +27,10 @@ const EtatListComponentRoot = () => {
 
         setEtats(couleursData);
       } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des données:', error.message);
+        console.error(
+          "Une erreur s'est produite lors de la récupération des données:",
+          error.message
+        );
       }
     };
 

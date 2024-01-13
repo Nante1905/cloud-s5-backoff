@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, Snackbar, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../../../../assets/fontawesome-5/css/all.min.css";
+import { insertCouleur, updateCouleur } from "../../../service/couleur.service";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import Title from "../../../shared/title/title.component";
 import { Couleur } from "../../../shared/types/Couleur";
-import "../../../../assets/fontawesome-5/css/all.min.css"
 import "./couleur-form.component.css";
 import "./couleur-form.component.scss";
-import { Url_api } from "../../../shared/constants/global";
-import { Link } from 'react-router-dom';
-import { insertCouleur, updateCouleur } from "../../../service/couleur.service";
 
 interface CouleurFormProps {
   entity?: Couleur;
@@ -24,24 +24,46 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
         },
       }));
     }
-  }, [props.entity]);
+  }, []);
 
   const handleSubmit = async () => {
-    console.log("ny alefa : ");
-    console.log( state );
-    try {
-      if (state.form.id) {
-        await updateCouleur(state.form);
-        console.log("Mise à jour effectuée avec succès!");
-        setState((state) => ({ ...state, success: "Modifié avec succès !", error: null }));
-      } else {
-        await insertCouleur(state.form);
-        console.log("Insertion effectuée avec succès!");
-        setState((state) => ({ ...state, success: "Insertion effectuée avec succès !", error: null }));
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-      setState((state) => ({ ...state, error: "Une erreur s'est produite", success: null }));
+    setState((state) => ({
+      ...state,
+      submitLoading: true,
+    }));
+
+    if (state.form.id) {
+      updateCouleur(state.form)
+        .then((res) => {
+          setState((state) => ({
+            ...state,
+            success: res.data.message,
+            submitLoading: false,
+          }));
+        })
+        .catch((err) => {
+          setState((state) => ({
+            ...state,
+            error: err?.response?.data.message,
+            submitLoading: false,
+          }));
+        });
+    } else {
+      insertCouleur(state.form)
+        .then((res) => {
+          setState((state) => ({
+            ...state,
+            success: res.data.message,
+            submitLoading: false,
+          }));
+        })
+        .catch((err) => {
+          setState((state) => ({
+            ...state,
+            error: err.response.data.message,
+            submitLoading: false,
+          }));
+        });
     }
   };
 
@@ -49,11 +71,12 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
 
   return (
     <div className="form-temp couleur-form">
-      <div className="container-form" > 
-      <Link to="/couleurs">
+      <div className="container-form">
+        <Link to="/couleurs">
           <i className="form-return fas fa-arrow-left"></i>
-        </Link>        <div className="title-form" > 
-          <Title >{couleur ? "Modifier couleur" : "Créer couleur"}</Title>
+        </Link>{" "}
+        <div className="title-form">
+          <Title>{couleur ? "Modifier couleur" : "Créer couleur"}</Title>
         </div>
         {state.error && (
           <div className="success-error-form" style={{ color: "red" }}>
@@ -80,7 +103,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
             value={state.form.nom}
           />
           <TextField
-          type="color"
+            type="color"
             label="Valeur hexadécimale"
             onChange={(event) =>
               setState((state) => ({
@@ -93,17 +116,29 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
             }
             value={state.form.hexa}
           />
-          <Button variant="contained" onClick={handleSubmit}>
-            {couleur ? "Modifier" : "Créer"}
-          </Button>
+          <AppLoaderComponent loading={state.submitLoading}>
+            <Button variant="contained" onClick={handleSubmit}>
+              <>{state.form.id ? "Modifier" : "Créer"}</>
+            </Button>
+          </AppLoaderComponent>
         </div>
-        </div>
+      </div>
+
+      <Snackbar open={state.error !== null}>
+        <Alert severity="error">{state.error as string}</Alert>
+      </Snackbar>
+      <Snackbar open={state.success !== null}>
+        <Alert severity="success">{state.success as string}</Alert>
+      </Snackbar>
     </div>
   );
 };
 
 interface CouleurFormState {
   form: Couleur;
+  success: string | null;
+  error: string | null;
+  submitLoading: boolean;
 }
 
 const initialState: CouleurFormState = {
@@ -113,6 +148,7 @@ const initialState: CouleurFormState = {
   },
   success: null,
   error: null,
+  submitLoading: false,
 };
 
 export default CouleurFormComponent;

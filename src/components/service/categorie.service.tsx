@@ -1,32 +1,14 @@
 // apiService.js
 import axios from "axios";
-import { Categorie } from "../shared/types/Categorie";
 import { Url_api } from "../shared/constants/global";
+import { Categorie } from "../shared/types/Categorie";
 
-const updateCategorie = async (form : Categorie ) => {
-  try {
-    const response = await axios.put(`${Url_api}categories/${form.id}`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const findAllCategorie = () => axios.get(`${Url_api}/categories`);
+export const findCategorieById = (id: number) =>
+  axios.get(`${Url_api}/categories/${id}`);
 
-const insertCategorie = async (form : Categorie ) => {
-  try {
-    const response = await axios.post(`${Url_api}categories`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const updateCategorie = async (form: Categorie) =>
+  axios.put(`${Url_api}/categories/${form.id}`, form);
 
-export { updateCategorie, insertCategorie };
+export const insertCategorie = async (form: Categorie) =>
+  axios.post(`${Url_api}/categories`, form);
