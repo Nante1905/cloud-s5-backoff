@@ -1,43 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { Categorie } from "../../../shared/types/Categorie"; 
-import { Url_api } from "../../../shared/constants/global";
+import { useEffect, useState } from "react";
+import { findAllCategorie } from "../../../service/categorie.service";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { Categorie } from "../../../shared/types/Categorie";
 import CategorieListComponent from "../components/categorie-list.components";
 
 const CategorieListComponentRoot = () => {
   document.title = "Categories";
 
-  const [categories, setCategories] = useState<Categorie[]>([]);
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(Url_api+"/categories");
-        if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des données');
-        }
-
-        const data = await response.json();
-
-        // Transformation des données en un tableau de type Categorie[]
-        const categoriesData: Categorie[] = data.data.map((item: any) => ({
-          id: item.id,
-          nom: item.nom
+    findAllCategorie()
+      .then((res) => {
+        setState((state) => ({
+          ...state,
+          categories: res.data.data,
+          loading: false,
         }));
-
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des données:', error.message);
-      }
-    };
-
-    fetchData();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
     <div>
-      <CategorieListComponent categories={categories} />
+      <AppLoaderComponent loading={state.loading}>
+        <CategorieListComponent categories={state.categories} />
+      </AppLoaderComponent>
     </div>
   );
 };
 
 export default CategorieListComponentRoot;
+
+interface CategorieListRootState {
+  categories: Categorie[];
+  loading: boolean;
+}
+
+const initialState: CategorieListRootState = {
+  categories: [],
+  loading: true,
+};

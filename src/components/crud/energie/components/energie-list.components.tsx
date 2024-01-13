@@ -1,19 +1,18 @@
 // EnergieListComponent.tsx
 
-import React from "react";
-import { Energie } from "../../../shared/types/Energie";
-import "./couleur-list.components.css";
+import { Button } from "@mui/material";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Title from "../../../shared/title/title.component";
+import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
-import { Link } from 'react-router-dom';
-
+import Title from "../../../shared/title/title.component";
+import { Energie } from "../../../shared/types/Energie";
+import "./couleur-list.components.css";
 
 interface EnergieListComponentProps {
   energies: Energie[];
@@ -24,16 +23,19 @@ const EnergieListComponent = ({ energies }: EnergieListComponentProps) => {
     <>
       <div className="list-energie">
         <div className="title-form">
-          <Title className="list-energie-title"> Liste des energies </Title>
+          <Title> Liste des energies </Title>
         </div>
         <div className="add-button">
-            <div className="add-list-form">
-                <Link to="/energies/add">
-                <i className="add-button fas fa-plus"></i>
-                </Link>  
-            </div>
+          <Link to="/couleurs/add">
+            <Button variant="contained">
+              <i className="fas fa-plus"></i>
+            </Button>
+          </Link>
         </div>
-        <TableContainer  style={{ boxShadow: '2px 3px 20px #adaaaa' , borderRadius: '10px' }}  component={Paper}>
+        <TableContainer
+          style={{ boxShadow: "2px 3px 20px #adaaaa", borderRadius: "10px" }}
+          component={Paper}
+        >
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -48,19 +50,19 @@ const EnergieListComponent = ({ energies }: EnergieListComponentProps) => {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell>{energie.nom}</TableCell>
-                    <TableCell>
+                  <TableCell>
                     <Link to={`/energies/edit/${energie.id}`}>
-                        <i className="edit-list-icon fas fa-pencil-alt"></i>
-                    </Link>  
-                </TableCell>
+                      <i className="edit-list-icon fas fa-pencil-alt"></i>
+                    </Link>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
       </div>
     </>
   );
