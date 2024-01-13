@@ -1,7 +1,7 @@
 import { Button, Card, CardContent } from "@mui/material";
 import "./details-annonce.component.scss";
-import { Annonce } from "../../shared/types/Annonce";
 import dayjs from "dayjs";
+import { Annonce } from "../../shared/types/Annonce";
 
 interface DetailsAnnonceProps {
   annonce: Annonce;

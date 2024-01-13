@@ -21,7 +21,7 @@ interface EnergieListComponentProps {
 const EnergieListComponent = ({ energies }: EnergieListComponentProps) => {
   return (
     <>
-      <div className="list-energie">
+      <div className="list-crud">
         <div className="title-form">
           <Title> Liste des energies </Title>
         </div>

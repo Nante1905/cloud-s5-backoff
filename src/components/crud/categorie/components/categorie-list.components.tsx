@@ -23,7 +23,7 @@ const CategorieListComponent = ({
 }: CategorieListComponentProps) => {
   return (
     <>
-      <div className="list-couleur">
+      <div className="list-crud">
         <div className="title-form">
           <Title> Liste des categories </Title>
         </div>

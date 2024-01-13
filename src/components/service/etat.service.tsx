@@ -2,30 +2,13 @@
 import axios from "axios";
 import { Etat } from "../shared/types/Etat";
 import { Url_api } from "../shared/constants/global";
-const updateEtat = async (form : Etat ) => {
-  try {
-    const response = await axios.put(`${Url_api}etats/${form.id}`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
 
-const insertEtat = async (form : Etat ) => {
-  try {
-    const response = await axios.post(`${Url_api}etats`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const findAllEtat = () => axios.get(`${Url_api}/etats`);
 
-export { updateEtat, insertEtat };
+export const findEtatById = (id: number) => axios.get(`${Url_api}/etats/${id}`);
+
+export const updateEtat = async (form: Etat) =>
+  axios.put(`${Url_api}/etats/${form.id}`, form);
+
+export const insertEtat = async (form: Etat) =>
+  axios.post(`${Url_api}/etats`, form);

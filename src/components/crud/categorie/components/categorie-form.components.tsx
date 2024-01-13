@@ -1,5 +1,7 @@
 import { Alert, Button, Snackbar, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+
+import { FormEvent, useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import {
@@ -11,6 +13,7 @@ import Title from "../../../shared/title/title.component";
 import { Categorie } from "../../../shared/types/Categorie";
 import "./couleur-form.component.css";
 import "./couleur-form.component.scss";
+import { getErrorMessage } from "../../../shared/service/api-service";
 
 interface CategorieFormProps {
   entity?: Categorie;
@@ -30,7 +33,8 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
     }
   }, []);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     console.log("ny alefa : ");
     console.log(state);
 
@@ -61,49 +65,71 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
             submitLoading: false,
           }));
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.error(err);
+          let errorMessage = "";
+          if (
+            !err.response.data.err ||
+            err.response.data.err == "" ||
+            err.response.data.err == null
+          ) {
+            errorMessage = getErrorMessage(err.code);
+          } else {
+            errorMessage = err.response.data.err;
+          }
+          setState((state) => ({
+            ...state,
+            submitLoading: false,
+            error: errorMessage,
+          }));
+        });
+
     }
   };
 
   return (
-    <div className="form-temp couleur-form">
-      <div className="container-form">
-        <Link to="/categories">
-          <i className="form-return fas fa-arrow-left"></i>
-        </Link>{" "}
-        <div className="title-form">
-          <Title>
-            {state.form.id ? "Modifier categorie" : "Créer categorie"}
-          </Title>
+    <>
+      <form onSubmit={handleSubmit}>
+        <div className="form-temp couleur-form">
+          <div className="container-form">
+            <Link to="/categories">
+              <i className="form-return fas fa-arrow-left"></i>
+            </Link>{" "}
+            <div className="title-form">
+              <Title>
+                {state.form.id ? "Modifier categorie" : "Créer categorie"}
+              </Title>
+            </div>
+            <div className="form">
+              <TextField
+                label="Nom"
+                onChange={(event) =>
+                  setState((state) => ({
+                    ...state,
+                    form: {
+                      ...state.form,
+                      nom: event.target.value as string,
+                    },
+                  }))
+                }
+                value={state.form.nom}
+              />
+              <AppLoaderComponent loading={state.submitLoading}>
+                <Button variant="contained" type="submit">
+                  <>{state.form.id ? "Modifier" : "Créer"}</>
+                </Button>
+              </AppLoaderComponent>
+            </div>
+          </div>
         </div>
-        <div className="form">
-          <TextField
-            label="Nom"
-            onChange={(event) =>
-              setState((state) => ({
-                ...state,
-                form: {
-                  ...state.form,
-                  nom: event.target.value as string,
-                },
-              }))
-            }
-            value={state.form.nom}
-          />
-          <AppLoaderComponent loading={state.submitLoading}>
-            <Button variant="contained" onClick={handleSubmit}>
-              <>{state.form.id ? "Modifier" : "Créer"}</>
-            </Button>
-          </AppLoaderComponent>
-        </div>
-      </div>
+      </form>
       <Snackbar open={state.error !== null}>
         <Alert severity="error">{state.error as string}</Alert>
       </Snackbar>
       <Snackbar open={state.success !== null}>
         <Alert severity="success">{state.success as string}</Alert>
       </Snackbar>
-    </div>
+    </>
   );
 };
 
