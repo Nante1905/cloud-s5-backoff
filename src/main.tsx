@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
-import AnnonceCardComponent from "./components/annonce/components/annonce-card/annonce-card.component.tsx";
+import AnnonceRoot from "./components/annonce/container/annonce-root.component.tsx";
 import AjoutCategorieComponent from "./components/crud/categorie/pages/ajout-categorie.component";
 import EditCategorieComponent from "./components/crud/categorie/pages/edit-categorie.components";
 import CategorieListComponentRoot from "./components/crud/categorie/pages/list.component";
@@ -31,10 +31,6 @@ const theme = createTheme(
 );
 
 const routes = createBrowserRouter([
-  {
-    path: "/test",
-    element: <AnnonceCardComponent />,
-  },
   {
     path: "",
     element: (
@@ -99,6 +95,10 @@ const routes = createBrowserRouter([
       {
         path: "validation/:id",
         element: <DetailsAnnonceRoot />,
+      },
+      {
+        path: "/annonce/validation",
+        element: <AnnonceRoot />,
       },
     ],
   },

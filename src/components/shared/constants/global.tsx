@@ -1,5 +1,5 @@
-// const Url_api = 'https://nba-1840-1892-1906.el.r.appspot.com/'
-const Url_api = "http://localhost:8080";
+const Url_api = "https://nba-1840-1892-1906.el.r.appspot.com/";
+// const Url_api = "http://localhost:8080";
 const errorMessage = [
   {
     code: "ERR_NETWORK",
