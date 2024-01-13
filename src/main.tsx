@@ -4,9 +4,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
+import AnnonceRoot from "./components/annonce/container/annonce-root.component.tsx";
 import AjoutCategorieComponent from "./components/crud/categorie/pages/ajout-categorie.component";
 import EditCategorieComponent from "./components/crud/categorie/pages/edit-categorie.components";
 import CategorieListComponentRoot from "./components/crud/categorie/pages/list.component";
+
+import AjoutCouleurComponent from "./components/crud/couleur/pages/ajout-couleur.component";
+
 import EditCouleurComponent from "./components/crud/couleur/pages/edit-couleur.components";
 import CouleurListComponentRoot from "./components/crud/couleur/pages/list.component";
 import AjoutEnergieComponent from "./components/crud/energie/pages/ajout-energie.component";
@@ -15,10 +19,12 @@ import EnergieListComponentRoot from "./components/crud/energie/pages/list.compo
 import AjoutEtatComponent from "./components/crud/etat/pages/ajout-etat.component";
 import EditEtatComponent from "./components/crud/etat/pages/edit-etat.components";
 import EtatListComponentRoot from "./components/crud/etat/pages/list.component";
+
 import MarqueFormComponent from "./components/crud/marque/components/marque-form.components";
 import FirebaseImageUpload from "./components/crud/marque/components/test";
 import EditMarqueComponent from "./components/crud/marque/pages/edit-marque.components";
 import MarqueListRoot from "./components/crud/marque/pages/list.component";
+
 import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
@@ -119,6 +125,10 @@ const routes = createBrowserRouter([
       {
         path: "validation/:id",
         element: <DetailsAnnonceRoot />,
+      },
+      {
+        path: "/annonce/validation",
+        element: <AnnonceRoot />,
       },
     ],
   },
