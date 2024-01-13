@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { DropdownItem } from "../../types/dropdownItem.type";
 import { NavItem } from "../../types/navItem.type";
 import DropdownItemComponent from "../dropdown-item/dropdown-item.component";
 import NavItemComponent from "../nav-item/nav-item.component";
@@ -7,7 +8,7 @@ import "./sidebar.component.scss";
 
 interface SidebarProps {
   children: JSX.Element;
-  navItems: NavItem[];
+  navItems: (NavItem | DropdownItem)[];
 }
 
 const SidebarComponent = ({ children, navItems }: SidebarProps) => {
@@ -47,54 +48,25 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
             </li> */}
 
             <ul className="menu-links">
-              {navItems.map((navItem, index) => (
-                <NavItemComponent key={index} navItem={navItem} />
-              ))}
+              {navItems.map((navItem, index) => {
+                if (typeof navItem === "object" && "subNav" in navItem) {
+                  return (
+                    <DropdownItemComponent
+                      key={index}
+                      dropdownItem={navItem as DropdownItem}
+                    />
+                  );
+                } else {
+                  return (
+                    <NavItemComponent
+                      key={index}
+                      navItem={navItem as NavItem}
+                    />
+                  );
+                }
+              })}
 
               {/* TEST */}
-              <DropdownItemComponent text="Haha" />
-
-              <li className="nav-link">
-                <a href="#">
-                  <i className="bx bx-home-alt icon"></i>
-                  <span className="text nav-text">Dashboard</span>
-                </a>
-              </li>
-
-              <li className="nav-link">
-                <a href="#">
-                  <i className="bx bx-bar-chart-alt-2 icon"></i>
-                  <span className="text nav-text">Revenue</span>
-                </a>
-              </li>
-
-              <li className="nav-link">
-                <a href="#">
-                  <i className="bx bx-bell icon"></i>
-                  <span className="text nav-text">Notifications</span>
-                </a>
-              </li>
-
-              <li className="nav-link">
-                <a href="#">
-                  <i className="bx bx-pie-chart-alt icon"></i>
-                  <span className="text nav-text">Analytics</span>
-                </a>
-              </li>
-
-              <li className="nav-link">
-                <a href="#">
-                  <i className="bx bx-heart icon"></i>
-                  <span className="text nav-text">Likes</span>
-                </a>
-              </li>
-
-              <li className="nav-link">
-                <a href="#">
-                  <i className="bx bx-wallet icon"></i>
-                  <span className="text nav-text">Wallets</span>
-                </a>
-              </li>
             </ul>
           </div>
 

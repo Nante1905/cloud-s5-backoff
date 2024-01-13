@@ -1,9 +1,9 @@
 import React from "react";
+import { NavItem } from "./navItem.type";
 
-export interface NavItem {
+export interface DropdownItem {
   text: string;
   icon: React.JSX.Element | string;
-  link: string;
-  // subNav?: NavItem[];
+  subNav?: NavItem[];
   authorization: string[];
 }

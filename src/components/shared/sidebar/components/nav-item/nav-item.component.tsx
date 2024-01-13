@@ -9,7 +9,11 @@ const NavItemComponent = (props: NavItemProps) => {
   return (
     <li className="nav-link">
       <a href={props.navItem.link}>
-        <i className="bx bx-home-alt icon"></i>
+        {typeof props.navItem.icon === "string" ? (
+          <i className={`bx ${props.navItem.icon} icon`}></i>
+        ) : (
+          <i className="icon">{props.navItem.icon}</i>
+        )}
         <span className="text nav-text">{props.navItem.text}</span>
       </a>
     </li>
