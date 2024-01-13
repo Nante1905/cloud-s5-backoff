@@ -1,5 +1,7 @@
 import { Alert, Button, Snackbar, TextField } from "@mui/material";
+
 import { FormEvent, useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import { insertEnergie, updateEnergie } from "../../../service/energie.service";
@@ -9,6 +11,7 @@ import "./couleur-form.component.css";
 import "./couleur-form.component.scss";
 import { ApiResponse } from "../../../shared/types/Response";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+
 
 interface EnergieFormProps {
   entity?: Energie;
@@ -141,6 +144,7 @@ const EnergieFormComponent = (props: EnergieFormProps) => {
         <Alert severity="success">{state.success as string}</Alert>
       </Snackbar>
     </>
+
   );
 };
 

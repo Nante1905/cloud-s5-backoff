@@ -1,5 +1,7 @@
 import { Alert, Button, Snackbar, TextField } from "@mui/material";
+
 import { FormEvent, useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import {
@@ -81,6 +83,7 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
             error: errorMessage,
           }));
         });
+
     }
   };
 

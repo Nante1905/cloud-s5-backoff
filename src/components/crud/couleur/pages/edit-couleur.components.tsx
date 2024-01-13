@@ -47,7 +47,6 @@ const EditCouleurComponent = () => {
   }, [id]);
 
   document.title = `Modifier la couleur - ${state.couleur?.nom}`;
-
   return (
     <AppLoaderComponent loading={state.couleur == null}>
       <CouleurFormComponent entity={state.couleur as Couleur} />

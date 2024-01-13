@@ -13,3 +13,4 @@ export const updateEnergie = async (form: Energie) =>
 
 export const insertEnergie = async (form: Energie) =>
   axios.post(`${Url_api}/energies`, form);
+

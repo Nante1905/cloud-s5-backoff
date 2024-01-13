@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+
+
 import { Etat } from "../../../shared/types/Etat";
 import EtatListComponent from "../components/etat-list.components";
 import { findAllEtat } from "../../../service/etat.service";
@@ -64,6 +66,7 @@ const EtatListComponentRoot = () => {
           errorMessage: errorMessage,
         }));
       });
+
   }, []);
 
   return (

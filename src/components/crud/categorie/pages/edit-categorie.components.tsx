@@ -48,7 +48,6 @@ const EditCategorieComponent = () => {
   }, [id]);
 
   document.title = `Modifier  - ${state.categorie?.nom}`;
-
   return (
     <AppLoaderComponent loading={state.categorie == null}>
       <>
