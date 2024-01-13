@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { NavItem } from "../../types/navItem.type";
+import DropdownItemComponent from "../dropdown-item/dropdown-item.component";
 import NavItemComponent from "../nav-item/nav-item.component";
 import "./sidebar.component.scss";
 
@@ -49,6 +50,10 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
               {navItems.map((navItem, index) => (
                 <NavItemComponent key={index} navItem={navItem} />
               ))}
+
+              {/* TEST */}
+              <DropdownItemComponent text="Haha" />
+
               <li className="nav-link">
                 <a href="#">
                   <i className="bx bx-home-alt icon"></i>
