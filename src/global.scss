@@ -67,3 +67,24 @@
 .edit-list-icon {
   color: #4bc050;
 }
+
+// FORM
+.couleur-form, .form-temp {
+  .form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    @media screen and (min-width: 400px) {
+      input {
+        min-width: 20rem;
+      }
+    }
+  }
+}
+
+
+.text-danger {
+  color: $danger;
+}

@@ -13,6 +13,7 @@ import "../../../../assets/fontawesome-5/css/all.min.css";
 import Title from "../../../shared/title/title.component";
 import { Couleur } from "../../../shared/types/Couleur";
 import "./couleur-list.components.css";
+import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
 
 interface CouleurListComponentProps {
   couleurs: Couleur[];
@@ -68,6 +69,7 @@ const CouleurListComponent = (props: CouleurListComponentProps) => {
                 </TableRow>
               ))}
             </TableBody>
+            <CustomPagination />
           </Table>
         </TableContainer>
         <br />

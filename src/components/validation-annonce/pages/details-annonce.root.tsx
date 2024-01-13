@@ -62,9 +62,9 @@ const DetailsAnnonceRoot = () => {
         console.error(err);
         let errorMessage = "";
         if (
-          !err.response.data.err ||
-          err.response.data.err == "" ||
-          err.response.data.err == null
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
         ) {
           errorMessage = getErrorMessage(err.code);
         } else {
@@ -107,9 +107,9 @@ const DetailsAnnonceRoot = () => {
         console.error(err);
         let errorMessage = "";
         if (
-          !err.response.data.err ||
-          err.response.data.err == "" ||
-          err.response.data.err == null
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
         ) {
           errorMessage = getErrorMessage(err.code);
         } else {
@@ -152,9 +152,9 @@ const DetailsAnnonceRoot = () => {
         console.log("code ", err.code);
         let errorMessage = "";
         if (
-          !err.response.data.err ||
-          err.response.data.err == "" ||
-          err.response.data.err == null
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
         ) {
           errorMessage = getErrorMessage(err.code);
         } else {

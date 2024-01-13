@@ -1,39 +1,75 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EnergieFormComponent from "../components/energie-form.components";
-import { Url_api } from "../../../shared/constants/global";
 import { Energie } from "../../../shared/types/Energie";
+import { findEnergieById } from "../../../service/energie.service";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { ApiResponse } from "../../../shared/types/Response";
+import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+
+interface EditEnergieState {
+  energie: Energie | null;
+  error: string;
+}
+
+const initialState: EditEnergieState = {
+  energie: null,
+  error: "",
+};
 
 const EditEnergieComponent = () => {
-  const { id } = useParams<{ id: string }>(); // Récupère l'ID de la energie depuis la barre d'adresse
-  const [energie, setEnergie] = useState<Energie | null>(null);
+  const { id } = useParams<{ id: string }>();
+  const [state, setState] = useState<EditEnergieState>(initialState);
 
   useEffect(() => {
-    const fetchEnergie = async () => {
-      try {
-        const response = await fetch(`${Url_api}/energies/${id}`);
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération de la energie");
+    findEnergieById(Number(id))
+      .then((res) => {
+        const response: ApiResponse = res.data;
+        if (response.ok) {
+          setState((state) => ({
+            ...state,
+            etat: response.data,
+          }));
+        } else {
+          setState((state) => ({
+            ...state,
+            error: response.err,
+          }));
         }
+      })
+      .catch((err) => {
+        console.error(err);
 
-        const data = await response.json();
-        setEnergie(data.data);
-      } catch (error) {
-        console.error("Une erreur s'est produite:", error.message);
-      }
-    };
-
-    fetchEnergie();
+        setState((state) => ({
+          ...state,
+          error: err?.response?.data.message
+            ? err?.response?.data.message
+            : "Une erreur s'est produite.",
+        }));
+      });
   }, [id]);
 
-  if (!energie) {
-    // Peut être affiché un indicateur de chargement ou un message d'erreur ici
-    return null;
-  }
+  document.title = `Modifier l'énergie - ${state.energie?.nom}`;
 
-  document.title = `Modifier la energie - ${energie.nom}`;
-  
-  return <EnergieFormComponent entity={energie} />;
+  return (
+    <>
+      <AppLoaderComponent loading={state.energie == null}>
+        <>
+          <EnergieFormComponent entity={state.energie as Energie} />;
+        </>
+      </AppLoaderComponent>
+      <ErrorSnackBar
+        open={state.error !== ""}
+        onClose={() => {
+          setState((state) => ({
+            ...state,
+            error: "",
+          }));
+        }}
+        error={state.error}
+      />
+    </>
+  );
 };
 
 export default EditEnergieComponent;

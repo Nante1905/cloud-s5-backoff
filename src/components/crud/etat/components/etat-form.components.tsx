@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import Title from "../../../shared/title/title.component";
 import { Etat } from "../../../shared/types/Etat";
@@ -32,7 +32,9 @@ const EtatFormComponent = (props: EtatFormProps) => {
     }
   }, []);
 
-  const handleSubmit = async () => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     setState((state) => ({
       ...state,
       submitLoading: true,
@@ -119,47 +121,51 @@ const EtatFormComponent = (props: EtatFormProps) => {
   };
 
   return (
-    <div className="form-temp couleur-form">
-      <div className="container-form">
-        <Link to="/etats">
-          <i className="form-return fas fa-arrow-left"></i>
-        </Link>{" "}
-        <div className="title-form">
-          <Title>{etat ? "Modifier etat" : "Créer etat"}</Title>
-        </div>
-        <div className="form">
-          <TextField
-            label="Nom"
-            onChange={(event) =>
-              setState((state) => ({
-                ...state,
-                form: {
-                  ...state.form,
-                  nom: event.target.value as string,
-                },
-              }))
-            }
-            value={state.form.nom}
-          />
-          <TextField
-            label="valeur"
-            onChange={(event) => {
-              setState((state) => ({
-                ...state,
-                form: {
-                  ...state.form,
-                  valeur: Number(event.target.value),
-                },
-              }));
-            }}
-            value={state.form.valeur}
-          />
+    <>
+      <div className="form-temp couleur-form">
+        <div className="container-form">
+          <Link to="/etats">
+            <i className="form-return fas fa-arrow-left"></i>
+          </Link>{" "}
+          <div className="title-form">
+            <Title>{etat ? "Modifier etat" : "Créer etat"}</Title>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form">
+              <TextField
+                label="Nom"
+                onChange={(event) => {
+                  setState((state) => ({
+                    ...state,
+                    form: {
+                      ...state.form,
+                      nom: event.target.value,
+                    },
+                  }));
+                }}
+                value={state.form.nom}
+              />
+              <TextField
+                label="valeur"
+                onChange={(event) => {
+                  setState((state) => ({
+                    ...state,
+                    form: {
+                      ...state.form,
+                      valeur: Number(event.target.value),
+                    },
+                  }));
+                }}
+                value={state.form.valeur}
+              />
 
-          <Button variant="contained" onClick={handleSubmit}>
-            <AppLoaderComponent loading={state.submitLoading}>
-              <span>{etat ? "Modifier" : "Créer"}</span>
-            </AppLoaderComponent>
-          </Button>
+              <Button variant="contained" type="submit">
+                <AppLoaderComponent loading={state.submitLoading}>
+                  <span>{etat ? "Modifier" : "Créer"}</span>
+                </AppLoaderComponent>
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
       <ErrorSnackBar
@@ -182,7 +188,7 @@ const EtatFormComponent = (props: EtatFormProps) => {
         }
         message={state.success}
       />
-    </div>
+    </>
   );
 };
 

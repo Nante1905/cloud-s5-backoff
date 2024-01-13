@@ -14,6 +14,7 @@ import Title from "../../../shared/title/title.component";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
+import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
 
 interface EtatListComponentProps {
   etats: Etat[];
@@ -62,6 +63,7 @@ const EtatListComponent = ({ etats }: EtatListComponentProps) => {
                 </TableRow>
               ))}
             </TableBody>
+            <CustomPagination />
           </Table>
         </TableContainer>
         <br />

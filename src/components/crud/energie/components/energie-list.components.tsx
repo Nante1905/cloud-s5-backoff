@@ -13,6 +13,7 @@ import "../../../../assets/fontawesome-5/css/all.min.css";
 import Title from "../../../shared/title/title.component";
 import { Energie } from "../../../shared/types/Energie";
 import "./couleur-list.components.css";
+import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
 
 interface EnergieListComponentProps {
   energies: Energie[];
@@ -58,6 +59,7 @@ const EnergieListComponent = ({ energies }: EnergieListComponentProps) => {
                 </TableRow>
               ))}
             </TableBody>
+            <CustomPagination />
           </Table>
         </TableContainer>
         <br />

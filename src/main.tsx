@@ -2,14 +2,13 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import { frFR } from "@mui/x-date-pickers";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import AnnonceRoot from "./components/annonce/container/annonce-root.component.tsx";
 import AjoutCategorieComponent from "./components/crud/categorie/pages/ajout-categorie.component";
 import EditCategorieComponent from "./components/crud/categorie/pages/edit-categorie.components";
 import CategorieListComponentRoot from "./components/crud/categorie/pages/list.component";
-
-import AjoutCouleurComponent from "./components/crud/couleur/pages/ajout-couleur.component";
 
 import EditCouleurComponent from "./components/crud/couleur/pages/edit-couleur.components";
 import CouleurListComponentRoot from "./components/crud/couleur/pages/list.component";
@@ -28,6 +27,7 @@ import MarqueListRoot from "./components/crud/marque/pages/list.component";
 import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
+import { store } from "./store/store.ts";
 
 const theme = createTheme(
   {
@@ -109,11 +109,6 @@ const routes = createBrowserRouter([
         element: <EditEtatComponent />,
       },
 
-      {
-        path: "marques/add",
-        element: <MarqueFormComponent />,
-      },
-
       // {
       //   path: "test",
       //   element: <StatsChart />,
@@ -135,9 +130,11 @@ const routes = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={routes} />
-    </ThemeProvider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={routes} />
+      </ThemeProvider>
+    </React.StrictMode>
+  </Provider>
 );

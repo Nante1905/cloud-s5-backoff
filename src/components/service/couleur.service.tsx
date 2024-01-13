@@ -2,8 +2,12 @@
 import axios from "axios";
 import { Url_api } from "../shared/constants/global";
 import { Couleur } from "../shared/types/Couleur";
+import { PaginationState } from "../../store/pagination/PaginationSlice";
 
-export const findAllCouleur = () => axios.get(`${Url_api}/couleurs`);
+export const findAllCouleur = (page: PaginationState) =>
+  axios.get(
+    `${Url_api}/couleurs?page=${page.numero}&pageSize=${page.nbrParPage}`
+  );
 export const findCouleurById = (id: number) =>
   axios.get(`${Url_api}/couleurs/${id}`);
 

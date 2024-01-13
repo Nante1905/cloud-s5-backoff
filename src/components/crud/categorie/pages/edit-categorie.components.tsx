@@ -32,9 +32,9 @@ const EditCategorieComponent = () => {
         console.error(err);
         let errorMessage = "";
         if (
-          !err.response.data.err ||
-          err.response.data.err == "" ||
-          err.response.data.err == null
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
         ) {
           errorMessage = getErrorMessage(err.code);
         } else {

@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { v4 } from "uuid";
 import "../../../../assets/fontawesome-5/css/all.min.css";
@@ -10,6 +10,10 @@ import Title from "../../../shared/title/title.component";
 import { Marque } from "../../../shared/types/Marque";
 import "./marque-form.component.css";
 import "./marque-form.component.scss";
+import { ApiResponse } from "../../../shared/types/Response";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
 
 interface MarqueFormProps {
   entity?: Marque;
@@ -25,6 +29,8 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
   // const setImgUrl = (imgUrl: string[]) => {
   //   setState((state) => ({ ...state, imgUrl }));
   // };
+  const marque = props.entity;
+
   useEffect(() => {
     if (props.entity) {
       setState((state) => ({
@@ -52,7 +58,9 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
   //   });
   // }, []);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     if (state.file_img !== null) {
       const imgRef = ref(imageDb, `logo/${v4()}`);
 
@@ -80,49 +88,84 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
         }));
 
         setTimeout(() => {
-          try {
-            console.log("ny alefa : ");
-            console.log(state);
-            if (state.form.id) {
-              updateMarque(state.form);
-              console.log("Mise à jour effectuée avec succès!");
-              setState((state) => ({
-                ...state,
-                success: "Modifié avec succès !",
-                error: null,
-              }));
-            } else {
-              insertMarque(state.form);
-              console.log("Insertion effectuée avec succès!");
-              setState((state) => ({
-                ...state,
-                success: "Insertion effectuée avec succès !",
-                error: null,
-              }));
-            }
-          } catch (error) {
-            console.error("An error occurred:", error);
-            console.log(state);
-            if (
-              error.response &&
-              error.response.data &&
-              error.response.data.ok !== true
-            ) {
-              const errorMessage =
-                error.response.data.err ||
-                "Une erreur inattendue s'est produite.";
-              setState((state) => ({
-                ...state,
-                error: errorMessage,
-                success: null,
-              }));
-            } else {
-              setState((state) => ({
-                ...state,
-                error: "Une erreur inattendue s'est produite.",
-                success: null,
-              }));
-            }
+          if (state.form.id) {
+            updateMarque(state.form)
+              .then((res) => {
+                const response: ApiResponse = res.data;
+                if (response.ok) {
+                  setState((state) => ({
+                    ...state,
+                    success: response.message,
+                    submitLoading: false,
+                    openSuccess: true,
+                  }));
+                } else {
+                  setState((state) => ({
+                    ...state,
+                    error: response.err,
+                    submitLoading: false,
+                    openError: true,
+                  }));
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+                let errorMessage = "";
+                if (
+                  !err.response.data.err ||
+                  err.response.data.err == "" ||
+                  err.response.data.err == null
+                ) {
+                  errorMessage = getErrorMessage(err.code);
+                } else {
+                  errorMessage = err.response.data.err;
+                }
+                setState((state) => ({
+                  ...state,
+                  error: errorMessage,
+                  submitLoading: false,
+                  openError: true,
+                }));
+              });
+          } else {
+            insertMarque(state.form)
+              .then((res) => {
+                const response: ApiResponse = res.data;
+                if (response.ok) {
+                  setState((state) => ({
+                    ...state,
+                    success: response.message,
+                    submitLoading: false,
+                    openSuccess: true,
+                  }));
+                } else {
+                  setState((state) => ({
+                    ...state,
+                    error: response.err,
+                    submitLoading: false,
+                    openError: true,
+                  }));
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+                let errorMessage = "";
+                if (
+                  !err.response.data.err ||
+                  err.response.data.err == "" ||
+                  err.response.data.err == null
+                ) {
+                  errorMessage = getErrorMessage(err.code);
+                } else {
+                  errorMessage = err.response.data.err;
+                }
+                setState((state) => ({
+                  ...state,
+                  error: errorMessage,
+                  submitLoading: false,
+                  openError: true,
+                }));
+              });
           }
         }, 500);
 
@@ -131,7 +174,6 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
     }
   };
 
-  const marque = props.entity;
   return (
     <div className="form-temp marque-form">
       <div className="container-form">
@@ -141,51 +183,63 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
         <div className="title-form">
           <Title>{marque ? "Modifier marque" : "Créer marque"}</Title>
         </div>
-        {state.error && (
-          <div className="success-error-form" style={{ color: "red" }}>
-            {state.error}
+        <form onSubmit={handleSubmit}>
+          <div className="form">
+            <TextField
+              label="Nom"
+              onChange={(event) =>
+                setState((state) => ({
+                  ...state,
+                  form: {
+                    ...state.form,
+                    nom: event.target.value as string,
+                  },
+                }))
+              }
+              value={state.form.nom}
+            />
+            <TextField
+              type="file"
+              label="logo"
+              onChange={(event) =>
+                setState((state) => ({
+                  ...state,
+                  form: {
+                    ...state.form,
+                    // logo: event.target.value as string,
+                  },
+                  file_name: (event.target as HTMLInputElement).files?.[0]
+                    .name as string,
+                  file_img: (event.target as HTMLInputElement).files?.[0],
+                }))
+              }
+            />
+            <Button variant="contained" type="submit">
+              {marque ? "Modifier" : "Créer"}
+            </Button>
           </div>
-        )}
-        {state.success && (
-          <div className="success-error-form" style={{ color: "green" }}>
-            {state.success}
-          </div>
-        )}
-        <div className="form">
-          <TextField
-            label="Nom"
-            onChange={(event) =>
-              setState((state) => ({
-                ...state,
-                form: {
-                  ...state.form,
-                  nom: event.target.value as string,
-                },
-              }))
-            }
-            value={state.form.nom}
-          />
-          <TextField
-            type="file"
-            label="logo"
-            onChange={(event) =>
-              setState((state) => ({
-                ...state,
-                form: {
-                  ...state.form,
-                  // logo: event.target.value as string,
-                },
-                file_name: (event.target as HTMLInputElement).files?.[0]
-                  .name as string,
-                file_img: (event.target as HTMLInputElement).files?.[0],
-              }))
-            }
-          />
-          <Button variant="contained" onClick={handleSubmit}>
-            {marque ? "Modifier" : "Créer"}
-          </Button>
-        </div>
+        </form>
       </div>
+      <ErrorSnackBar
+        open={state.openError}
+        onClose={() =>
+          setState(() => ({
+            ...state,
+            openError: false,
+          }))
+        }
+        error={state.error}
+      />
+      <SuccessSnackBar
+        open={state.openSuccess}
+        onClose={() =>
+          setState(() => ({
+            ...state,
+            openSuccess: false,
+          }))
+        }
+        message={state.success}
+      />
     </div>
   );
 };
@@ -194,8 +248,11 @@ interface MarqueFormState {
   form: Marque;
   file_name: string;
   file_img: File | undefined;
-  success: boolean;
-  error: boolean;
+  success: string;
+  error: string;
+  submitLoading: boolean;
+  openError: boolean;
+  openSuccess: boolean;
   imgUrl: string[];
 }
 
@@ -206,8 +263,11 @@ const initialState: MarqueFormState = {
   },
   file_name: "",
   file_img: undefined,
-  success: false,
-  error: false,
+  success: "",
+  error: "",
+  submitLoading: false,
+  openError: false,
+  openSuccess: false,
   imgUrl: [],
 };
 
