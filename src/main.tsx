@@ -12,22 +12,25 @@ import CategorieListComponentRoot from "./components/crud/categorie/pages/list.c
 
 import EditCouleurComponent from "./components/crud/couleur/pages/edit-couleur.components";
 import CouleurListComponentRoot from "./components/crud/couleur/pages/list.component";
-import AjoutEnergieComponent from "./components/crud/energie/pages/ajout-energie.component";
+import AjoutEnergieComponent from "./components/crud/vitesse/pages/ajout-vitesse.component.tsx";
 import EditEnergieComponent from "./components/crud/energie/pages/edit-energie.components";
 import EnergieListComponentRoot from "./components/crud/energie/pages/list.component";
 import AjoutEtatComponent from "./components/crud/etat/pages/ajout-etat.component";
 import EditEtatComponent from "./components/crud/etat/pages/edit-etat.components";
 import EtatListComponentRoot from "./components/crud/etat/pages/list.component";
 
-import MarqueFormComponent from "./components/crud/marque/components/marque-form.components";
-import FirebaseImageUpload from "./components/crud/marque/components/test";
 import EditMarqueComponent from "./components/crud/marque/pages/edit-marque.components";
-import MarqueListRoot from "./components/crud/marque/pages/list.component";
 
 import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
 import { store } from "./store/store.ts";
+import VitesseListRoot from "./components/crud/vitesse/pages/list.component.tsx";
+import AjoutVitesseComponent from "./components/crud/vitesse/pages/ajout-vitesse.component.tsx";
+import EditVitesseComponent from "./components/crud/vitesse/pages/edit-vitesse.components.tsx";
+import FirebaseImageUpload from "./components/crud/marque/components/test.tsx";
+import MarqueFormComponent from "./components/crud/marque/components/marque-form.components.tsx";
+import MarqueListRoot from "./components/crud/marque/pages/list.component.tsx";
 
 const theme = createTheme(
   {
@@ -108,11 +111,18 @@ const routes = createBrowserRouter([
         path: "etats/edit/:id",
         element: <EditEtatComponent />,
       },
-
-      // {
-      //   path: "test",
-      //   element: <StatsChart />,
-      // },
+      {
+        path: "vitesses",
+        element: <VitesseListRoot />,
+      },
+      {
+        path: "vitesses/add",
+        element: <AjoutVitesseComponent />,
+      },
+      {
+        path: "vitesses/edit/:id",
+        element: <EditVitesseComponent />,
+      },
       {
         path: "dashboard",
         element: <Dashboard />,

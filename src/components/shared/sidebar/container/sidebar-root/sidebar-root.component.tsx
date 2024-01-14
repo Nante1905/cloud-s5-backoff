@@ -40,6 +40,24 @@ const SidebarRoot = ({ children }: SidebarRootProps) => {
           link: "/etats/",
           authorization: [],
         },
+        {
+          text: "Marque",
+          icon: <CategoryIcon />,
+          link: "/marques/",
+          authorization: [],
+        },
+        {
+          text: "Vitesse",
+          icon: <CategoryIcon />,
+          link: "/vitesses/",
+          authorization: [],
+        },
+        {
+          text: "Modèle",
+          icon: <CategoryIcon />,
+          link: "/modeles/",
+          authorization: [],
+        },
       ],
     },
   ];

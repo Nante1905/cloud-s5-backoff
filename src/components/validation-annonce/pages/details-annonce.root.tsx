@@ -97,7 +97,7 @@ const DetailsAnnonceRoot = () => {
         } else {
           setState((state) => ({
             ...state,
-            loading: true,
+            loading: false,
             isLoaded: false,
             errorMessage: response.err,
             openError: true,
@@ -118,7 +118,7 @@ const DetailsAnnonceRoot = () => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
+          loading: false,
           isLoaded: false,
           errorMessage: errorMessage,
           openError: true,

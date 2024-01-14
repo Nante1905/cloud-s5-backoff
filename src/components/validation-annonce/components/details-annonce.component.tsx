@@ -2,6 +2,7 @@ import { Button, Card, CardContent } from "@mui/material";
 import "./details-annonce.component.scss";
 import dayjs from "dayjs";
 import { Annonce } from "../../shared/types/Annonce";
+import AppLoaderComponent from "../../shared/loader/app-loader.component";
 
 interface DetailsAnnonceProps {
   annonce: Annonce;
@@ -139,14 +140,18 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             className="div-success"
             onClick={props.onValider}
           >
-            Valider
+            <AppLoaderComponent loading={props.loading}>
+              <>Valider</>
+            </AppLoaderComponent>
           </Button>
           <Button
             variant="contained"
             className="div-danger"
             onClick={props.onRefuser}
           >
-            Refuser
+            <AppLoaderComponent loading={props.loading}>
+              <>Refuser</>
+            </AppLoaderComponent>
           </Button>
         </div>
         <div className="div_images_container">

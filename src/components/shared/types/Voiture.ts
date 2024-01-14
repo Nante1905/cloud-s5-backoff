@@ -1,31 +1,9 @@
-import { Categorie } from "./Categorie";
 import { Couleur } from "./Couleur";
+import { Energie } from "./Energie";
+import { Modele } from "./Modele";
+import { Vitesse } from "./Vitesse";
 
-interface Marque {
-    id?: number,
-    nom: string,
-    logo: string
-}
 
-interface Modele {
-    id?: number,
-    nom: string,
-    nbPlace: number,
-    nbPorte: number,
-    anneeSortie: number,
-    categorie: Categorie,
-    marque: Marque
-}
-
-interface Vitesse {
-    id?: number,
-    nom: string
-}
-
-interface Energie {
-    id?: number,
-    nom: string
-}
 
 export interface Voiture {
     id?: number,

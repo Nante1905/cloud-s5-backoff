@@ -1,34 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Marque } from "../../../shared/types/Marque";
-import { findMarqueById } from "../../../service/marque.service";
-import { ApiResponse } from "../../../shared/types/Response";
+import VitesseFormComponent from "../components/vitesse-form.components";
+import { Vitesse } from "../../../shared/types/Vitesse";
+import { findVitesseById } from "../../../service/vitesse.service";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { ApiResponse } from "../../../shared/types/Response";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
-import MarqueFormComponent from "../components/marque-form.components";
 
-interface EditMarqueState {
-  marque: Marque | null;
+interface EditVitesseState {
+  vitesse: Vitesse | null;
   error: string;
 }
 
-const initialState: EditMarqueState = {
-  marque: null,
+const initialState: EditVitesseState = {
+  vitesse: null,
   error: "",
 };
 
-const EditMarqueComponent = () => {
+const EditVitesseComponent = () => {
   const { id } = useParams<{ id: string }>();
-  const [state, setState] = useState<EditMarqueState>(initialState);
+  const [state, setState] = useState<EditVitesseState>(initialState);
 
   useEffect(() => {
-    findMarqueById(Number(id))
+    findVitesseById(Number(id))
       .then((res) => {
         const response: ApiResponse = res.data;
         if (response.ok) {
           setState((state) => ({
             ...state,
-            etat: response.data,
+            vitesse: response.data,
           }));
         } else {
           setState((state) => ({
@@ -49,12 +49,14 @@ const EditMarqueComponent = () => {
       });
   }, [id]);
 
-  document.title = `Modifier la marque - ${state.marque?.nom}`;
+  document.title = `Modifier l'énergie - ${state.vitesse?.nom}`;
 
   return (
     <>
-      <AppLoaderComponent loading={state.marque == null}>
-        <MarqueFormComponent entity={state.marque as Marque} />
+      <AppLoaderComponent loading={state.vitesse == null}>
+        <>
+          <VitesseFormComponent entity={state.vitesse as Vitesse} />;
+        </>
       </AppLoaderComponent>
       <ErrorSnackBar
         open={state.error !== ""}
@@ -70,4 +72,4 @@ const EditMarqueComponent = () => {
   );
 };
 
-export default EditMarqueComponent;
+export default EditVitesseComponent;
