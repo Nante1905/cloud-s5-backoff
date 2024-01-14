@@ -1,7 +1,7 @@
 import EtatFormComponent from "../components/etat-form.components";
 
 const AjoutEtatComponent = () => {
-  document.title = "Ajout d'un état";
+  document.title = "Etat";
   return <EtatFormComponent />;
 };
 

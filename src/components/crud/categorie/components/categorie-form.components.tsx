@@ -83,23 +83,22 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
             error: errorMessage,
           }));
         });
-
     }
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <div className="form-temp couleur-form">
-          <div className="container-form">
-            <Link to="/categories">
-              <i className="form-return fas fa-arrow-left"></i>
-            </Link>{" "}
-            <div className="title-form">
-              <Title>
-                {state.form.id ? "Modifier categorie" : "Créer categorie"}
-              </Title>
-            </div>
+      <div className="form-temp couleur-form">
+        <div className="container-form">
+          <Link to="/categories">
+            <i className="form-return fas fa-arrow-left"></i>
+          </Link>{" "}
+          <div className="title-form">
+            <Title>
+              {state.form.id ? "Modifier categorie" : "Créer categorie"}
+            </Title>
+          </div>
+          <form onSubmit={handleSubmit}>
             <div className="form">
               <TextField
                 label="Nom"
@@ -120,9 +119,9 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
                 </Button>
               </AppLoaderComponent>
             </div>
-          </div>
+          </form>
         </div>
-      </form>
+      </div>
       <Snackbar open={state.error !== null}>
         <Alert severity="error">{state.error as string}</Alert>
       </Snackbar>

@@ -1,42 +1,109 @@
 import React, { useEffect, useState } from "react";
 import { Energie } from "../../../shared/types/Energie";
-import { Url_api } from "../../../shared/constants/global";
 import EnergieListComponent from "../components/energie-list.components";
+import { findAllEnergie } from "../../../service/energie.service";
+import {
+  PaginationState,
+  setNumeroEtTotal,
+} from "../../../../store/pagination/PaginationSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getPagination } from "../../../../store/pagination/selector";
+import { ApiResponse } from "../../../shared/types/Response";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+
+interface EnergieListRootState {
+  energies: Energie[];
+  loading: boolean;
+  openError: boolean;
+  errorMessage: string;
+}
+
+const initialState: EnergieListRootState = {
+  energies: [],
+  loading: true,
+  openError: false,
+  errorMessage: "",
+};
 
 const EnergieListComponentRoot = () => {
   document.title = "Energies";
 
-  const [energies, setEnergies] = useState<Energie[]>([]);
+  const [state, setState] = useState<EnergieListRootState>(initialState);
+  const page: PaginationState = useSelector(getPagination);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(Url_api+"/energies");
-        if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des données');
+    setState((state) => ({
+      ...state,
+      loading: true,
+    }));
+
+    findAllEnergie(page)
+      .then((res) => {
+        const response: ApiResponse = res.data;
+        console.log(response);
+
+        if (response.ok) {
+          setState((state) => ({
+            ...state,
+            energies: response.data.items,
+            loading: false,
+          }));
+
+          dispatch(
+            setNumeroEtTotal({
+              numero: response.data.nbPage,
+              total: response.data.totalPage,
+            })
+          );
+        } else {
+          setState((state) => ({
+            ...state,
+            loading: false,
+            openError: true,
+            errorMessage: response.err,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        let errorMessage = "";
+        if (
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
         }
 
-        const data = await response.json();
-
-        // Transformation des données en un tableau de type Energie[]
-        const couleursData: Energie[] = data.data.map((item: any) => ({
-          id: item.id,
-          nom: item.nom,
-          hexa: item.hexa,
+        setState((state) => ({
+          ...state,
+          loading: false,
+          openError: true,
+          errorMessage: errorMessage,
         }));
-
-        setEnergies(couleursData);
-      } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des données:', error.message);
-      }
-    };
-
-    fetchData();
-  }, []);
+      });
+  }, [page]);
 
   return (
     <div>
-      <EnergieListComponent energies={energies} />
+      <AppLoaderComponent loading={state.loading}>
+        <EnergieListComponent energies={state.energies} />
+      </AppLoaderComponent>
+      <ErrorSnackBar
+        open={state.openError}
+        onClose={() => {
+          setState((state) => ({
+            ...state,
+            openError: false,
+          }));
+        }}
+        error={state.errorMessage}
+      />
     </div>
   );
 };

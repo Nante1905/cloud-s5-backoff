@@ -2,33 +2,17 @@
 import axios from "axios";
 import { Marque } from "../shared/types/Marque";
 import { Url_api } from "../shared/constants/global";
+import { PaginationState } from "../../store/pagination/PaginationSlice";
 
-const listMarque = () => { return axios.get(`${Url_api}marques/`); };
+export const findAllMarque = (page: PaginationState) =>
+  axios.get(
+    `${Url_api}/marques?page=${page.numero}&pageSize=${page.nbrParPage}`
+  );
+export const findMarqueById = (id: number) =>
+  axios.get(`${Url_api}/marques/${id}`);
 
-const updateMarque = async (form : Marque ) => {
-  try {
-    const response = await axios.put(`${Url_api}marques/${form.id}`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+export const updateMarque = async (form: Marque) =>
+  axios.put(`${Url_api}/marques/${form.id}`, form);
 
-const insertMarque = async (form : Marque ) => {
-  try {
-    const response = await axios.post(`${Url_api}marques`, form, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export { updateMarque, insertMarque , listMarque };
+export const insertMarque = async (form: Marque) =>
+  axios.post(`${Url_api}/marques`, form);

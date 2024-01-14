@@ -1,5 +1,5 @@
 import { Alert, Button, Snackbar, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import { insertCouleur, updateCouleur } from "../../../service/couleur.service";
@@ -26,7 +26,8 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
     }
   }, []);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setState((state) => ({
       ...state,
       submitLoading: true,
@@ -90,40 +91,42 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
             {state.success}
           </div>
         )}
-        <div className="form">
-          <TextField
-            label="Nom"
-            onChange={(event) =>
-              setState((state) => ({
-                ...state,
-                form: {
-                  ...state.form,
-                  nom: event.target.value as string,
-                },
-              }))
-            }
-            value={state.form.nom}
-          />
-          <TextField
-            type="color"
-            label="Valeur hexadécimale"
-            onChange={(event) =>
-              setState((state) => ({
-                ...state,
-                form: {
-                  ...state.form,
-                  hexa: event.target.value as string,
-                },
-              }))
-            }
-            value={state.form.hexa}
-          />
-          <AppLoaderComponent loading={state.submitLoading}>
-            <Button variant="contained" onClick={handleSubmit}>
-              <>{state.form.id ? "Modifier" : "Créer"}</>
-            </Button>
-          </AppLoaderComponent>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form">
+            <TextField
+              label="Nom"
+              onChange={(event) =>
+                setState((state) => ({
+                  ...state,
+                  form: {
+                    ...state.form,
+                    nom: event.target.value as string,
+                  },
+                }))
+              }
+              value={state.form.nom}
+            />
+            <TextField
+              type="color"
+              label="Valeur hexadécimale"
+              onChange={(event) =>
+                setState((state) => ({
+                  ...state,
+                  form: {
+                    ...state.form,
+                    hexa: event.target.value as string,
+                  },
+                }))
+              }
+              value={state.form.hexa}
+            />
+            <AppLoaderComponent loading={state.submitLoading}>
+              <Button variant="contained" type="submit">
+                <>{state.form.id ? "Modifier" : "Créer"}</>
+              </Button>
+            </AppLoaderComponent>
+          </div>
+        </form>
       </div>
 
       <Snackbar open={state.error !== null}>

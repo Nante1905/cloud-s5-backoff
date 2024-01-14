@@ -1,57 +1,108 @@
 import React, { useEffect, useState } from "react";
 import { Marque } from "../../../shared/types/Marque";
-import { Url_api } from "../../../shared/constants/global";
-import MarqueListComponent from "../components/marque-list.components";
-import FileUrlFetcher from "../../../shared/constants/FileUrlFetcher";
 
+import { findAllMarque } from "../../../service/marque.service";
+import { ApiResponse } from "../../../shared/types/Response";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import {
+  PaginationState,
+  setNumeroEtTotal,
+} from "../../../../store/pagination/PaginationSlice";
+import { getPagination } from "../../../../store/pagination/selector";
+import { useDispatch, useSelector } from "react-redux";
+import MarqueListComponent from "../components/marque-list.components";
+import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+interface MarqueListRootState {
+  marques: Marque[];
+  loading: boolean;
+  errorMessage: string;
+  openError: boolean;
+}
+
+const initialState: MarqueListRootState = {
+  marques: [],
+  loading: true,
+  errorMessage: "",
+  openError: false,
+};
 
 const MarqueListRoot = () => {
   document.title = "Marques";
-  const fichier_nom = FileUrlFetcher( "106dd23c-50fd-4b88-928b-ef3c617dee99" );
-  console.log( "file : " );
-  console.log( fichier_nom );
-  const [marques, setMarques] = useState<Marque[]>([]);
 
-  // useEffect(() => {
-  //   listMarque().then( res=> {
-  //     const MarquesData : Marque[] = res.data.map((item: any) => ({
-  //       id: item.id,
-  //       nom: item.nom,
-  //       logo: item.logo,
-  //     }));
-  //     setMarques(MarquesData);
-  //   }  )
-  // }, []);
+  const [state, setState] = useState<MarqueListRootState>(initialState);
+  const page: PaginationState = useSelector(getPagination);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(Url_api+"/marques");
-        if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des données');
+    setState((state) => ({
+      ...state,
+      loading: true,
+    }));
+
+    findAllMarque(page)
+      .then((res) => {
+        const response: ApiResponse = res.data;
+        if (response.ok) {
+          setState((state) => ({
+            ...state,
+            marques: response.data.items,
+            loading: false,
+          }));
+
+          dispatch(
+            setNumeroEtTotal({
+              numero: response.data.nbPage,
+              total: response.data.totalPage,
+            })
+          );
+        } else {
+          setState((state) => ({
+            ...state,
+            loading: false,
+            openError: true,
+            errorMessage: response.err,
+          }));
         }
+      })
+      .catch((err) => {
+        console.error(err);
+        let errorMessage = "";
+        if (
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
+        }
+        console.log("etoo");
 
-        const data = await response.json();
-
-        // Transformation des données en un tableau de type Marque[]
-        const marquesData: Marque[] = data.data.map((item: any) => ({
-          id: item.id,
-          nom: item.nom,
-          logo: item.logo,
+        setState((state) => ({
+          ...state,
+          loading: false,
+          openError: true,
+          errorMessage: errorMessage,
         }));
-
-        setMarques(marquesData);
-      } catch (error) {
-        console.error('Une erreur s\'est produite lors de la récupération des données:', error.message);
-      }
-    };
-
-    fetchData();
-  }, []);
+      });
+  }, [page]);
 
   return (
     <div>
-      <MarqueListComponent marques={marques} />
+      <AppLoaderComponent loading={state.loading}>
+        <MarqueListComponent marques={state.marques} />
+      </AppLoaderComponent>
+      <ErrorSnackBar
+        open={state.openError}
+        onClose={() => {
+          setState((state) => ({
+            ...state,
+            openError: false,
+          }));
+        }}
+        error={state.errorMessage}
+      />
     </div>
   );
 };

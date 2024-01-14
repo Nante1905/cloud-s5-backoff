@@ -13,6 +13,7 @@ import "../../../../assets/fontawesome-5/css/all.min.css";
 import Title from "../../../shared/title/title.component";
 import { Categorie } from "../../../shared/types/Categorie";
 import "./couleur-list.components.scss";
+import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
 
 interface CategorieListComponentProps {
   categories: Categorie[];
@@ -60,6 +61,7 @@ const CategorieListComponent = ({
                 </TableRow>
               ))}
             </TableBody>
+            <CustomPagination />
           </Table>
         </TableContainer>
         <br />

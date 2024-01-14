@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 
-
 import { Etat } from "../../../shared/types/Etat";
 import EtatListComponent from "../components/etat-list.components";
 import { findAllEtat } from "../../../service/etat.service";
 import { ApiResponse } from "../../../shared/types/Response";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import {
+  PaginationState,
+  setNumeroEtTotal,
+} from "../../../../store/pagination/PaginationSlice";
+import { getPagination } from "../../../../store/pagination/selector";
+import { useDispatch, useSelector } from "react-redux";
+import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 
 interface EtatListRootState {
   etats: Etat[];
@@ -26,17 +32,31 @@ const EtatListComponentRoot = () => {
   document.title = "Etats";
 
   const [state, setState] = useState(initialState);
+  const page: PaginationState = useSelector(getPagination);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    findAllEtat()
+    setState((state) => ({
+      ...state,
+      loading: true,
+    }));
+
+    findAllEtat(page)
       .then((res) => {
         const response: ApiResponse = res.data;
         if (response.ok) {
           setState((state) => ({
             ...state,
-            etats: response.data,
+            etats: response.data.items,
             loading: false,
           }));
+
+          dispatch(
+            setNumeroEtTotal({
+              numero: response.data.nbPage,
+              total: response.data.totalPage,
+            })
+          );
         } else {
           setState((state) => ({
             ...state,
@@ -50,9 +70,9 @@ const EtatListComponentRoot = () => {
         console.error(err);
         let errorMessage = "";
         if (
-          !err.response.data.err ||
-          err.response.data.err == "" ||
-          err.response.data.err == null
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
         ) {
           errorMessage = getErrorMessage(err.code);
         } else {
@@ -66,14 +86,23 @@ const EtatListComponentRoot = () => {
           errorMessage: errorMessage,
         }));
       });
-
-  }, []);
+  }, [page]);
 
   return (
     <div>
       <AppLoaderComponent loading={state.loading}>
         <EtatListComponent etats={state.etats} />
       </AppLoaderComponent>
+      <ErrorSnackBar
+        open={state.openError}
+        onClose={() => {
+          setState((state) => ({
+            ...state,
+            openError: false,
+          }));
+        }}
+        error={state.errorMessage}
+      />
     </div>
   );
 };
