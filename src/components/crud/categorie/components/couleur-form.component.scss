@@ -1,0 +1,14 @@
+.couleur-form {
+  .form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    @media screen and (min-width: 400px) {
+      input {
+        min-width: 20rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+@import "./variables.module.scss";
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.light {
+  font-weight: 500;
+}
+
+.big {
+  font-size: 1.2rem;
+}
+
+.strong {
+  font-weight: bold;
+}
+.div-success {
+  background-color: $success !important;
+  color: white !important;
+}
+
+.div-danger {
+  background-color: $danger !important;
+  color: white !important;
+}
+
+// CRUD
+.list-couleur, .list-crud {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .MuiButton-root {
+    width: 5rem;
+    aspect-ratio: 2/1;
+  }
+  .MuiTableContainer-root {
+    width: fit-content  !important;
+    margin: auto;
+  }
+}
+.title-form {
+  margin-bottom: 20px;
+}
+.add-button {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+.add-list-form a {
+  text-decoration: none !important;
+}
+.edit-list-icon {
+  color: #4bc050;
+}
+
+// FORM
+.couleur-form, .form-temp {
+  .form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    @media screen and (min-width: 400px) {
+      input {
+        min-width: 20rem;
+      }
+    }
+  }
+}
+
+
+.text-danger {
+  color: $danger;
+}

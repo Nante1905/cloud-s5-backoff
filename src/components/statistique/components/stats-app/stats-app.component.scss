@@ -1,0 +1,31 @@
+
+.tab {
+    width: max-content;
+    margin: auto;
+}
+.stats_utilisateurs {
+    margin: 2% 0%;
+   
+    .top_utilisateurs {
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2% 0%;
+        }
+    }
+    .nbr_utilisateurs {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 2rem;
+        row-gap: 2rem;
+        justify-content: center;
+        margin-bottom: 2%;
+        .chart_inscrits {
+            width: 45vw;
+            padding: 1rem;
+        }
+    }
+}
