@@ -45,7 +45,6 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
   const uploadImage = new Promise<string>((resolve, reject) => {
     if (state.file_img !== undefined) {
       const imgRef = ref(imageDb, `logo/${v4()}`);
-      imgRef.compress(0.5);
 
       uploadBytes(imgRef, state.file_img as File)
         .then((value) => {
