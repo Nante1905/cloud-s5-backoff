@@ -9,6 +9,7 @@ import { Annonce } from "../../shared/types/Annonce";
 import { getErrorMessage } from "../../shared/service/api-service";
 import ErrorSnackBar from "../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../shared/components/snackbar/SuccessSnackBar";
+import AppLoaderComponent from "../../shared/loader/app-loader.component";
 
 interface DetailsAnnonceRootState {
   annonce?: Annonce;
@@ -126,6 +127,11 @@ const DetailsAnnonceRoot = () => {
   };
 
   useEffect(() => {
+    setState((state) => ({
+      ...state,
+      loading: true,
+    }));
+
     axios
       .get(`${Url_api}/annonces/${idAnnonce}`)
       .then((res) => {
@@ -140,7 +146,7 @@ const DetailsAnnonceRoot = () => {
         } else {
           setState((state) => ({
             ...state,
-            loading: true,
+            loading: false,
             isLoaded: false,
             errorMessage: response.err,
             openError: true,
@@ -162,7 +168,7 @@ const DetailsAnnonceRoot = () => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
+          loading: false,
           isLoaded: false,
           errorMessage: errorMessage,
           openError: true,
@@ -172,14 +178,18 @@ const DetailsAnnonceRoot = () => {
   return (
     <>
       <Title>Validation Annonce</Title>
-      {state.annonce && (
-        <DetailsAnnonce
-          annonce={state.annonce}
-          loading={state.loading}
-          onValider={onValider}
-          onRefuser={onRefuser}
-        />
-      )}
+      <AppLoaderComponent loading={state.loading}>
+        <>
+          {state.annonce && (
+            <DetailsAnnonce
+              annonce={state.annonce}
+              loading={state.loading}
+              onValider={onValider}
+              onRefuser={onRefuser}
+            />
+          )}
+        </>
+      </AppLoaderComponent>
       <ErrorSnackBar
         open={state.openError}
         onClose={() =>
