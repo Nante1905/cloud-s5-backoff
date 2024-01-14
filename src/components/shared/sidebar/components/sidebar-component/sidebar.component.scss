@@ -13,7 +13,8 @@
   --primary-color: #695cfe;
   --primary-color-light: #f6f5ff;
   --toggle-color: #ddd;
-  --text-color: #ececec;
+  // --text-color: #ececec;
+  --text-color: #000;
 
   /* ====== Transition ====== */
   --tran-03: all 0.2s ease;
@@ -35,11 +36,13 @@ body {
 
 body.dark {
   --body-color: #ffffff;
-  --sidebar-color: #242526;
+  --sidebar-color: #fff;
+  // --sidebar-color: #242526;
   --primary-color: #3a3b3c;
   --primary-color-light: #3a3b3c;
   --toggle-color: #fff;
-  --text-color: #ccc;
+  // --text-color: #ccc;
+  --text-color: #000;
 }
 
 /* ===== Sidebar ===== */
@@ -50,10 +53,13 @@ body.dark {
   height: 100%;
   width: 300px;
   padding: 10px 14px;
-  // background: var(--sidebar-color);
-  background: #1c2127;
+  background: var(--sidebar-color);
+  color: var(--text-color);
+  // background: #1c2127;
   transition: var(--tran-05);
   z-index: 100;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 .sidebar.close {
   width: 88px;

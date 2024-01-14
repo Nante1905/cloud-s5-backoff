@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 import { v4 } from "uuid";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import { insertMarque, updateMarque } from "../../../service/marque.service";
-import { imageDb } from "../../../shared/firebase/config";
-import Title from "../../../shared/title/title.component";
-import { Marque } from "../../../shared/types/Marque";
-import "./marque-form.component.css";
-import "./marque-form.component.scss";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
+import { imageDb } from "../../../shared/firebase/config";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import Title from "../../../shared/title/title.component";
+import { Marque } from "../../../shared/types/Marque";
+import { ApiResponse } from "../../../shared/types/Response";
+import "./marque-form.component.css";
+import "./marque-form.component.scss";
 
 interface MarqueFormProps {
   entity?: Marque;
@@ -25,7 +25,7 @@ interface MarqueFormProps {
 }
 
 const MarqueFormComponent = (props: MarqueFormProps) => {
-  const [state, setState] = useState<MarqueFormState>(initialState);
+  const [state, setState] = useState(initialState);
   // const setImgUrl = (imgUrl: string[]) => {
   //   setState((state) => ({ ...state, imgUrl }));
   // };
@@ -42,136 +42,110 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
     }
   }, [props.entity]);
 
-  // useEffect(() => {
-  //   listAll(ref(imageDb, "logo")).then((imgs) => {
-  //     imgs.items.forEach((val) => {
-  //       getDownloadURL(val).then((url) => {
-  //         setState((state) => ({
-  //           ...state,
-  //           imgUrl: [
-  //             ...state.imgUrl,
-  //             replaceSubstring(url, firebase_img, imagkit),
-  //           ],
-  //         }));
-  //       });
-  //     });
-  //   });
-  // }, []);
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (state.file_img !== null) {
+  const uploadImage = new Promise<string>((resolve, reject) => {
+    if (state.file_img !== undefined) {
       const imgRef = ref(imageDb, `logo/${v4()}`);
+      imgRef.compress(0.5);
 
-      uploadBytes(imgRef, state.file_img as File).then(async (value) => {
-        // console.log("ito" + value.metadata.name);
-        // setState((state) => ({
-        //   ...state,
-        //   form: {
-        //     ...state.form,
-        //     logo: value.metadata.name as string,
-        //   },
-        // }));
-
-        // console.log("vqlue : ", value);
-        // console.log("ny alefa 1 : ");
-        // console.log(state);
-
-        const url = await getDownloadURL(value.ref);
-        setState((state) => ({
-          ...state,
-          form: {
-            ...state.form,
-            logo: url,
-          },
-        }));
-
-        setTimeout(() => {
-          if (state.form.id) {
-            updateMarque(state.form)
-              .then((res) => {
-                const response: ApiResponse = res.data;
-                if (response.ok) {
-                  setState((state) => ({
-                    ...state,
-                    success: response.message,
-                    submitLoading: false,
-                    openSuccess: true,
-                  }));
-                } else {
-                  setState((state) => ({
-                    ...state,
-                    error: response.err,
-                    submitLoading: false,
-                    openError: true,
-                  }));
-                }
-              })
-              .catch((err) => {
-                console.error(err);
-                let errorMessage = "";
-                if (
-                  !err.response.data.err ||
-                  err.response.data.err == "" ||
-                  err.response.data.err == null
-                ) {
-                  errorMessage = getErrorMessage(err.code);
-                } else {
-                  errorMessage = err.response.data.err;
-                }
-                setState((state) => ({
-                  ...state,
-                  error: errorMessage,
-                  submitLoading: false,
-                  openError: true,
-                }));
-              });
-          } else {
-            insertMarque(state.form)
-              .then((res) => {
-                const response: ApiResponse = res.data;
-                if (response.ok) {
-                  setState((state) => ({
-                    ...state,
-                    success: response.message,
-                    submitLoading: false,
-                    openSuccess: true,
-                  }));
-                } else {
-                  setState((state) => ({
-                    ...state,
-                    error: response.err,
-                    submitLoading: false,
-                    openError: true,
-                  }));
-                }
-              })
-              .catch((err) => {
-                console.error(err);
-                let errorMessage = "";
-                if (
-                  !err.response.data.err ||
-                  err.response.data.err == "" ||
-                  err.response.data.err == null
-                ) {
-                  errorMessage = getErrorMessage(err.code);
-                } else {
-                  errorMessage = err.response.data.err;
-                }
-                setState((state) => ({
-                  ...state,
-                  error: errorMessage,
-                  submitLoading: false,
-                  openError: true,
-                }));
-              });
-          }
-        }, 500);
-
-        console.log(state, url);
-      });
+      uploadBytes(imgRef, state.file_img as File)
+        .then((value) => {
+          getDownloadURL(value.ref)
+            .then((url) => {
+              resolve(url);
+            })
+            .catch((err) => reject(err));
+        })
+        .catch((err) => reject(err));
     }
+  });
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    uploadImage.then((url) => {
+      const newMarque: Marque = {
+        ...state.form,
+        logo: url,
+      };
+      if (state.form.id) {
+        updateMarque(newMarque)
+          .then((res) => {
+            const response: ApiResponse = res.data;
+            if (response.ok) {
+              setState((state) => ({
+                ...state,
+                success: response.message,
+                submitLoading: false,
+                openSuccess: true,
+              }));
+            } else {
+              setState((state) => ({
+                ...state,
+                error: response.err,
+                submitLoading: false,
+                openError: true,
+              }));
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            let errorMessage = "";
+            if (
+              !err.response.data.err ||
+              err.response.data.err == "" ||
+              err.response.data.err == null
+            ) {
+              errorMessage = getErrorMessage(err.code);
+            } else {
+              errorMessage = err.response.data.err;
+            }
+            setState((state) => ({
+              ...state,
+              error: errorMessage,
+              submitLoading: false,
+              openError: true,
+            }));
+          });
+      } else {
+        insertMarque(newMarque)
+          .then((res) => {
+            const response: ApiResponse = res.data;
+            if (response.ok) {
+              setState((state) => ({
+                ...state,
+                success: response.message,
+                submitLoading: false,
+                openSuccess: true,
+              }));
+            } else {
+              setState((state) => ({
+                ...state,
+                error: response.err,
+                submitLoading: false,
+                openError: true,
+              }));
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            let errorMessage = "";
+            if (
+              !err.response.data.err ||
+              err.response.data.err == "" ||
+              err.response.data.err == null
+            ) {
+              errorMessage = getErrorMessage(err.code);
+            } else {
+              errorMessage = err.response.data.err;
+            }
+            setState((state) => ({
+              ...state,
+              error: errorMessage,
+              submitLoading: false,
+              openError: true,
+            }));
+          });
+      }
+    });
   };
 
   return (
@@ -204,10 +178,6 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
               onChange={(event) =>
                 setState((state) => ({
                   ...state,
-                  form: {
-                    ...state.form,
-                    // logo: event.target.value as string,
-                  },
                   file_name: (event.target as HTMLInputElement).files?.[0]
                     .name as string,
                   file_img: (event.target as HTMLInputElement).files?.[0],
