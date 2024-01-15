@@ -31,7 +31,7 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
 
             <div className="text logo-text">
               <span className="name">
-                <Link to="/login">Se connecter</Link>
+                <Link to="/inscription">Se connecter</Link>
               </span>
             </div>
           </div>

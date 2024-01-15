@@ -26,9 +26,6 @@ interface MarqueFormProps {
 
 const MarqueFormComponent = (props: MarqueFormProps) => {
   const [state, setState] = useState(initialState);
-  // const setImgUrl = (imgUrl: string[]) => {
-  //   setState((state) => ({ ...state, imgUrl }));
-  // };
   const marque = props.entity;
 
   useEffect(() => {

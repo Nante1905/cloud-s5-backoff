@@ -62,11 +62,7 @@ const MarqueListComponent = ({ marques }: MarqueListComponentProps) => {
                     <img
                       alt={marque.logo}
                       className="marque-photo"
-                      src={replaceSubstring(
-                        FileUrlFetcher(marque.logo),
-                        firebase_img,
-                        imagkit
-                      )}
+                      src={marque.logo}
                     />
                   </TableCell>
                   <TableCell>
