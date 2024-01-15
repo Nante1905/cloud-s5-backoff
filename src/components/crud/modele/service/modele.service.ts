@@ -16,3 +16,6 @@ export const updateModele = (model: Modele) =>
 
 export const insertModele = (model: Modele) =>
   axios.post(`${Url_api}/modeles`, model);
+
+export const deleteModele = (id: number) =>
+  axios.delete(`${Url_api}/modeles/${id}`);
