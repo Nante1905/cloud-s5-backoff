@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import ErrorSnackBar from "../../shared/components/snackbar/ErrorSnackBar";
+import AppLoaderComponent from "../../shared/loader/app-loader.component";
 import Title from "../../shared/title/title.component";
 import { Annonce } from "../../shared/types/Annonce";
 import AnnonceCardComponent from "../components/annonce-card/annonce-card.component";
@@ -15,7 +17,7 @@ const AnnonceRoot = () => {
       .then((res) => {
         setState({
           ...state,
-          annonces: res.data,
+          annonces: res.data?.data,
           annonceLoading: false,
         });
         console.log(res);
@@ -24,7 +26,7 @@ const AnnonceRoot = () => {
         setState({
           ...state,
           annonceLoading: false,
-          annonceError: err.response.data.message,
+          annonceError: err?.response?.data?.message,
         });
         console.log(err);
       });
@@ -35,12 +37,26 @@ const AnnonceRoot = () => {
       <Title>Liste des annonces à valider</Title>
       {/* TODO : Add loader */}
       <div className="annonce-container">
-        {state.annonces.length > 0
-          ? state.annonces?.map((annonce) => (
-              <AnnonceCardComponent key={annonce.id} annonce={annonce} />
-            ))
-          : "Aucune annonce à valider"}
+        <AppLoaderComponent loading={state.annonceLoading}>
+          <>
+            {state.annonces.length > 0
+              ? state.annonces?.map((annonce) => (
+                  <AnnonceCardComponent key={annonce.id} annonce={annonce} />
+                ))
+              : "Aucune annonce à valider"}
+          </>
+        </AppLoaderComponent>
       </div>
+      <ErrorSnackBar
+        open={state.annonceError !== ""}
+        onClose={() => {
+          setState((state) => ({
+            ...state,
+            annonceError: "",
+          }));
+        }}
+        error={state.annonceError || "Connexion impossible"}
+      />
     </div>
   );
 };
@@ -57,6 +73,6 @@ interface AnnonceRootState {
 const initialState: AnnonceRootState = {
   annonces: [],
   annonceLoading: true,
-  annonceError: undefined,
-  annonceSuccess: undefined,
+  annonceError: "",
+  annonceSuccess: "",
 };

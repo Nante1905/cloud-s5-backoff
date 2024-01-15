@@ -1,7 +1,11 @@
 @import "./variables.module.scss";
+a {
+  color: black;
+  text-decoration: none;
+}
 
 .text-right {
-    text-align: right;
+  text-align: right;
 }
 
 .text-left {
@@ -34,7 +38,8 @@
 }
 
 // CRUD
-.list-couleur, .list-crud {
+.list-couleur,
+.list-crud {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -47,7 +52,7 @@
     aspect-ratio: 2/1;
   }
   .MuiTableContainer-root {
-    width: fit-content  !important;
+    width: fit-content !important;
     margin: auto;
   }
 }
@@ -69,7 +74,8 @@
 }
 
 // FORM
-.couleur-form, .form-temp {
+.couleur-form,
+.form-temp {
   .form {
     display: flex;
     flex-direction: column;
@@ -83,7 +89,6 @@
     }
   }
 }
-
 
 .text-danger {
   color: $danger;

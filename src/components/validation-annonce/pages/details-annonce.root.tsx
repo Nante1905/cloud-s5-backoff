@@ -1,14 +1,18 @@
-import { useParams } from "react-router-dom";
-import Title from "../../shared/title/title.component";
-import DetailsAnnonce from "../components/details-annonce.component";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { Url_api } from "../../shared/constants/global";
-import { ApiResponse } from "../../shared/types/Response";
-import { Annonce } from "../../shared/types/Annonce";
-import { getErrorMessage } from "../../shared/service/api-service";
+import { useParams } from "react-router-dom";
 import ErrorSnackBar from "../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../shared/components/snackbar/SuccessSnackBar";
+import AppLoaderComponent from "../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../shared/service/api-service";
+import Title from "../../shared/title/title.component";
+import { Annonce } from "../../shared/types/Annonce";
+import { ApiResponse } from "../../shared/types/Response";
+import DetailsAnnonce from "../components/details-annonce.component";
+import {
+  findAnnonceById,
+  refuserAnnonce,
+  validerAnnonce,
+} from "../service/validation-annonce.service";
 
 interface DetailsAnnonceRootState {
   annonce?: Annonce;
@@ -38,8 +42,7 @@ const DetailsAnnonceRoot = () => {
   const onValider = () => {
     console.log("VALIDATION ANNONCE " + state.annonce?.id);
 
-    axios
-      .put(`${Url_api}/annonces/${state.annonce?.id}/valider`)
+    validerAnnonce(Number(state?.annonce?.id))
       .then((res) => {
         const response: ApiResponse = res.data;
         if (response.ok) {
@@ -83,8 +86,7 @@ const DetailsAnnonceRoot = () => {
   const onRefuser = () => {
     console.log("REFUS ANNONCE " + state.annonce?.id);
 
-    axios
-      .put(`${Url_api}/annonces/${state.annonce?.id}/refuser`)
+    refuserAnnonce(Number(state.annonce?.id))
       .then((res) => {
         const response: ApiResponse = res.data;
         if (response.ok) {
@@ -126,8 +128,7 @@ const DetailsAnnonceRoot = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(`${Url_api}/annonces/${idAnnonce}`)
+    findAnnonceById(Number(idAnnonce))
       .then((res) => {
         const response: ApiResponse = res.data;
         if (response.ok) {
@@ -169,17 +170,22 @@ const DetailsAnnonceRoot = () => {
         }));
       });
   }, [idAnnonce]);
+
   return (
     <>
       <Title>Validation Annonce</Title>
-      {state.annonce && (
-        <DetailsAnnonce
-          annonce={state.annonce}
-          loading={state.loading}
-          onValider={onValider}
-          onRefuser={onRefuser}
-        />
-      )}
+      <AppLoaderComponent loading={state.loading}>
+        <>
+          {state.annonce && (
+            <DetailsAnnonce
+              annonce={state.annonce}
+              loading={state.loading}
+              onValider={onValider}
+              onRefuser={onRefuser}
+            />
+          )}
+        </>
+      </AppLoaderComponent>
       <ErrorSnackBar
         open={state.openError}
         onClose={() =>

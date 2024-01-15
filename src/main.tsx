@@ -122,7 +122,7 @@ const routes = createBrowserRouter([
         element: <DetailsAnnonceRoot />,
       },
       {
-        path: "/annonce/validation",
+        path: "/validation",
         element: <AnnonceRoot />,
       },
     ],
