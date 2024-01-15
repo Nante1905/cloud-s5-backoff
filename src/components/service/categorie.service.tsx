@@ -16,3 +16,6 @@ export const updateCategorie = async (form: Categorie) =>
 
 export const insertCategorie = async (form: Categorie) =>
   axios.post(`${Url_api}/categories`, form);
+
+export const deleteCategorie = (id: number) =>
+  axios.delete(`${Url_api}/categories/${id}`);

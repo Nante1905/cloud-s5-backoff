@@ -172,12 +172,7 @@ const CouleurListComponent = (props: CouleurListComponentProps) => {
       />
       <SuccessSnackBar
         open={state.openSuccess}
-        onClose={() =>
-          setState(() => ({
-            ...state,
-            openSuccess: false,
-          }))
-        }
+        onClose={() => navigate(0)}
         message={state.success}
       />
     </>
