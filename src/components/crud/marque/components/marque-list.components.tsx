@@ -1,6 +1,5 @@
 // MarqueListComponent.tsx
 
-import { Button } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,7 +10,6 @@ import TableRow from "@mui/material/TableRow";
 import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
-import Title from "../../../shared/title/title.component";
 import { Marque } from "../../../shared/types/Marque";
 import "./marque-list.components.css";
 
@@ -22,18 +20,7 @@ interface MarqueListComponentProps {
 const MarqueListComponent = ({ marques }: MarqueListComponentProps) => {
   return (
     <>
-      <div className="list-crud list-marque">
-        <div className="title-form">
-          <Title> Liste des marques </Title>
-        </div>
-
-        <div className="add-button">
-          <Link to="/marques/add">
-            <Button variant="contained">
-              <i className="fas fa-plus"></i>
-            </Button>
-          </Link>
-        </div>
+      <div>
         <TableContainer
           style={{ boxShadow: "2px 3px 20px #adaaaa", borderRadius: "10px" }}
           component={Paper}

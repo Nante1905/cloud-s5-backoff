@@ -29,6 +29,7 @@ import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
 import { store } from "./store/store.ts";
+import AjoutCouleurComponent from "./components/crud/couleur/pages/ajout-couleur.component.tsx";
 
 const theme = createTheme(
   {
@@ -71,6 +72,10 @@ const routes = createBrowserRouter([
       {
         path: "couleurs/edit/:id",
         element: <EditCouleurComponent />,
+      },
+      {
+        path: "couleurs/add",
+        element: <AjoutCouleurComponent />,
       },
       {
         path: "categories/add",
