@@ -16,3 +16,6 @@ export const updateVitesse = async (form: Vitesse) =>
 
 export const insertVitesse = async (form: Vitesse) =>
   axios.post(`${Url_api}/vitesses`, form);
+
+export const deleteVitesse = (id: number) =>
+  axios.delete(`${Url_api}/vitesses/${id}`);
