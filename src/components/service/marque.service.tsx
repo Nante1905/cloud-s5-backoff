@@ -17,3 +17,6 @@ export const updateMarque = async (form: Marque) =>
 
 export const insertMarque = async (form: Marque) =>
   axios.post(`${Url_api}/marques`, form);
+
+export const deleteMarque = (id: number) =>
+  axios.delete(`${Url_api}/marques/${id}`);

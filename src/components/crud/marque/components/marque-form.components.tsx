@@ -14,6 +14,7 @@ import { Marque } from "../../../shared/types/Marque";
 import { ApiResponse } from "../../../shared/types/Response";
 import "./marque-form.component.css";
 import "./marque-form.component.scss";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 
 interface MarqueFormProps {
   entity?: Marque;
@@ -184,7 +185,9 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
               }
             />
             <Button variant="contained" type="submit">
-              {marque ? "Modifier" : "Créer"}
+              <AppLoaderComponent loading={state.submitLoading}>
+                <>{marque ? "Modifier" : "Créer"}</>
+              </AppLoaderComponent>
             </Button>
           </div>
         </form>
