@@ -13,7 +13,7 @@ import "../../../../assets/fontawesome-5/css/all.min.css";
 import { Couleur } from "../../../shared/types/Couleur";
 import "./couleur-list.components.css";
 import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GridDeleteForeverIcon } from "@mui/x-data-grid";
 import "./couleur-list.component.scss";
 import { deleteCouleur } from "../../../service/couleur.service";
@@ -49,6 +49,7 @@ const initialState: CouleurListState = {
 
 const CouleurListComponent = (props: CouleurListComponentProps) => {
   const [state, setState] = useState<CouleurListState>(initialState);
+  const navigate = useNavigate();
 
   const onDelete = (id: number) => {
     setState((state) => ({
