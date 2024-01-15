@@ -12,6 +12,9 @@ import { ApiResponse } from "../../../shared/types/Response";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import Title from "../../../shared/title/title.component";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 
 interface EnergieListRootState {
   energies: Energie[];
@@ -90,7 +93,17 @@ const EnergieListComponentRoot = () => {
   }, [page]);
 
   return (
-    <div>
+    <div className="list-crud">
+      <div className="title-form">
+        <Title> Liste des energies </Title>
+      </div>
+      <div className="add-button">
+        <Link to="/energies/add">
+          <Button variant="contained">
+            <i className="fas fa-plus"></i>
+          </Button>
+        </Link>
+      </div>
       <AppLoaderComponent loading={state.loading}>
         <EnergieListComponent energies={state.energies} />
       </AppLoaderComponent>

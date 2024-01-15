@@ -1,6 +1,5 @@
 // CategorieListComponent.tsx
 
-import { Button } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,7 +9,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
-import Title from "../../../shared/title/title.component";
 import { Categorie } from "../../../shared/types/Categorie";
 import "./couleur-list.components.scss";
 import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
@@ -24,17 +22,7 @@ const CategorieListComponent = ({
 }: CategorieListComponentProps) => {
   return (
     <>
-      <div className="list-crud">
-        <div className="title-form">
-          <Title> Liste des categories </Title>
-        </div>
-        <div className="add-button">
-          <Link to="/categories/add">
-            <Button variant="contained">
-              <i className="fas fa-plus"></i>
-            </Button>
-          </Link>
-        </div>
+      <div>
         <TableContainer
           style={{ boxShadow: "2px 3px 20px #adaaaa", borderRadius: "10px" }}
           component={Paper}

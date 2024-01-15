@@ -1,6 +1,5 @@
 // CouleurListComponent.tsx
 
-import { Button } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,12 +7,12 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { Link } from "react-router-dom";
+
 import "../../../../assets/fontawesome-5/css/all.min.css";
-import Title from "../../../shared/title/title.component";
 import { Couleur } from "../../../shared/types/Couleur";
 import "./couleur-list.components.css";
 import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
+import { Link } from "react-router-dom";
 
 interface CouleurListComponentProps {
   couleurs: Couleur[];
@@ -22,17 +21,7 @@ interface CouleurListComponentProps {
 const CouleurListComponent = (props: CouleurListComponentProps) => {
   return (
     <>
-      <div className="list-couleur">
-        <div className="title-form">
-          <Title> Liste des couleurs </Title>
-        </div>
-        <div className="add-button">
-          <Link to="/couleurs/add">
-            <Button variant="contained">
-              <i className="fas fa-plus"></i>
-            </Button>
-          </Link>
-        </div>
+      <div>
         <TableContainer
           style={{ boxShadow: "2px 3px 20px #adaaaa", borderRadius: "10px" }}
           component={Paper}
