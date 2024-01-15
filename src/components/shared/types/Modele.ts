@@ -1,3 +1,6 @@
+import { Categorie } from "./Categorie";
+import { Marque } from "./Marque";
+
 export interface Modele {
   id?: number;
   nom: string;
@@ -6,4 +9,7 @@ export interface Modele {
   anneeSortie: number;
   idCategorie: number;
   idMarque: number;
+
+  categorie?: Categorie;
+  marque?: Marque;
 }

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../../../assets/fontawesome-5/css/all.min.css";
@@ -43,7 +43,6 @@ const ModeleFormComponent = (props: ModeleFormProps) => {
         },
       }));
     }
-
     findAllCategorieWithoutPage()
       .then((res) => {
         setState((state) => ({
@@ -77,7 +76,7 @@ const ModeleFormComponent = (props: ModeleFormProps) => {
           marquesLoading: false,
         }));
       });
-  }, []);
+  }, [props.entity]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -204,7 +203,7 @@ const ModeleFormComponent = (props: ModeleFormProps) => {
                     },
                   }));
                 }}
-                value={state.form.nbPlace}
+                value={state.form.nbPlace?.toString()}
               />
               <TextField
                 label="Nombre de porte"
@@ -238,6 +237,7 @@ const ModeleFormComponent = (props: ModeleFormProps) => {
                       }));
                       console.log(value?.year());
                     }}
+                    value={dayjs().year(state.form.anneeSortie)}
                   />
                 </LocalizationProvider>
               </FormControl>
