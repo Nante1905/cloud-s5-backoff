@@ -85,7 +85,7 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
                 }}
               >
                 <i className="bx bx-log-out icon"></i>
-                <span className="text nav-text">Logout</span>
+                <span className="text nav-text">Se déconnecter</span>
               </a>
             </li>
 
