@@ -24,11 +24,15 @@ import FirebaseImageUpload from "./components/crud/marque/components/test";
 import EditMarqueComponent from "./components/crud/marque/pages/edit-marque.components";
 import MarqueListRoot from "./components/crud/marque/pages/list.component";
 
+import AjoutCouleurComponent from "./components/crud/couleur/pages/ajout-couleur.component.tsx";
+import ModeleFormComponent from "./components/crud/modele/components/modele-form/modele-form.component.tsx";
+import ModeleCreateRoot from "./components/crud/modele/container/modele-form-create-root.tsx";
+import ModeleEditRoot from "./components/crud/modele/container/modele-form-edit-root.tsx";
+import ModeleListRoot from "./components/crud/modele/container/modele-list-root.tsx";
 import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
 import { store } from "./store/store.ts";
-import AjoutCouleurComponent from "./components/crud/couleur/pages/ajout-couleur.component.tsx";
 
 const theme = createTheme(
   {
@@ -113,6 +117,18 @@ const routes = createBrowserRouter([
         path: "etats/edit/:id",
         element: <EditEtatComponent />,
       },
+      {
+        path: "modeles",
+        element: <ModeleListRoot />,
+      },
+      {
+        path: "modeles/edit/:id",
+        element: <ModeleEditRoot />,
+      },
+      {
+        path: "modeles/add",
+        element: <ModeleCreateRoot />,
+      },
 
       // {
       //   path: "test",
@@ -129,6 +145,10 @@ const routes = createBrowserRouter([
       {
         path: "/validation",
         element: <AnnonceRoot />,
+      },
+      {
+        path: "test",
+        element: <ModeleFormComponent />,
       },
     ],
   },
