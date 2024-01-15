@@ -1,23 +1,37 @@
 import { Button } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import "./recherche-statistique.component.scss";
 import "dayjs/locale/fr";
+import { useEffect, useState } from "react";
 
-const RechercheStatistique = () => {
-  // ça dépend an'izay ilain'ilay backend ny format
-  // fa efa io ny mois sy année
+interface RechercheProps {
+  onChange: (value: Dayjs) => void;
+}
+interface RechercheState {
+  dayjs: Dayjs;
+}
+const initialState: RechercheState = {
+  dayjs: dayjs(),
+};
+const RechercheStatistique = (props: RechercheProps) => {
+  const [state, setState] = useState<RechercheState>(initialState);
+  useEffect(() => {
+    props.onChange(state.dayjs);
+  }, []);
   return (
     <div>
       <form className="form_stat">
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fr">
           <DatePicker
+            value={state.dayjs}
             label={"Mois et année"}
             views={["month", "year"]}
-            onChange={(value: Dayjs | null) => {
-              // console.log("mois ", value?.month(), "annee ", value?.year());
-              console.log(value);
+            onChange={(value) => {
+              const newDate = dayjs(value == null ? value : null);
+              setState((state) => ({ ...state, dayjs: newDate }));
+              props.onChange(newDate);
             }}
           />
         </LocalizationProvider>

@@ -6,20 +6,29 @@ import StatsGenerales from "../components/stats-generale/stats-generale-root.com
 import StatsBenefice from "../components/stats-benefice/stats-benefice/stats-benefice.component";
 import StatsApp from "../components/stats-app/stats-app.component";
 import Title from "../../shared/title/title.component";
+import dayjs, { Dayjs } from "dayjs";
 
 interface DashboardState {
   tab: string;
+  monthYear: Dayjs;
 }
 
 const initialState: DashboardState = {
   tab: "1",
+  monthYear: dayjs(),
 };
 
 const Dashboard = () => {
   document.title = "Dashboard";
   const [state, setState] = useState<DashboardState>(initialState);
 
-  // ato no miverina mi fetch data raha ohatra ka niova ilay mois sy année
+  const handleMonthYearChange = (monthyear: Dayjs) => {
+    setState((state) => ({
+      ...state,
+      monthYear: monthyear,
+    }));
+  };
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setState((state) => ({
       ...state,
@@ -31,7 +40,7 @@ const Dashboard = () => {
     <>
       <Title>Statistique</Title>
       <div className="dashboard">
-        <RechercheStatistique />
+        <RechercheStatistique onChange={handleMonthYearChange} />
         <Tabs
           className="tabs"
           value={state.tab}
@@ -42,9 +51,9 @@ const Dashboard = () => {
           <Tab value="2" label="Bénéfice" />
           <Tab value="3" label="Utilisation de l'application" />
         </Tabs>
-        {state.tab === "1" && <StatsGenerales />}
-        {state.tab === "2" && <StatsBenefice />}
-        {state.tab === "3" && <StatsApp />}
+        {state.tab === "1" && <StatsGenerales monthYear={state.monthYear} />}
+        {state.tab === "2" && <StatsBenefice monthYear={state.monthYear} />}
+        {state.tab === "3" && <StatsApp monthYear={state.monthYear} />}
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StatFiltre, StatsTopUtilisateur } from "../../types/stats.type";
+import { StatProps, StatsTopUtilisateur } from "../../types/stats.type";
 import { DataGrid, frFR } from "@mui/x-data-grid";
 import {
   statsFiltreColumns,
@@ -20,28 +20,8 @@ const initialState: StatsAppState = {
   nbrUtilisateur: 3,
 };
 
-const StatsApp = () => {
-  //   alaina am props
+const StatsApp = (props: StatProps) => {
   const [state, setState] = useState<StatsAppState>(initialState);
-
-  const dataFiltre: StatFiltre[] = [
-    {
-      filtre: "Catégorie",
-      valeur: "Citadines",
-    },
-    {
-      filtre: "Mot clé",
-      valeur: "Citadines",
-    },
-    {
-      filtre: "Couleur",
-      valeur: "#45678",
-    },
-    {
-      filtre: "Marque",
-      valeur: "Audi",
-    },
-  ];
 
   const dataTopUtilisateurs: StatsTopUtilisateur[] = [
     {
@@ -121,7 +101,7 @@ const StatsApp = () => {
         </div>
 
         <div className="top_utilisateurs">
-          <h2>Top {state.nbrUtilisateur} du meilleur vendeur</h2>
+          <h2>Top {state.nbrUtilisateur} des meilleurs vendeurs</h2>
           <form>
             <TextField
               label="Nombre d'utilisateur"
@@ -155,7 +135,7 @@ const StatsApp = () => {
           </div>
         </div>
       </div>
-      <div className="stats_filtre">
+      {/* <div className="stats_filtre">
         <h2>Les filtres les plus utilisés</h2>
         <div className="tab">
           <DataGrid
@@ -167,7 +147,7 @@ const StatsApp = () => {
             localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

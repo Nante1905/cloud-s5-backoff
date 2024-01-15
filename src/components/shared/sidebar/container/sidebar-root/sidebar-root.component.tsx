@@ -4,13 +4,19 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SidebarComponent from "../../components/sidebar-component/sidebar.component";
 import { DropdownItem } from "../../types/dropdownItem.type";
 import { NavItem } from "../../types/navItem.type";
-
+import BarChartIcon from '@mui/icons-material/BarChart';
 interface SidebarRootProps {
   children: JSX.Element;
 }
 
 const SidebarRoot = ({ children }: SidebarRootProps) => {
   const navs: (NavItem | DropdownItem)[] = [
+    {
+      text:"Statistiques",
+      icon: <BarChartIcon />,
+      authorization:[],
+      link: "/dashboard/"
+    },
     {
       text: "Utilitaire",
       icon: <ExpandMoreIcon />,

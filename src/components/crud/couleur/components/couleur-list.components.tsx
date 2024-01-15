@@ -58,6 +58,7 @@ const CouleurListComponent = (props: CouleurListComponentProps) => {
                         width: "20px",
                         height: "20px",
                         backgroundColor: couleur.hexa,
+                        border: "solid 1px #eee"
                       }}
                     ></div>
                   </TableCell>

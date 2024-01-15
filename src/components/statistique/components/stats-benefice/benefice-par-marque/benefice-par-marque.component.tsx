@@ -2,39 +2,17 @@
 import {
   DataGrid,
   GridColDef,
+  GridRowIdGetter,
   GridValueGetterParams,
   frFR,
 } from "@mui/x-data-grid";
 import "./benefice-par-marque.component.scss";
 import StatsCard from "../../stats-card/stats-card.component";
-
-const BeneficeParMarque = () => {
-  const data = [
-    {
-      id: 1,
-      marque: {
-        nom: "Mercedes",
-        logo: "mercedes.jpg",
-      },
-      benefice: 150000,
-    },
-    {
-      id: 2,
-      marque: {
-        nom: "Mazda",
-        logo: "mercedes.jpg",
-      },
-      benefice: 100000,
-    },
-    {
-      id: 3,
-      marque: {
-        nom: "Audi",
-        logo: "mercedes.jpg",
-      },
-      benefice: 120000,
-    },
-  ];
+import { MarqueBenefice, StatBenefice } from "../../../types/stats.type";
+interface BeneficeProps {
+  statBenefice: StatBenefice;
+}
+const BeneficeParMarque = (props: BeneficeProps) => {
   const columns: GridColDef[] = [
     {
       field: "marque",
@@ -56,22 +34,24 @@ const BeneficeParMarque = () => {
       headerName: "Montant",
       align: "right",
       valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.benefice.toLocaleString("fr")} MGA`,
+        `${params.row.montant.toLocaleString("fr")} MGA`,
       minWidth: 200,
     },
   ];
+  const getRowId: GridRowIdGetter<MarqueBenefice> = (row: MarqueBenefice) =>
+    row.marque.id || "fallback_id";
 
   return (
     <>
       <StatsCard
         label="Bénéfice"
-        data={<h1 className="light">1 560 000 MGA</h1>}
+        data={<h1 className="light">{props.statBenefice.benefice}</h1>}
         className="card_benef"
       />
       <h2>Classement de bénéfice par marques</h2>
       <div className="div_table_marque">
         <DataGrid
-          rows={data}
+          rows={props.statBenefice.beneficeMarque}
           rowHeight={100}
           columns={columns}
           initialState={{
@@ -81,6 +61,7 @@ const BeneficeParMarque = () => {
           }}
           pageSizeOptions={[5, 10]}
           localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+          getRowId={getRowId}
         />
       </div>
     </>

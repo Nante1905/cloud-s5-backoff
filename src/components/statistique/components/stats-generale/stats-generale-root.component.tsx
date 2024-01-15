@@ -1,9 +1,16 @@
 import "./stats-list-root.component.scss";
 import StatsCard from "../stats-card/stats-card.component";
 import StatsChart from "../stats-chart/stats-chart.component";
+import { Dayjs } from "dayjs";
+import { StatProps } from "../../types/stats.type";
+import { useEffect } from "react";
 
-const StatsGenerales = () => {
-  // Avy am props daholo
+const StatsGenerales = (props: StatProps) => {
+  useEffect(() => {
+    console.log("oui");
+    console.log(props.monthYear);
+    
+  },[props.monthYear]);
   return (
     <>
       <div className="stats_list">
