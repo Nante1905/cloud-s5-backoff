@@ -1,13 +1,15 @@
 // apiService.js
 import axios from "axios";
+import { PaginationState } from "../../store/pagination/PaginationSlice";
 import { Url_api } from "../shared/constants/global";
 import { Categorie } from "../shared/types/Categorie";
-import { PaginationState } from "../../store/pagination/PaginationSlice";
 
 export const findAllCategorie = (page: PaginationState) =>
   axios.get(
     `${Url_api}/categories?page=${page.numero}&pageSize=${page.nbrParPage}`
   );
+export const findAllCategorieWithoutPage = () =>
+  axios.get(`${Url_api}/categories`);
 export const findCategorieById = (id: number) =>
   axios.get(`${Url_api}/categories/${id}`);
 
