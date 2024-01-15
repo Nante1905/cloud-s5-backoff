@@ -2,45 +2,18 @@ import { Button, Card, CardContent } from "@mui/material";
 import "./details-annonce.component.scss";
 import dayjs from "dayjs";
 import { Annonce } from "../../shared/types/Annonce";
+import AppLoaderComponent from "../../shared/loader/app-loader.component";
 
 interface DetailsAnnonceProps {
   annonce: Annonce;
-  loading: boolean;
+  loadingValider: boolean;
+  loadingRefuser: boolean;
   onValider: () => void;
   onRefuser: () => void;
 }
 
 const DetailsAnnonce = (props: DetailsAnnonceProps) => {
   const annonce: Annonce = props.annonce;
-  // lay bouton mila atao anaty appLoader d props.loading no omena azy
-
-  const photos = [
-    {
-      url: "mercedes.jpg",
-    },
-    {
-      url: "mercedes.jpg",
-    },
-    {
-      url: "mercedes.jpg",
-    },
-    {
-      url: "mercedes.jpg",
-    },
-    {
-      url: "mercedes.jpg",
-    },
-    {
-      url: "mercedes.jpg",
-    },
-    {
-      url: "mercedes.jpg",
-    },
-    {
-      url: "mercedes.jpg",
-    },
-  ];
-
   document.title = "Validation annonce " + annonce.reference;
 
   return (
@@ -48,11 +21,12 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
       <div className="div_info">
         <Card className="card card_annonce">
           <CardContent className="card_content">
-            <h2 className="title">Annonce</h2>
-            {/* <Title>Annonce</Title> */}
+            <h2 className="title">Annonce {annonce.reference}</h2>
             <div className="div_info_item">
               <strong>Création: </strong>
-              <span>{dayjs(annonce.dateCreation).format("DD MMMM YYYY")}</span>
+              <span>
+                {dayjs(annonce.dateCreation).format("DD MMMM YYYY à HH:MM")}
+              </span>
             </div>
             <div className="div_info_item_no_flex">
               <strong>Description</strong>
@@ -139,23 +113,35 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             className="div-success"
             onClick={props.onValider}
           >
-            Valider
+            <AppLoaderComponent
+              loading={props.loadingValider}
+              width="30px"
+              heigth="30px"
+            >
+              <>Valider</>
+            </AppLoaderComponent>
           </Button>
           <Button
             variant="contained"
             className="div-danger"
             onClick={props.onRefuser}
           >
-            Refuser
+            <AppLoaderComponent
+              loading={props.loadingRefuser}
+              width="30px"
+              heigth="30px"
+            >
+              <>Refuser</>
+            </AppLoaderComponent>
           </Button>
         </div>
         <div className="div_images_container">
-          {photos.map((p, index) => (
+          {annonce.photos.map((p, index) => (
             <div key={`${p.url}_${index}`} className="div_images_item">
               <p>
-                {index + 1}/{photos.length}
+                {index + 1}/{annonce.photos.length}
               </p>
-              <img src={`/${p.url}`} loading="lazy" />
+              <img src={`${p.url}`} loading="lazy" />
             </div>
           ))}
         </div>

@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
-import { Annonce } from "../../../shared/types/Annonce";
+import { Annonce, Photo } from "../../../shared/types/Annonce";
 import {
   refuserAnnonce,
   validerAnnonce,
 } from "../../../validation-annonce/service/validation-annonce.service";
 import "./annonce-card.component.scss";
+import dayjs from "dayjs";
 
 interface AnnonceCardComponentProps {
   annonce?: Annonce;
@@ -18,6 +19,7 @@ interface AnnonceCardComponentProps {
 
 const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
   const [state, setState] = useState(initialState);
+  const photos: Photo[] = props.annonce?.photos as Photo[];
 
   const onValider = (id: number) => {
     setState((pervState) => ({
@@ -68,7 +70,14 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
       <div className="annonce-card-root">
         <div className="container">
           <div className="image">
-            <img src="/mercedes.jpg" alt="" />
+            {photos.length > 1 ? (
+              <img src={props.annonce?.photos[0]?.url} alt="Image" />
+            ) : (
+              <img
+                src={props.annonce?.voiture.modele.marque.logo}
+                alt="Image"
+              />
+            )}
           </div>
           <div className="annonce-card-text">
             <Link to={`/validation/${props.annonce?.id}`}>
@@ -87,11 +96,16 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
                 {props.annonce?.utilisateur.nom}
               </span>
               <span className="photo-number">
-                <PhotoLibraryIcon />
+                {photos.length} <PhotoLibraryIcon />
               </span>
             </div>
           </div>
-          <span className="annonce-date">{props.annonce?.dateCreation}</span>
+          <span className="annonce-date">
+            {" "}
+            {dayjs(props.annonce?.dateCreation).format(
+              "DD MMMM YYYY à HH:MM"
+            )}{" "}
+          </span>
         </div>
         <div className="card-action">
           {/* TODO: Add link */}

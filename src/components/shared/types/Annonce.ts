@@ -1,6 +1,10 @@
 import { Utilisateur } from "./Utilisateur";
 import { Voiture } from "./Voiture";
 
+export interface Photo {
+    url: string,
+}
+
 export interface Annonce {
     id: number,
     reference: string,
@@ -10,5 +14,6 @@ export interface Annonce {
     commission?: number,
     nbVues?: number,
     utilisateur: Utilisateur,
-    voiture: Voiture
+    voiture: Voiture,
+    photos: Photo[]
 }
