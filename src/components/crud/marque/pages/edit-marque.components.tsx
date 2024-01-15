@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MarqueFormComponent from "../components/marque-form.components";
-import { Marque } from "../../../shared/types/Marque";
 import { findMarqueById } from "../../../service/marque.service";
-import { ApiResponse } from "../../../shared/types/Response";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { Marque } from "../../../shared/types/Marque";
+import { ApiResponse } from "../../../shared/types/Response";
+import MarqueFormComponent from "../components/marque-form.components";
 
 interface EditMarqueState {
   marque: Marque | null;
@@ -25,10 +25,11 @@ const EditMarqueComponent = () => {
     findMarqueById(Number(id))
       .then((res) => {
         const response: ApiResponse = res.data;
+        console.log(response);
         if (response.ok) {
           setState((state) => ({
             ...state,
-            etat: response.data,
+            marque: response.data,
           }));
         } else {
           setState((state) => ({
@@ -53,7 +54,7 @@ const EditMarqueComponent = () => {
 
   return (
     <>
-      <AppLoaderComponent loading={state.marque == null}>
+      <AppLoaderComponent loading={state.marque === null}>
         <MarqueFormComponent entity={state.marque as Marque} />
       </AppLoaderComponent>
       <ErrorSnackBar
