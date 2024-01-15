@@ -24,6 +24,7 @@ import FirebaseImageUpload from "./components/crud/marque/components/test";
 import EditMarqueComponent from "./components/crud/marque/pages/edit-marque.components";
 import MarqueListRoot from "./components/crud/marque/pages/list.component";
 
+import ModeleFormComponent from "./components/crud/modele/components/modele-form/modele-form.component.tsx";
 import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
@@ -124,6 +125,10 @@ const routes = createBrowserRouter([
       {
         path: "/validation",
         element: <AnnonceRoot />,
+      },
+      {
+        path: "test",
+        element: <ModeleFormComponent />,
       },
     ],
   },
