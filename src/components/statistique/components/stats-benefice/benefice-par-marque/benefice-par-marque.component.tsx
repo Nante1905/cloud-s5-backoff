@@ -71,6 +71,7 @@ const BeneficeParMarque = () => {
       <h2>Classement de bénéfice par marques</h2>
       <div className="div_table_marque">
         <DataGrid
+          sx={{ width: "max-size" }}
           rows={data}
           rowHeight={100}
           columns={columns}

@@ -16,21 +16,23 @@ import {
 
 interface DetailsAnnonceRootState {
   annonce?: Annonce;
-  loading: boolean;
-  isLoaded: boolean;
+  loadingValider: boolean;
+  loadingRefuser: boolean;
   errorMessage: string;
   openError: boolean;
   successMessage: string;
   openSuccess: boolean;
+  loading: boolean;
 }
 
 const initialState: DetailsAnnonceRootState = {
-  loading: true,
-  isLoaded: false,
+  loadingValider: false,
+  loadingRefuser: false,
   errorMessage: "",
   openError: false,
   successMessage: "",
   openSuccess: false,
+  loading: false,
 };
 
 const DetailsAnnonceRoot = () => {
@@ -40,7 +42,10 @@ const DetailsAnnonceRoot = () => {
   const [state, setState] = useState<DetailsAnnonceRootState>(initialState);
 
   const onValider = () => {
-    console.log("VALIDATION ANNONCE " + state.annonce?.id);
+    setState((state) => ({
+      ...state,
+      loadingValider: true,
+    }));
 
     validerAnnonce(Number(state?.annonce?.id))
       .then((res) => {
@@ -50,12 +55,12 @@ const DetailsAnnonceRoot = () => {
             ...state,
             openSuccess: true,
             successMessage: response.message,
+            loadingValider: false,
           }));
         } else {
           setState((state) => ({
             ...state,
-            loading: true,
-            isLoaded: false,
+            loadingValider: false,
             errorMessage: response.err,
             openError: true,
           }));
@@ -75,8 +80,7 @@ const DetailsAnnonceRoot = () => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
-          isLoaded: false,
+          loadingValider: false,
           errorMessage: errorMessage,
           openError: true,
         }));
@@ -84,7 +88,10 @@ const DetailsAnnonceRoot = () => {
   };
 
   const onRefuser = () => {
-    console.log("REFUS ANNONCE " + state.annonce?.id);
+    setState((state) => ({
+      ...state,
+      loadingRefuser: true,
+    }));
 
     refuserAnnonce(Number(state.annonce?.id))
       .then((res) => {
@@ -93,13 +100,14 @@ const DetailsAnnonceRoot = () => {
           setState((state) => ({
             ...state,
             openSuccess: true,
+            loadingRefuser: false,
             successMessage: response.message,
           }));
         } else {
           setState((state) => ({
             ...state,
             loading: true,
-            isLoaded: false,
+            loadingRefuser: false,
             errorMessage: response.err,
             openError: true,
           }));
@@ -119,8 +127,7 @@ const DetailsAnnonceRoot = () => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
-          isLoaded: false,
+          loadingRefuser: false,
           errorMessage: errorMessage,
           openError: true,
         }));
@@ -128,6 +135,11 @@ const DetailsAnnonceRoot = () => {
   };
 
   useEffect(() => {
+    setState((state) => ({
+      ...state,
+      loading: true,
+    }));
+
     findAnnonceById(Number(idAnnonce))
       .then((res) => {
         const response: ApiResponse = res.data;
@@ -135,14 +147,12 @@ const DetailsAnnonceRoot = () => {
           setState((state) => ({
             ...state,
             loading: false,
-            isLoaded: true,
             annonce: response.data,
           }));
         } else {
           setState((state) => ({
             ...state,
-            loading: true,
-            isLoaded: false,
+            loading: false,
             errorMessage: response.err,
             openError: true,
           }));
@@ -163,8 +173,7 @@ const DetailsAnnonceRoot = () => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
-          isLoaded: false,
+          loading: false,
           errorMessage: errorMessage,
           openError: true,
         }));
@@ -179,7 +188,8 @@ const DetailsAnnonceRoot = () => {
           {state.annonce && (
             <DetailsAnnonce
               annonce={state.annonce}
-              loading={state.loading}
+              loadingValider={state.loadingValider}
+              loadingRefuser={state.loadingRefuser}
               onValider={onValider}
               onRefuser={onRefuser}
             />

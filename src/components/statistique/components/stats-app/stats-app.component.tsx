@@ -151,6 +151,7 @@ const StatsApp = () => {
               }}
               pageSizeOptions={[5, 10]}
               localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+              sx={{ width: "max-size" }}
             />
           </div>
         </div>
@@ -165,6 +166,7 @@ const StatsApp = () => {
             columns={statsFiltreColumns}
             hideFooter={true}
             localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+            sx={{ width: "max-size" }}
           />
         </div>
       </div>

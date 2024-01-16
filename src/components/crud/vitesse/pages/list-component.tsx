@@ -1,39 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { Marque } from "../../../shared/types/Marque";
+import { useEffect, useState } from "react";
+import { Vitesse } from "../../../shared/types/Vitesse";
 
-import { findAllMarque } from "../../../service/marque.service";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
 import { getPagination } from "../../../../store/pagination/selector";
-import { useDispatch, useSelector } from "react-redux";
-import MarqueListComponent from "../components/marque-list.components";
+import { findAllVitesse } from "../../../service/vitesse.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
 import Title from "../../../shared/title/title.component";
-import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
-interface MarqueListRootState {
-  marques: Marque[];
+import { ApiResponse } from "../../../shared/types/Response";
+import VitesseListComponent from "../components/vitesse-list.component";
+
+interface VitesseListRootState {
+  vitesses: Vitesse[];
   loading: boolean;
   errorMessage: string;
   openError: boolean;
 }
 
-const initialState: MarqueListRootState = {
-  marques: [],
+const initialState: VitesseListRootState = {
+  vitesses: [],
   loading: true,
   errorMessage: "",
   openError: false,
 };
 
-const MarqueListRoot = () => {
-  document.title = "Marques";
+const VitesseListRoot = () => {
+  document.title = "Boîte de vitesse";
 
-  const [state, setState] = useState<MarqueListRootState>(initialState);
+  const [state, setState] = useState<VitesseListRootState>(initialState);
   const page: PaginationState = useSelector(getPagination);
   const dispatch = useDispatch();
 
@@ -43,15 +44,13 @@ const MarqueListRoot = () => {
       loading: true,
     }));
 
-    // dispatch(initializeRefresh());
-
-    findAllMarque(page)
+    findAllVitesse(page)
       .then((res) => {
         const response: ApiResponse = res.data;
         if (response.ok) {
           setState((state) => ({
             ...state,
-            marques: response.data.items,
+            vitesses: response.data.items,
             loading: false,
           }));
 
@@ -91,23 +90,22 @@ const MarqueListRoot = () => {
           errorMessage: errorMessage,
         }));
       });
-  }, [page.numero]);
+  }, [page]);
 
   return (
     <div className="list-crud">
       <div className="title-form">
-        <Title> Liste des marques </Title>
+        <Title>Liste des boîtes de vitesse</Title>
       </div>
-
       <div className="add-button">
-        <Link to="/marques/add">
+        <Link to="/vitesses/add">
           <Button variant="contained">
             <i className="fas fa-plus"></i>
           </Button>
         </Link>
       </div>
       <AppLoaderComponent loading={state.loading}>
-        <MarqueListComponent marques={state.marques} />
+        <VitesseListComponent vitesses={state.vitesses} />
       </AppLoaderComponent>
       <ErrorSnackBar
         open={state.openError}
@@ -123,4 +121,4 @@ const MarqueListRoot = () => {
   );
 };
 
-export default MarqueListRoot;
+export default VitesseListRoot;

@@ -29,11 +29,14 @@ import ModeleFormComponent from "./components/crud/modele/components/modele-form
 import ModeleCreateRoot from "./components/crud/modele/container/modele-form-create-root.tsx";
 import ModeleEditRoot from "./components/crud/modele/container/modele-form-edit-root.tsx";
 import ModeleListRoot from "./components/crud/modele/container/modele-list-root.tsx";
+import AjoutVitesseComponent from "./components/crud/vitesse/pages/ajout-vitesse.component.tsx";
+import EditVitesseComponent from "./components/crud/vitesse/pages/edit-vitesse.comopnent.tsx";
+import VitesseListRoot from "./components/crud/vitesse/pages/list-component.tsx";
+import LoginRoot from "./components/login/connexion/login-root.tsx";
 import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
 import { store } from "./store/store.ts";
-import LoginRoot from "./components/login/connexion/login-root.tsx";
 
 const theme = createTheme(
   {
@@ -46,10 +49,8 @@ const theme = createTheme(
 
 const routes = createBrowserRouter([
   {
-    path:"login",
-    element:(
-      <LoginRoot />
-    )
+    path: "login",
+    element: <LoginRoot />,
   },
   {
     path: "",
@@ -141,6 +142,18 @@ const routes = createBrowserRouter([
       //   path: "test",
       //   element: <StatsChart />,
       // },
+      {
+        path: "vitesses",
+        element: <VitesseListRoot />,
+      },
+      {
+        path: "vitesses/add",
+        element: <AjoutVitesseComponent />,
+      },
+      {
+        path: "vitesses/edit/:id",
+        element: <EditVitesseComponent />,
+      },
       {
         path: "dashboard",
         element: <Dashboard />,
