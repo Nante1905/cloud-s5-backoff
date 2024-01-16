@@ -37,6 +37,7 @@ import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
 import { store } from "./store/store.ts";
+import AnnonceRootTest from "./components/annonce/container/annonce-root.test.tsx";
 
 const theme = createTheme(
   {
@@ -168,7 +169,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "test",
-        element: <ModeleFormComponent />,
+        element: <AnnonceRootTest />,
       },
     ],
   },
