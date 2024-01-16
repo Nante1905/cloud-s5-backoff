@@ -14,8 +14,6 @@ import { getPagination } from "../../../../store/pagination/selector";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import Title from "../../../shared/title/title.component";
-import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
 
 interface EtatListRootState {
   etats: Etat[];
@@ -95,13 +93,6 @@ const EtatListComponentRoot = () => {
     <div className="list-crud">
       <div className="title-form">
         <Title>Liste des états</Title>
-      </div>
-      <div className="add-button">
-        <Link to="/etats/add">
-          <Button variant="contained">
-            <i className="fas fa-plus"></i>
-          </Button>
-        </Link>
       </div>
       <AppLoaderComponent loading={state.loading}>
         <EtatListComponent etats={state.etats} />

@@ -80,7 +80,7 @@ const ModeleListRoot = () => {
   return (
     <div className="modele-list-root">
       <Title>Liste des modeles</Title>
-      <div className="modele-add-button">
+      <div className="modele-add-button add-button">
         <Link to="/modeles/add">
           <Button variant="contained">
             <i className="fas fa-plus"></i>
