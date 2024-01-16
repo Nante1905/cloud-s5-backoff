@@ -50,8 +50,7 @@ const CategorieListComponentRoot = () => {
           setState((state) => ({
             ...state,
             loading: false,
-            openError: true,
-            errorMessage: response.err,
+            error: response.err,
           }));
         }
       })
@@ -71,8 +70,7 @@ const CategorieListComponentRoot = () => {
         setState((state) => ({
           ...state,
           loading: false,
-          openError: true,
-          errorMessage: errorMessage,
+          error: errorMessage,
         }));
       });
   }, [page]);

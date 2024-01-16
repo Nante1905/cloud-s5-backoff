@@ -43,6 +43,8 @@ const MarqueListRoot = () => {
       loading: true,
     }));
 
+    // dispatch(initializeRefresh());
+
     findAllMarque(page)
       .then((res) => {
         const response: ApiResponse = res.data;
@@ -89,7 +91,7 @@ const MarqueListRoot = () => {
           errorMessage: errorMessage,
         }));
       });
-  }, [page]);
+  }, [page.numero]);
 
   return (
     <div className="list-crud">

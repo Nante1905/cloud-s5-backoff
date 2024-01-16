@@ -33,6 +33,7 @@ import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
 import { store } from "./store/store.ts";
+import LoginRoot from "./components/login/connexion/login-root.tsx";
 
 const theme = createTheme(
   {
@@ -44,6 +45,12 @@ const theme = createTheme(
 );
 
 const routes = createBrowserRouter([
+  {
+    path:"login",
+    element:(
+      <LoginRoot />
+    )
+  },
   {
     path: "",
     element: (

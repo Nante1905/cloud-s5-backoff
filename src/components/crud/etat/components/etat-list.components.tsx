@@ -50,13 +50,13 @@ const EtatListComponent = ({ etats }: EtatListComponentProps) => {
                 </TableRow>
               ))}
             </TableBody>
-            <CustomPagination />
           </Table>
         </TableContainer>
         <br />
         <br />
         <br />
       </div>
+      <CustomPagination />
     </>
   );
 };

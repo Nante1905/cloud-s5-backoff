@@ -8,7 +8,7 @@
 :root {
   /* ===== Colors ===== */
   --body-color: #ffffff;
-  --sidebar-color: #fff;
+  --sidebar-color: #fffff;
   // --primary-color: #ffffff;
   --primary-color: #695cfe;
   --primary-color-light: #f6f5ff;
@@ -61,6 +61,7 @@ body.dark {
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
+
 .sidebar.close {
   width: 88px;
 }
@@ -102,9 +103,11 @@ body.dark {
   white-space: normal;
   opacity: 1;
 }
+
 .sidebar.close .text {
   opacity: 0;
 }
+
 /* =========================== */
 
 .sidebar header {
@@ -115,10 +118,12 @@ body.dark {
   display: flex;
   align-items: center;
 }
+
 .sidebar header .logo-text {
   display: flex;
   flex-direction: column;
 }
+
 header .image-text .name {
   margin-top: 2px;
   font-size: 18px;
@@ -196,6 +201,7 @@ body.dark .sidebar header .toggle {
   font-weight: 500;
   transition: var(--tran-05);
 }
+
 .sidebar li a {
   list-style: none;
   height: 100%;
@@ -213,10 +219,12 @@ body.dark .sidebar header .toggle {
 .sidebar li a:hover {
   background-color: var(--primary-color);
 }
+
 .sidebar li a:hover .icon,
 .sidebar li a:hover .text {
   color: var(--sidebar-color);
 }
+
 body.dark .sidebar li a:hover .icon,
 body.dark .sidebar li a:hover .text {
   color: var(--text-color);
@@ -229,9 +237,11 @@ body.dark .sidebar li a:hover .text {
   justify-content: space-between;
   overflow-y: scroll;
 }
+
 .menu-bar::-webkit-scrollbar {
   display: none;
 }
+
 .sidebar .menu-bar .mode {
   border-radius: 6px;
   background-color: var(--primary-color-light);
@@ -247,12 +257,15 @@ body.dark .sidebar li a:hover .text {
 .mode .sun-moon i {
   position: absolute;
 }
+
 .mode .sun-moon i.sun {
   opacity: 0;
 }
+
 body.dark .mode .sun-moon i.sun {
   opacity: 1;
 }
+
 body.dark .mode .sun-moon i.moon {
   opacity: 0;
 }
@@ -268,6 +281,7 @@ body.dark .mode .sun-moon i.moon {
   border-radius: 6px;
   cursor: pointer;
 }
+
 .toggle-switch .switch {
   position: relative;
   height: 22px;
@@ -305,6 +319,7 @@ body.dark .switch::before {
   transition: var(--tran-05);
   padding-left: 50px;
 }
+
 .home .text {
   font-size: 30px;
   font-weight: 500;
@@ -317,11 +332,12 @@ body.dark .switch::before {
 //   height: 100vh;
 //   width: calc(100% - 78px);
 // }
-.sidebar.close ~ .home {
+.sidebar.close~.home {
   left: 100px;
   height: 100vh;
   width: calc(100% - 100px);
 }
+
 body.dark .home .text {
   color: var(--text-color);
 }
