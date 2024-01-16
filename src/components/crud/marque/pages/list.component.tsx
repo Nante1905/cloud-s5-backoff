@@ -13,6 +13,9 @@ import { getPagination } from "../../../../store/pagination/selector";
 import { useDispatch, useSelector } from "react-redux";
 import MarqueListComponent from "../components/marque-list.components";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import Title from "../../../shared/title/title.component";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 interface MarqueListRootState {
   marques: Marque[];
   loading: boolean;
@@ -89,7 +92,18 @@ const MarqueListRoot = () => {
   }, [page]);
 
   return (
-    <div>
+    <div className="list-crud">
+      <div className="title-form">
+        <Title> Liste des marques </Title>
+      </div>
+
+      <div className="add-button">
+        <Link to="/marques/add">
+          <Button variant="contained">
+            <i className="fas fa-plus"></i>
+          </Button>
+        </Link>
+      </div>
       <AppLoaderComponent loading={state.loading}>
         <MarqueListComponent marques={state.marques} />
       </AppLoaderComponent>

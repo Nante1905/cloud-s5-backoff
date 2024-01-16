@@ -1,24 +1,23 @@
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { findAllCategorie } from "../../../service/categorie.service";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
-import { Categorie } from "../../../shared/types/Categorie";
-import CategorieListComponent from "../components/categorie-list.components";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { getPagination } from "../../../../store/pagination/selector";
-import { ApiResponse } from "../../../shared/types/Response";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import { getErrorMessage } from "../../../shared/service/api-service";
-import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
-import { Button } from "@mui/material";
 import Title from "../../../shared/title/title.component";
-import { Link } from "react-router-dom";
+import { Modele } from "../../../shared/types/Modele";
+import { ApiResponse } from "../../../shared/types/Response";
+import ModeleListComponent from "../components/modele-list/modele-list.component";
+import { findAllModele } from "../service/modele.service";
+import "./modele-form-create-root";
+import "./modele-list-root.scss";
 
-const CategorieListComponentRoot = () => {
-  document.title = "Categories";
-
+const ModeleListRoot = () => {
   const [state, setState] = useState(initialState);
   const page: PaginationState = useSelector(getPagination);
   const dispatch = useDispatch();
@@ -29,7 +28,7 @@ const CategorieListComponentRoot = () => {
       loading: true,
     }));
 
-    findAllCategorie(page)
+    findAllModele(page)
       .then((res) => {
         const response: ApiResponse = res.data;
         console.log(response);
@@ -37,7 +36,7 @@ const CategorieListComponentRoot = () => {
         if (response.ok) {
           setState((state) => ({
             ...state,
-            categories: response.data.items,
+            modeles: response.data.items,
             loading: false,
           }));
 
@@ -79,45 +78,33 @@ const CategorieListComponentRoot = () => {
   }, [page]);
 
   return (
-    <div className="list-crud">
-      <div className="title-form">
-        <Title> Liste des categories </Title>
-      </div>
-      <div className="add-button">
-        <Link to="/categories/add">
+    <div className="modele-list-root">
+      <Title>Liste des modeles</Title>
+      <div className="modele-add-button">
+        <Link to="/modeles/add">
           <Button variant="contained">
             <i className="fas fa-plus"></i>
           </Button>
         </Link>
       </div>
       <AppLoaderComponent loading={state.loading}>
-        <CategorieListComponent categories={state.categories} />
+        <ModeleListComponent modeles={state.modeles} />
       </AppLoaderComponent>
-      <ErrorSnackBar
-        open={state.openError}
-        onClose={() => {
-          setState((state) => ({
-            ...state,
-            openError: false,
-          }));
-        }}
-        error={state.errorMessage}
-      />
     </div>
   );
 };
 
-export default CategorieListComponentRoot;
+export default ModeleListRoot;
 
-interface CategorieListRootState {
-  categories: Categorie[];
+interface ModeleListRootState {
+  modeles: Modele[];
   loading: boolean;
   openError: boolean;
   errorMessage: string;
 }
 
-const initialState: CategorieListRootState = {
-  categories: [],
+const initialState: ModeleListRootState = {
+  modeles: [],
   loading: true,
   openError: false,
   errorMessage: "",

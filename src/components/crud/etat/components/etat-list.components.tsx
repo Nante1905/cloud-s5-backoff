@@ -1,6 +1,5 @@
 // EtatListComponent.tsx
 
-import React from "react";
 import { Etat } from "../../../shared/types/Etat";
 import "./etat-list.components.css";
 import Table from "@mui/material/Table";
@@ -10,10 +9,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Title from "../../../shared/title/title.component";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
 import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
 
 interface EtatListComponentProps {
@@ -23,17 +20,7 @@ interface EtatListComponentProps {
 const EtatListComponent = ({ etats }: EtatListComponentProps) => {
   return (
     <>
-      <div className="list-couleur">
-        <div className="title-form">
-          <Title>Liste des états</Title>
-        </div>
-        <div className="add-button">
-          <Link to="/etats/add">
-            <Button variant="contained">
-              <i className="fas fa-plus"></i>
-            </Button>
-          </Link>
-        </div>
+      <div>
         <TableContainer
           style={{ boxShadow: "2px 3px 20px #adaaaa", borderRadius: "10px" }}
           component={Paper}
