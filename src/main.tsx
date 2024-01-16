@@ -20,12 +20,11 @@ import EditEtatComponent from "./components/crud/etat/pages/edit-etat.components
 import EtatListComponentRoot from "./components/crud/etat/pages/list.component";
 
 import MarqueFormComponent from "./components/crud/marque/components/marque-form.components";
-import FirebaseImageUpload from "./components/crud/marque/components/test";
 import EditMarqueComponent from "./components/crud/marque/pages/edit-marque.components";
 import MarqueListRoot from "./components/crud/marque/pages/list.component";
 
+import CommissionEditRoot from "./components/crud/commission/container/commission-edit-root/comission-edit-root.tsx";
 import AjoutCouleurComponent from "./components/crud/couleur/pages/ajout-couleur.component.tsx";
-import ModeleFormComponent from "./components/crud/modele/components/modele-form/modele-form.component.tsx";
 import ModeleCreateRoot from "./components/crud/modele/container/modele-form-create-root.tsx";
 import ModeleEditRoot from "./components/crud/modele/container/modele-form-edit-root.tsx";
 import ModeleListRoot from "./components/crud/modele/container/modele-list-root.tsx";
@@ -63,10 +62,6 @@ const routes = createBrowserRouter([
       {
         path: "marques/add",
         element: <MarqueFormComponent />,
-      },
-      {
-        path: "test/test",
-        element: <FirebaseImageUpload />,
       },
       {
         path: "couleurs",
@@ -148,7 +143,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "test",
-        element: <ModeleFormComponent />,
+        element: <CommissionEditRoot />,
       },
     ],
   },

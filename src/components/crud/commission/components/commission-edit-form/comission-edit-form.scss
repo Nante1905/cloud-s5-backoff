@@ -1,0 +1,17 @@
+.commission-edit-form {
+  width: 20%;
+  text-align: center;
+  .valeur {
+    font-size: 3rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    justify-content: center;
+  }
+
+  .historique {
+    margin-top: 2rem;
+  }
+}
