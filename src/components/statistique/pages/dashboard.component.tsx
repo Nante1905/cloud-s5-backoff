@@ -1,11 +1,11 @@
-import { useState } from "react";
-import RechercheStatistique from "../components/form-recherche/recherche-statistique.component";
-import "./dashboard.component.scss";
 import { Tab, Tabs } from "@mui/material";
-import StatsGenerales from "../components/stats-generale/stats-generale-root.component";
-import StatsBenefice from "../components/stats-benefice/stats-benefice/stats-benefice.component";
-import StatsApp from "../components/stats-app/stats-app.component";
+import { useState } from "react";
 import Title from "../../shared/title/title.component";
+import RechercheStatistique from "../components/form-recherche/recherche-statistique.component";
+import StatsApp from "../components/stats-app/stats-app.component";
+import StatsBenefice from "../components/stats-benefice/stats-benefice/stats-benefice.component";
+import StatsGenerales from "../components/stats-generale/stats-generale-root.component";
+import "./dashboard.component.scss";
 
 interface DashboardState {
   tab: string;
@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [state, setState] = useState<DashboardState>(initialState);
 
   // ato no miverina mi fetch data raha ohatra ka niova ilay mois sy année
-  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: string) => {
     setState((state) => ({
       ...state,
       tab: newValue,

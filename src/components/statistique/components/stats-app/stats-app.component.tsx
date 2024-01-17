@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { StatFiltre, StatsTopUtilisateur } from "../../types/stats.type";
+import SearchIcon from "@mui/icons-material/Search";
+import { Button, Card, CardContent, TextField } from "@mui/material";
 import { DataGrid, frFR } from "@mui/x-data-grid";
+import dayjs from "dayjs";
+import { useState } from "react";
+import { Chart } from "react-chartjs-2";
+import { StatFiltre, StatsTopUtilisateur } from "../../types/stats.type";
+import StatsCard from "../stats-card/stats-card.component";
 import {
   statsFiltreColumns,
   statsTopUtilisateurColumns,
 } from "./services/tabs-columns";
 import "./stats-app.component.scss";
-import StatsCard from "../stats-card/stats-card.component";
-import { Button, Card, CardContent, TextField } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import dayjs from "dayjs";
-import { Chart } from "react-chartjs-2";
 
 interface StatsAppState {
   nbrUtilisateur: number;

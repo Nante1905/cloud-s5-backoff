@@ -46,7 +46,7 @@ const BeneficeParMarque = () => {
         </div>
       ),
       width: 400,
-      sortComparator: (v1, v2, params1, params2) => {
+      sortComparator: (_v1, _v2, params1, params2) => {
         return params1.value.nom.localeCompare(params2.value.nom);
       },
     },

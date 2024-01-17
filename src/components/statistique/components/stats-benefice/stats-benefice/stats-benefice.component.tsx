@@ -1,4 +1,3 @@
-import React from "react";
 import BeneficeParMarque from "../benefice-par-marque/benefice-par-marque.component";
 
 const StatsBenefice = () => {

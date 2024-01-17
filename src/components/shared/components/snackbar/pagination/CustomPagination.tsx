@@ -1,14 +1,14 @@
 import { Button, Pagination, TextField } from "@mui/material";
-import "./CustomPagination.scss";
+import { GridSearchIcon } from "@mui/x-data-grid";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   PaginationState,
   setNbrParPage,
   setNumeroPage,
 } from "../../../../../store/pagination/PaginationSlice";
-import { useState } from "react";
 import { getPagination } from "../../../../../store/pagination/selector";
-import { GridSearchIcon } from "@mui/x-data-grid";
+import "./CustomPagination.scss";
 
 interface CustomPaginationState {
   error: string | null;
@@ -65,7 +65,7 @@ const CustomPagination = () => {
           color="primary"
           defaultPage={page.numero}
           boundaryCount={2}
-          onChange={(event, page) => {
+          onChange={(_event, page) => {
             dispatch(setNumeroPage(page));
           }}
         />
