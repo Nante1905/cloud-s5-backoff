@@ -60,6 +60,10 @@ const routes = createBrowserRouter([
     ),
     children: [
       {
+        path: "/",
+        element: <Dashboard />,
+      },
+      {
         path: "marques/edit/:id",
         element: <EditMarqueComponent />,
       },

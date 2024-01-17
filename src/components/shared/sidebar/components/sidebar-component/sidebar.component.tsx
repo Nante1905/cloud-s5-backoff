@@ -1,3 +1,4 @@
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DropdownItem } from "../../types/dropdownItem.type";
@@ -23,6 +24,16 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
   const [state, setState] = useState(initialState);
   const sidebarRef = useRef<HTMLElement>(null);
   const navigate = useNavigate();
+
+  const renderUserName = () => {
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      const body = JSON.parse(atob(token!.split(".")[1]));
+      return body.sub;
+    } else {
+      return <Link to="/login">Se connecter</Link>;
+    }
+  };
 
   return (
     <>
@@ -65,7 +76,8 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
 
             <div className="text logo-text">
               <span className="name">
-                <Link to="/inscription">Se connecter</Link>
+                {/* <Link to="/login">Se connecter</Link> */}
+                {renderUserName()}
               </span>
             </div>
           </div>
@@ -118,7 +130,9 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
                   navigate("/");
                 }}
               >
-                <i className="bx bx-log-out icon"></i>
+                <i className="bx bx-log-out icon">
+                  <LogoutIcon />
+                </i>
                 <span className="text nav-text">Se déconnecter</span>
               </a>
             </li>

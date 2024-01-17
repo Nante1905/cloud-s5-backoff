@@ -9,13 +9,6 @@ interface NavItemProps {
 const NavItemComponent = (props: NavItemProps) => {
   const location = useLocation();
 
-  console.log(
-    location.pathname,
-    " ",
-    props.navItem.link,
-    location.pathname == props.navItem.link
-  );
-
   return (
     <li className="nav-link">
       <a href={props.navItem.link}>
