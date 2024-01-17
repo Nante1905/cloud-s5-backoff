@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DropdownItem } from "../../types/dropdownItem.type";
 import { NavItem } from "../../types/navItem.type";
@@ -11,7 +11,16 @@ interface SidebarProps {
   navItems: (NavItem | DropdownItem)[];
 }
 
+interface SidebarState {
+  sidebarOpen: boolean;
+}
+
+const initialState: SidebarState = {
+  sidebarOpen: false,
+};
+
 const SidebarComponent = ({ children, navItems }: SidebarProps) => {
+  const [state, setState] = useState(initialState);
   const sidebarRef = useRef<HTMLElement>(null);
   const navigate = useNavigate();
 
@@ -20,13 +29,38 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
       <nav
         className="sidebar close"
         ref={sidebarRef}
-        onMouseOver={() => sidebarRef.current?.classList.remove("close")}
-        onMouseLeave={() => sidebarRef.current?.classList.add("close")}
+        onMouseOver={() => {
+          sidebarRef.current?.classList.remove("close");
+          setState((state) => ({
+            ...state,
+            sidebarOpen: true,
+          }));
+        }}
+        onMouseLeave={() => {
+          sidebarRef.current?.classList.add("close");
+          setState((state) => ({
+            ...state,
+            sidebarOpen: false,
+          }));
+        }}
       >
         <header>
           <div className="image-text">
             <span className="image">
-              <img src="/spring-3.svg" alt="" />
+              <img
+                src={state.sidebarOpen ? "/logo.png" : "/logo-fit.png"}
+                style={
+                  state.sidebarOpen
+                    ? {
+                        width: "200%",
+                        height: "90px",
+                      }
+                    : {
+                        width: "50px",
+                      }
+                }
+                alt=""
+              />
             </span>
 
             <div className="text logo-text">

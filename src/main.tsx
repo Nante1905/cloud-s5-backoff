@@ -162,7 +162,7 @@ const routes = createBrowserRouter([
         element: <AnnonceRoot />,
       },
       {
-        path: "test",
+        path: "/commissions",
         element: <CommissionEditRoot />,
       },
     ],

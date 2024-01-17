@@ -117,6 +117,8 @@ body.dark {
 .sidebar header .image-text {
   display: flex;
   align-items: center;
+  flex-direction: column;
+  row-gap: 0.5rem;
 }
 
 .sidebar header .logo-text {
@@ -332,7 +334,7 @@ body.dark .switch::before {
 //   height: 100vh;
 //   width: calc(100% - 78px);
 // }
-.sidebar.close~.home {
+.sidebar.close ~ .home {
   left: 100px;
   height: 100vh;
   width: calc(100% - 100px);
@@ -344,11 +346,11 @@ body.dark .home .text {
 
 .nav-link {
   a {
-      i {
-          &.active {
-            background-color: var(--primary-color);
-            color: #fff;
-          }
+    i {
+      &.active {
+        background-color: var(--primary-color);
+        color: #fff;
       }
+    }
   }
 }
