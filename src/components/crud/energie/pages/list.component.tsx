@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Energie } from "../../../shared/types/Energie";
 import EnergieListComponent from "../components/energie-list.components";
 import { findAllEnergie } from "../../../service/energie.service";
@@ -7,7 +7,7 @@ import {
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getPagination } from "../../../../store/pagination/selector";
+import { getPagination } from "../../../../store/selector";
 import { ApiResponse } from "../../../shared/types/Response";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";

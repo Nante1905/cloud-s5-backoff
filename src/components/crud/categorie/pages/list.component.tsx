@@ -8,7 +8,7 @@ import {
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getPagination } from "../../../../store/pagination/selector";
+import { getPagination } from "../../../../store/selector";
 import { ApiResponse } from "../../../shared/types/Response";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
@@ -20,7 +20,7 @@ const CategorieListComponentRoot = () => {
   document.title = "Categories";
 
   const [state, setState] = useState(initialState);
-  const page: PaginationState = useSelector(getPagination);
+  const page: PaginationState = or(getPagination);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -7,7 +7,7 @@ import {
   setNumeroPage,
 } from "../../../../../store/pagination/PaginationSlice";
 import { useState } from "react";
-import { getPagination } from "../../../../../store/pagination/selector";
+import { getPagination } from "../../../../../store/selector";
 import { GridSearchIcon } from "@mui/x-data-grid";
 
 interface CustomPaginationState {

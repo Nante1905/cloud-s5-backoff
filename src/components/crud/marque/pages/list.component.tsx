@@ -9,7 +9,7 @@ import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
-import { getPagination } from "../../../../store/pagination/selector";
+import { getPagination } from "../../../../store/selector";
 import { useDispatch, useSelector } from "react-redux";
 import MarqueListComponent from "../components/marque-list.components";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
