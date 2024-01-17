@@ -1,17 +1,17 @@
-import React, { FormEvent, useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
-import Title from "../../../shared/title/title.component";
-import { Etat } from "../../../shared/types/Etat";
-import "../../../../assets/fontawesome-5/css/all.min.css";
-import "./etat-form.component.css";
-import "./etat-form.component.scss";
+import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "../../../../assets/fontawesome-5/css/all.min.css";
 import { updateEtat } from "../../../service/etat.service";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import Title from "../../../shared/title/title.component";
+import { Etat } from "../../../shared/types/Etat";
+import { ApiResponse } from "../../../shared/types/Response";
+import "./etat-form.component.css";
+import "./etat-form.component.scss";
 
 interface EtatFormProps {
   entity?: Etat;

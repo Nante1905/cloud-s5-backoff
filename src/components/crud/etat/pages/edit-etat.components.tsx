@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import EtatFormComponent from "../components/etat-form.components";
+import { findEtatById } from "../../../service/etat.service";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import { Etat } from "../../../shared/types/Etat";
 import { ApiResponse } from "../../../shared/types/Response";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
-import { findEtatById } from "../../../service/etat.service";
+import EtatFormComponent from "../components/etat-form.components";
 
 interface EditEtatState {
   etat: Etat | null;

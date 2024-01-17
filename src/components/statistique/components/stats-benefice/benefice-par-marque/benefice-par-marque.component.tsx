@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   DataGrid,
   GridColDef,
   GridValueGetterParams,
   frFR,
 } from "@mui/x-data-grid";
-import "./benefice-par-marque.component.scss";
 import StatsCard from "../../stats-card/stats-card.component";
+import "./benefice-par-marque.component.scss";
 
 const BeneficeParMarque = () => {
   const data = [
