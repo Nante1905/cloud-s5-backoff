@@ -1,5 +1,5 @@
 export interface Commission {
-  id: number;
+  id?: number;
   pourcentage: number;
-  dateAjout: string;
+  dateAjout?: string;
 }
