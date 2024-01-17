@@ -1,11 +1,20 @@
-import { Alert, Button, Snackbar, TextField } from "@mui/material";
+import {
+  Alert,
+  Button,
+  IconButton,
+  InputAdornment,
+  Snackbar,
+  TextField,
+} from "@mui/material";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../../assets/fontawesome-5/css/all.min.css";
 import { connexion } from "../../service/login.service";
 import AppLoaderComponent from "../../shared/loader/app-loader.component";
 import Title from "../../shared/title/title.component";
-import { Utilisateur } from "../../shared/types/Utilisateur";
+import { Auth } from "../../shared/types/Utilisateur";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "./login-form.component.scss";
 
 const LoginFormComponent = () => {
@@ -69,8 +78,9 @@ const LoginFormComponent = () => {
                 value={state.form.email}
               />
               <TextField
-                label="mot de passe"
-                type="password"
+                label="Mot de passe"
+                type={state.viewPassword ? "text" : "password"}
+                className={!state.viewPassword ? "bold" : ""}
                 onChange={(event) =>
                   setState((state) => ({
                     ...state,
@@ -81,7 +91,39 @@ const LoginFormComponent = () => {
                   }))
                 }
                 value={state.form.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      position="end"
+                      // onClick={() => {
+                      //   setState((state) => ({
+                      //     ...state,
+                      //     viewPassword: !state.viewPassword,
+                      //   }));
+                      // }}
+                    >
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={() => {
+                          setState((state) => ({
+                            ...state,
+                            viewPassword: !state.viewPassword,
+                          }));
+                        }}
+                        edge="end"
+                      >
+                        {state.viewPassword ? (
+                          <VisibilityOff />
+                        ) : (
+                          <Visibility />
+                        )}
+                      </IconButton>
+                      {/* {state.viewPassword ? <VisibilityOff /> : <Visibility />} */}
+                    </InputAdornment>
+                  ),
+                }}
               />
+
               <Button variant="contained" type="submit">
                 <AppLoaderComponent
                   loading={state.submitLoading}
@@ -108,24 +150,22 @@ const LoginFormComponent = () => {
 };
 
 interface UtilisateurFormState {
-  form: Utilisateur;
+  form: Auth;
   success: string | null;
   error: string | null;
   submitLoading: boolean;
+  viewPassword: boolean;
 }
 
 const initialState: UtilisateurFormState = {
   form: {
-    nom: "",
-    prenom: "",
     email: "yoanrazafinjaka@gmail.com",
-    adresse: "",
-    dateInscription: "",
     password: "ralph",
   },
   success: null,
   error: null,
   submitLoading: false,
+  viewPassword: false,
 };
 
 export default LoginFormComponent;

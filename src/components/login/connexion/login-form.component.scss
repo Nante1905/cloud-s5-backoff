@@ -23,6 +23,12 @@
     justify-content: space-between;
     align-items: center;
   }
+  .bold {
+    .MuiInputBase-input {
+      font-weight: bold !important;
+      font: initial !important;
+    }
+  }
 }
 .inscription-link {
   a {

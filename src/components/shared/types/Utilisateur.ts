@@ -5,5 +5,10 @@ export interface Utilisateur {
     email: string,
     dateInscription: string,
     adresse: string,
-    password: string 
+    password: string
+}
+
+export interface Auth {
+    email: string,
+    password: string
 }
