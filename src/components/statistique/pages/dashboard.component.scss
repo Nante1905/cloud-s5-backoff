@@ -16,9 +16,26 @@
         .Mui-selected {
             color: rebeccapurple;
         }
+        .css-1aquho2-MuiTabs-indicator {
+            display: none;
+        }
     }
 
     .btn {
         background: #45BDC5;
     }
+    .MuiTab-root {
+        // position: absolute;
+        &.Mui-selected::after {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 5px;
+            background-color: rebeccapurple;
+            position: absolute;
+            left: 0;
+            bottom: 5px;
+        }
+    }
+
 }

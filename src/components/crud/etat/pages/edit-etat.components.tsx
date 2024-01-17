@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EtatFormComponent from "../components/etat-form.components";
 import { Etat } from "../../../shared/types/Etat";
-import { findCouleurById } from "../../../service/couleur.service";
 import { ApiResponse } from "../../../shared/types/Response";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { findEtatById } from "../../../service/etat.service";
 
 interface EditEtatState {
   etat: Etat | null;
@@ -21,7 +21,7 @@ const EditEtatComponent = () => {
   const [state, setState] = useState<EditEtatState>(initialState);
 
   useEffect(() => {
-    findCouleurById(Number(id))
+    findEtatById(Number(id))
       .then((res) => {
         const response: ApiResponse = res.data;
         if (response.ok) {

@@ -14,6 +14,7 @@ import { Marque } from "../../../shared/types/Marque";
 import { ApiResponse } from "../../../shared/types/Response";
 import "./marque-form.component.css";
 import "./marque-form.component.scss";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 
 interface MarqueFormProps {
   entity?: Marque;
@@ -26,9 +27,6 @@ interface MarqueFormProps {
 
 const MarqueFormComponent = (props: MarqueFormProps) => {
   const [state, setState] = useState(initialState);
-  // const setImgUrl = (imgUrl: string[]) => {
-  //   setState((state) => ({ ...state, imgUrl }));
-  // };
   const marque = props.entity;
 
   useEffect(() => {
@@ -184,7 +182,9 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
               }
             />
             <Button variant="contained" type="submit">
-              {marque ? "Modifier" : "Créer"}
+              <AppLoaderComponent loading={state.submitLoading}>
+                <>{marque ? "Modifier" : "Créer"}</>
+              </AppLoaderComponent>
             </Button>
           </div>
         </form>

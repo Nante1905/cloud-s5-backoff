@@ -31,7 +31,7 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
 
             <div className="text logo-text">
               <span className="name">
-                <Link to="/login">Se connecter</Link>
+                <Link to="/inscription">Se connecter</Link>
               </span>
             </div>
           </div>
@@ -85,7 +85,7 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
                 }}
               >
                 <i className="bx bx-log-out icon"></i>
-                <span className="text nav-text">Logout</span>
+                <span className="text nav-text">Se déconnecter</span>
               </a>
             </li>
 

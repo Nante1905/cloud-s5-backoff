@@ -16,3 +16,6 @@ export const updateCouleur = async (form: Couleur) =>
 
 export const insertCouleur = async (form: Couleur) =>
   axios.post(`${Url_api}/couleurs`, form);
+
+export const deleteCouleur = (id: number) =>
+  axios.delete(`${Url_api}/couleurs/${id}`);

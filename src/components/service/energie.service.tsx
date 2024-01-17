@@ -17,3 +17,6 @@ export const updateEnergie = (form: Energie) =>
 
 export const insertEnergie = (form: Energie) =>
   axios.post(`${Url_api}/energies`, form);
+
+export const deleteEnergie = (id: number) =>
+  axios.delete(`${Url_api}/energies/${id}`);

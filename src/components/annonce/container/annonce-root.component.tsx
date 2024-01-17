@@ -8,6 +8,7 @@ import { findAnnonceNonValide } from "../service/annonce.service";
 import "./annonce-root.component.scss";
 
 const AnnonceRoot = () => {
+  document.title = "Validation annonces";
   const [state, setState] = useState(initialState);
 
   useEffect(() => {
