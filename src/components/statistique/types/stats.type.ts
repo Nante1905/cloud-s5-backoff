@@ -6,6 +6,16 @@ export interface MarqueBenefice {
   montant: number;
   marque: Marque;
 }
+export interface StatGenerale{
+  avgCreationVente:number;
+  nbAnnonce:number;
+  nbVendu:number;
+  beneficeParMois: BeneficeMois[]
+}
+export interface BeneficeMois {
+  benefice:number, 
+  mois: number
+}
 export interface StatBenefice {
   benefice: number;
   beneficeMarque: MarqueBenefice[];
