@@ -54,6 +54,7 @@ const routes = createBrowserRouter([
   {
     path: "",
     element: (
+      // TODO : add login protection
       <App>
         <Outlet />
       </App>

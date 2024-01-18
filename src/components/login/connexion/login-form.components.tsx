@@ -1,6 +1,6 @@
 import { Alert, Button, Snackbar, TextField } from "@mui/material";
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../../assets/fontawesome-5/css/all.min.css";
 import { connexion } from "../../service/login.service";
 import AppLoaderComponent from "../../shared/loader/app-loader.component";
@@ -12,6 +12,9 @@ const LoginFormComponent = () => {
   const [state, setState] = useState<UtilisateurFormState>(initialState);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const showMessage =
+    (location?.state as { showMessage: boolean })?.showMessage || false;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,7 +52,17 @@ const LoginFormComponent = () => {
           <img src="/logo-transparent.png" alt="" width={"600px"} />
         </div>
         <div className="container-form">
-          <div className="title-form">
+          <div
+            className="title-form"
+            style={{
+              textAlign: "center",
+            }}
+          >
+            {showMessage ? (
+              <h4>Veuillez vous connecter pour continuer</h4>
+            ) : (
+              <></>
+            )}
             <Title>{"Login Admin"}</Title>
           </div>
           <form onSubmit={handleSubmit}>
