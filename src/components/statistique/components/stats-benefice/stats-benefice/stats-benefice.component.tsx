@@ -42,8 +42,6 @@ const StatsBenefice = (props: StatProps) => {
           setState((state) => ({
             ...state,
             statBenefice: response.data,
-            openSuccess: true,
-            successMessage: response.message,
           }));
         } else {
           setState((state) => ({

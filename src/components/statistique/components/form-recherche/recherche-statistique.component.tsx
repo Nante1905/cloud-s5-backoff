@@ -29,8 +29,10 @@ const RechercheStatistique = (props: RechercheProps) => {
             label={"Mois et année"}
             views={["month", "year"]}
             onChange={(value) => {
-              const newDate = dayjs(value == null ? value : null);
+              const newDate = dayjs(value != null ? value : null);
               setState((state) => ({ ...state, dayjs: newDate }));
+              console.log(newDate);
+              
               props.onChange(newDate);
             }}
           />

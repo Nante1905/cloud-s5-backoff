@@ -1,4 +1,4 @@
-const Url_api = "https://nba-1840-1892-1906.el.r.appspot.com";
+const Url_api = "https://cloud-s5-back-stage.up.railway.app";
 // const Url_api = "http://localhost:8080";
 
 const firebase_img =
@@ -16,4 +16,5 @@ const errorMessage = [
     message: "Requête mal formée.",
   },
 ];
+
 export { Url_api, errorMessage, firebase_img, imagkit };
