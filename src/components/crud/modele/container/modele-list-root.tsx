@@ -6,7 +6,7 @@ import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
-import { getPagination } from "../../../../store/pagination/selector";
+import { getPagination } from "../../../../store/selector";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import Title from "../../../shared/title/title.component";

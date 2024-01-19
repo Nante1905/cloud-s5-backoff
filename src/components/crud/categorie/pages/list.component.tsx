@@ -1,20 +1,20 @@
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { findAllCategorie } from "../../../service/categorie.service";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
-import { Categorie } from "../../../shared/types/Categorie";
-import CategorieListComponent from "../components/categorie-list.components";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getPagination } from "../../../../store/pagination/selector";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
+import { getPagination } from "../../../../store/selector";
+import { findAllCategorie } from "../../../service/categorie.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
-import { Button } from "@mui/material";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
 import Title from "../../../shared/title/title.component";
-import { Link } from "react-router-dom";
+import { Categorie } from "../../../shared/types/Categorie";
+import { ApiResponse } from "../../../shared/types/Response";
+import CategorieListComponent from "../components/categorie-list.components";
 
 const CategorieListComponentRoot = () => {
   document.title = "Categories";

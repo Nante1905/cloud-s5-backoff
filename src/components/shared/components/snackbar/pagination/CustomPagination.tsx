@@ -7,7 +7,7 @@ import {
   setNbrParPage,
   setNumeroPage,
 } from "../../../../../store/pagination/PaginationSlice";
-import { getPagination } from "../../../../../store/pagination/selector";
+import { getPagination } from "../../../../../store/selector";
 import "./CustomPagination.scss";
 
 interface CustomPaginationState {

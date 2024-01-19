@@ -21,6 +21,7 @@ export const PaginationSlice = createSlice({
       state.numero = action.payload;
     },
     setNbrParPage: (state, action) => {
+      state.numero = 1;
       state.nbrParPage = action.payload;
     },
     setTotal: (state, action) => {
@@ -31,9 +32,7 @@ export const PaginationSlice = createSlice({
         (state.total = action.payload.total);
     },
     initialize: (state) => {
-      (state.numero = initialState.nbrParPage),
-        (state.nbrParPage = initialState.nbrParPage),
-        (state.total = initialState.total);
+      state = initialState
     },
   },
 });

@@ -6,7 +6,7 @@ import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
-import { getPagination } from "../../../../store/pagination/selector";
+import { getPagination } from "../../../../store/selector";
 import { findAllEnergie } from "../../../service/energie.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
