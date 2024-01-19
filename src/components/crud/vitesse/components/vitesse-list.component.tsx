@@ -136,7 +136,6 @@ const VitesseListComponent = ({ vitesses }: VitesseListComponentProps) => {
                 </TableRow>
               ))}
             </TableBody>
-            <CustomPagination />
           </Table>
         </TableContainer>
         <br />
