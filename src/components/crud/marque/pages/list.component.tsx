@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Marque } from "../../../shared/types/Marque";
 
-import { findAllMarque } from "../../../service/marque.service";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
-import { getPagination } from "../../../../store/pagination/selector";
-import { useDispatch, useSelector } from "react-redux";
-import MarqueListComponent from "../components/marque-list.components";
+import { getPagination } from "../../../../store/selector";
+import { findAllMarque } from "../../../service/marque.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import Title from "../../../shared/title/title.component";
+import { ApiResponse } from "../../../shared/types/Response";
+import MarqueListComponent from "../components/marque-list.components";
 interface MarqueListRootState {
   marques: Marque[];
   loading: boolean;
@@ -39,6 +42,8 @@ const MarqueListRoot = () => {
       ...state,
       loading: true,
     }));
+
+    // dispatch(initializeRefresh());
 
     findAllMarque(page)
       .then((res) => {
@@ -86,10 +91,21 @@ const MarqueListRoot = () => {
           errorMessage: errorMessage,
         }));
       });
-  }, [page]);
+  }, [page.numero]);
 
   return (
-    <div>
+    <div className="list-crud">
+      <div className="title-form">
+        <Title> Liste des marques </Title>
+      </div>
+
+      <div className="add-button">
+        <Link to="/marques/add">
+          <Button variant="contained">
+            <i className="fas fa-plus"></i>
+          </Button>
+        </Link>
+      </div>
       <AppLoaderComponent loading={state.loading}>
         <MarqueListComponent marques={state.marques} />
       </AppLoaderComponent>

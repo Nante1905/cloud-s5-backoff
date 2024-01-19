@@ -9,9 +9,12 @@ import {
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getPagination } from "../../../../store/pagination/selector";
+import { getPagination } from "../../../../store/selector";
 import { ApiResponse } from "../../../shared/types/Response";
 import { getErrorMessage } from "../../../shared/service/api-service";
+import { Button } from "@mui/material";
+import Title from "../../../shared/title/title.component";
+import { Link } from "react-router-dom";
 
 const CategorieListComponentRoot = () => {
   document.title = "Couleurs";
@@ -47,8 +50,7 @@ const CategorieListComponentRoot = () => {
           setState((state) => ({
             ...state,
             loading: false,
-            openError: true,
-            errorMessage: response.err,
+            error: response.err,
           }));
         }
       })
@@ -68,14 +70,23 @@ const CategorieListComponentRoot = () => {
         setState((state) => ({
           ...state,
           loading: false,
-          openError: true,
-          errorMessage: errorMessage,
+          error: errorMessage,
         }));
       });
   }, [page]);
 
   return (
-    <div>
+    <div className="list-couleur">
+      <div className="title-form">
+        <Title> Liste des couleurs </Title>
+      </div>
+      <div className="add-button">
+        <Link to="/couleurs/add">
+          <Button variant="contained">
+            <i className="fas fa-plus"></i>
+          </Button>
+        </Link>
+      </div>
       <AppLoaderComponent loading={state.loading}>
         <CouleurListComponent couleurs={state.couleurs} />
       </AppLoaderComponent>

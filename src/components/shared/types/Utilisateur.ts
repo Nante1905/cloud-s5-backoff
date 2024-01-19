@@ -4,5 +4,11 @@ export interface Utilisateur {
     prenom: string,
     email: string,
     dateInscription: string,
-    adresse: string
+    adresse: string,
+    password: string
+}
+
+export interface Auth {
+    email: string,
+    password: string
 }

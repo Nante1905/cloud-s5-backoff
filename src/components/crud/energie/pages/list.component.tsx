@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Energie } from "../../../shared/types/Energie";
-import EnergieListComponent from "../components/energie-list.components";
-import { findAllEnergie } from "../../../service/energie.service";
+import { Button } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getPagination } from "../../../../store/pagination/selector";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
+import { getPagination } from "../../../../store/selector";
+import { findAllEnergie } from "../../../service/energie.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import Title from "../../../shared/title/title.component";
+import { Energie } from "../../../shared/types/Energie";
+import { ApiResponse } from "../../../shared/types/Response";
+import EnergieListComponent from "../components/energie-list.components";
 
 interface EnergieListRootState {
   energies: Energie[];
@@ -90,7 +93,17 @@ const EnergieListComponentRoot = () => {
   }, [page]);
 
   return (
-    <div>
+    <div className="list-crud">
+      <div className="title-form">
+        <Title> Liste des energies </Title>
+      </div>
+      <div className="add-button">
+        <Link to="/energies/add">
+          <Button variant="contained">
+            <i className="fas fa-plus"></i>
+          </Button>
+        </Link>
+      </div>
       <AppLoaderComponent loading={state.loading}>
         <EnergieListComponent energies={state.energies} />
       </AppLoaderComponent>

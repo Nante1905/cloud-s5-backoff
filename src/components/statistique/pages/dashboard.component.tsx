@@ -1,12 +1,12 @@
-import { useState } from "react";
-import RechercheStatistique from "../components/form-recherche/recherche-statistique.component";
-import "./dashboard.component.scss";
 import { Tab, Tabs } from "@mui/material";
-import StatsGenerales from "../components/stats-generale/stats-generale-root.component";
-import StatsBenefice from "../components/stats-benefice/stats-benefice/stats-benefice.component";
+import { useState } from "react";
+import Title from "../../shared/title/title.component";
+import RechercheStatistique from "../components/form-recherche/recherche-statistique.component";
 import StatsApp from "../components/stats-app/stats-app.component";
+
 import Title from "../../shared/title/title.component";
 import dayjs, { Dayjs } from "dayjs";
+
 
 interface DashboardState {
   tab: string;
@@ -22,6 +22,7 @@ const Dashboard = () => {
   document.title = "Dashboard";
   const [state, setState] = useState<DashboardState>(initialState);
 
+
   const handleMonthYearChange = (monthyear: Dayjs) => {
     setState((state) => ({
       ...state,
@@ -30,6 +31,7 @@ const Dashboard = () => {
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+
     setState((state) => ({
       ...state,
       tab: newValue,

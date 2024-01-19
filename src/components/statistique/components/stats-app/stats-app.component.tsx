@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   Inscription,
@@ -11,6 +12,7 @@ import {
 import { DataGrid, frFR } from "@mui/x-data-grid";
 import { statsTopUtilisateurColumns } from "./services/tabs-columns";
 import "./stats-app.component.scss";
+
 import StatsCard from "../stats-card/stats-card.component";
 import { Button, Card, CardContent, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,6 +21,7 @@ import { Chart } from "react-chartjs-2";
 import { getStatInscription, getTopSellers } from "../../service/stats.service";
 import { ApiResponse } from "../../../shared/types/Response";
 import { getErrorMessage } from "../../../shared/service/api-service";
+
 
 interface StatsAppState {
   statInscription: StatInscription;
@@ -216,6 +219,7 @@ const StatsApp = (props: StatProps) => {
               }}
               pageSizeOptions={[5, 10]}
               localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+              sx={{ width: "max-size" }}
             />
           </div>
         </div>

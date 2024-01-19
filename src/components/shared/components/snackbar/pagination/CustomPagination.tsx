@@ -1,16 +1,18 @@
-import { Pagination, TextField } from "@mui/material";
-import "./CustomPagination.scss";
+import { Button, Pagination, TextField } from "@mui/material";
+import { GridSearchIcon } from "@mui/x-data-grid";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   PaginationState,
   setNbrParPage,
   setNumeroPage,
 } from "../../../../../store/pagination/PaginationSlice";
-import { useState } from "react";
-import { getPagination } from "../../../../../store/pagination/selector";
+import { getPagination } from "../../../../../store/selector";
+import "./CustomPagination.scss";
 
 interface CustomPaginationState {
   error: string | null;
+  nbrPage: number;
 }
 
 const CustomPagination = () => {
@@ -18,6 +20,7 @@ const CustomPagination = () => {
   const dispatch = useDispatch();
   const [state, setState] = useState<CustomPaginationState>({
     error: null,
+    nbrPage: 5,
   });
 
   return (
@@ -46,17 +49,23 @@ const CustomPagination = () => {
                 error: "Le nombre d'élément par page doit être supérieur à 0.",
               }));
             } else {
-              dispatch(setNbrParPage(value));
+              setState((state) => ({
+                ...state,
+                nbrPage: value,
+              }));
             }
           }}
         />
+        <Button onClick={() => dispatch(setNbrParPage(state.nbrPage))}>
+          <GridSearchIcon />
+        </Button>
         <Pagination
           count={page.total}
           variant="outlined"
           color="primary"
           defaultPage={page.numero}
           boundaryCount={2}
-          onChange={(event, page) => {
+          onChange={(_event, page) => {
             dispatch(setNumeroPage(page));
           }}
         />

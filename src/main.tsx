@@ -20,10 +20,18 @@ import EditEtatComponent from "./components/crud/etat/pages/edit-etat.components
 import EtatListComponentRoot from "./components/crud/etat/pages/list.component";
 
 import MarqueFormComponent from "./components/crud/marque/components/marque-form.components";
-import FirebaseImageUpload from "./components/crud/marque/components/test";
 import EditMarqueComponent from "./components/crud/marque/pages/edit-marque.components";
 import MarqueListRoot from "./components/crud/marque/pages/list.component";
 
+import CommissionEditRoot from "./components/crud/commission/container/commission-edit-root/comission-edit-root.tsx";
+import AjoutCouleurComponent from "./components/crud/couleur/pages/ajout-couleur.component.tsx";
+import ModeleCreateRoot from "./components/crud/modele/container/modele-form-create-root.tsx";
+import ModeleEditRoot from "./components/crud/modele/container/modele-form-edit-root.tsx";
+import ModeleListRoot from "./components/crud/modele/container/modele-list-root.tsx";
+import AjoutVitesseComponent from "./components/crud/vitesse/pages/ajout-vitesse.component.tsx";
+import EditVitesseComponent from "./components/crud/vitesse/pages/edit-vitesse.comopnent.tsx";
+import VitesseListRoot from "./components/crud/vitesse/pages/list-component.tsx";
+import LoginRoot from "./components/login/connexion/login-root.tsx";
 import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
 import "./index.css";
@@ -40,13 +48,22 @@ const theme = createTheme(
 
 const routes = createBrowserRouter([
   {
+    path: "login",
+    element: <LoginRoot />,
+  },
+  {
     path: "",
     element: (
+      // TODO : add login protection
       <App>
         <Outlet />
       </App>
     ),
     children: [
+      {
+        path: "/",
+        element: <Dashboard />,
+      },
       {
         path: "marques/edit/:id",
         element: <EditMarqueComponent />,
@@ -60,16 +77,16 @@ const routes = createBrowserRouter([
         element: <MarqueFormComponent />,
       },
       {
-        path: "test/test",
-        element: <FirebaseImageUpload />,
-      },
-      {
         path: "couleurs",
         element: <CouleurListComponentRoot />,
       },
       {
         path: "couleurs/edit/:id",
         element: <EditCouleurComponent />,
+      },
+      {
+        path: "couleurs/add",
+        element: <AjoutCouleurComponent />,
       },
       {
         path: "categories/add",
@@ -108,11 +125,35 @@ const routes = createBrowserRouter([
         path: "etats/edit/:id",
         element: <EditEtatComponent />,
       },
+      {
+        path: "modeles",
+        element: <ModeleListRoot />,
+      },
+      {
+        path: "modeles/edit/:id",
+        element: <ModeleEditRoot />,
+      },
+      {
+        path: "modeles/add",
+        element: <ModeleCreateRoot />,
+      },
 
       // {
       //   path: "test",
       //   element: <StatsChart />,
       // },
+      {
+        path: "vitesses",
+        element: <VitesseListRoot />,
+      },
+      {
+        path: "vitesses/add",
+        element: <AjoutVitesseComponent />,
+      },
+      {
+        path: "vitesses/edit/:id",
+        element: <EditVitesseComponent />,
+      },
       {
         path: "dashboard",
         element: <Dashboard />,
@@ -124,6 +165,10 @@ const routes = createBrowserRouter([
       {
         path: "/validation",
         element: <AnnonceRoot />,
+      },
+      {
+        path: "/commissions",
+        element: <CommissionEditRoot />,
       },
     ],
   },

@@ -1,17 +1,17 @@
-import React, { FormEvent, useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
-import Title from "../../../shared/title/title.component";
-import { Etat } from "../../../shared/types/Etat";
-import "../../../../assets/fontawesome-5/css/all.min.css";
-import "./etat-form.component.css";
-import "./etat-form.component.scss";
+import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { insertEtat, updateEtat } from "../../../service/etat.service";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import "../../../../assets/fontawesome-5/css/all.min.css";
+import { updateEtat } from "../../../service/etat.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import Title from "../../../shared/title/title.component";
+import { Etat } from "../../../shared/types/Etat";
+import { ApiResponse } from "../../../shared/types/Response";
+import "./etat-form.component.css";
+import "./etat-form.component.scss";
 
 interface EtatFormProps {
   entity?: Etat;
@@ -30,7 +30,7 @@ const EtatFormComponent = (props: EtatFormProps) => {
         },
       }));
     }
-  }, []);
+  }, [etat?.id]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,45 +41,6 @@ const EtatFormComponent = (props: EtatFormProps) => {
     }));
     if (state.form.id) {
       updateEtat(state.form)
-        .then((res) => {
-          const response: ApiResponse = res.data;
-          if (response.ok) {
-            setState((state) => ({
-              ...state,
-              success: response.message,
-              submitLoading: false,
-              openSuccess: true,
-            }));
-          } else {
-            setState((state) => ({
-              ...state,
-              error: response.err,
-              submitLoading: false,
-              openError: true,
-            }));
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          let errorMessage = "";
-          if (
-            !err.response.data.err ||
-            err.response.data.err == "" ||
-            err.response.data.err == null
-          ) {
-            errorMessage = getErrorMessage(err.code);
-          } else {
-            errorMessage = err.response.data.err;
-          }
-          setState((state) => ({
-            ...state,
-            error: errorMessage,
-            submitLoading: false,
-            openError: true,
-          }));
-        });
-    } else {
-      insertEtat(state.form)
         .then((res) => {
           const response: ApiResponse = res.data;
           if (response.ok) {

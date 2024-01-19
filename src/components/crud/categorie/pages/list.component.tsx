@@ -1,17 +1,20 @@
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
-import { findAllCategorie } from "../../../service/categorie.service";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
-import { Categorie } from "../../../shared/types/Categorie";
-import CategorieListComponent from "../components/categorie-list.components";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getPagination } from "../../../../store/pagination/selector";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
+import { getPagination } from "../../../../store/selector";
+import { findAllCategorie } from "../../../service/categorie.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import Title from "../../../shared/title/title.component";
+import { Categorie } from "../../../shared/types/Categorie";
+import { ApiResponse } from "../../../shared/types/Response";
+import CategorieListComponent from "../components/categorie-list.components";
 
 const CategorieListComponentRoot = () => {
   document.title = "Categories";
@@ -76,7 +79,17 @@ const CategorieListComponentRoot = () => {
   }, [page]);
 
   return (
-    <div>
+    <div className="list-crud">
+      <div className="title-form">
+        <Title> Liste des categories </Title>
+      </div>
+      <div className="add-button">
+        <Link to="/categories/add">
+          <Button variant="contained">
+            <i className="fas fa-plus"></i>
+          </Button>
+        </Link>
+      </div>
       <AppLoaderComponent loading={state.loading}>
         <CategorieListComponent categories={state.categories} />
       </AppLoaderComponent>

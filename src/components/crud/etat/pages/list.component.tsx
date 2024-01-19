@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 
-import { Etat } from "../../../shared/types/Etat";
-import EtatListComponent from "../components/etat-list.components";
-import { findAllEtat } from "../../../service/etat.service";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { useDispatch, useSelector } from "react-redux";
 import {
   PaginationState,
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
-import { getPagination } from "../../../../store/pagination/selector";
-import { useDispatch, useSelector } from "react-redux";
+import { getPagination } from "../../../../store/selector";
+import { findAllEtat } from "../../../service/etat.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import Title from "../../../shared/title/title.component";
+import { Etat } from "../../../shared/types/Etat";
+import { ApiResponse } from "../../../shared/types/Response";
+import EtatListComponent from "../components/etat-list.components";
 
 interface EtatListRootState {
   etats: Etat[];
@@ -89,7 +90,10 @@ const EtatListComponentRoot = () => {
   }, [page]);
 
   return (
-    <div>
+    <div className="list-crud">
+      <div className="title-form">
+        <Title>Liste des états</Title>
+      </div>
       <AppLoaderComponent loading={state.loading}>
         <EtatListComponent etats={state.etats} />
       </AppLoaderComponent>

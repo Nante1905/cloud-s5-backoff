@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   DataGrid,
   GridColDef,
@@ -6,8 +5,8 @@ import {
   GridValueGetterParams,
   frFR,
 } from "@mui/x-data-grid";
-import "./benefice-par-marque.component.scss";
 import StatsCard from "../../stats-card/stats-card.component";
+
 import { MarqueBenefice, StatBenefice } from "../../../types/stats.type";
 interface BeneficeProps {
   statBenefice: StatBenefice;
@@ -25,7 +24,7 @@ const BeneficeParMarque = (props: BeneficeProps) => {
         </div>
       ),
       width: 400,
-      sortComparator: (v1, v2, params1, params2) => {
+      sortComparator: (_v1, _v2, params1, params2) => {
         return params1.value.nom.localeCompare(params2.value.nom);
       },
     },
@@ -52,6 +51,7 @@ const BeneficeParMarque = (props: BeneficeProps) => {
       <div className="div_table_marque">
         <DataGrid
           rows={props.statBenefice.beneficeMarque}
+
           rowHeight={100}
           columns={columns}
           initialState={{

@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import "./stats-card.component.scss";
 import { Card, CardContent } from "@mui/material";
+import "./stats-card.component.scss";
 
 export interface StatsCardProps {
   label: string;

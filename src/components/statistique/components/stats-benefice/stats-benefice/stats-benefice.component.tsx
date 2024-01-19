@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+
+import  { useEffect, useState } from "react";
+
 import BeneficeParMarque from "../benefice-par-marque/benefice-par-marque.component";
 import {
   StatBenefice,
