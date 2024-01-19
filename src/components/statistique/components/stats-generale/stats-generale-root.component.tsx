@@ -181,7 +181,7 @@ const StatsGenerales = (props: StatProps) => {
         <StatsCard
           label="Ecartype entre date d'annonce et vente"
           data={
-            <h1 className="light">{state.statGenerale.avgCreationVente}</h1>
+            <h1 className="light">{state.statGenerale.avgCreationVente} jours</h1>
           }
         />
         <StatsCard
