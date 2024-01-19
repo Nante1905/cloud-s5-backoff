@@ -122,6 +122,7 @@ const CouleurListComponent = (props: CouleurListComponentProps) => {
                 >
                   <TableCell>{couleur.nom}</TableCell>
                   <TableCell>
+
                     <div className="cell_couleur">
                       <div
                         style={{

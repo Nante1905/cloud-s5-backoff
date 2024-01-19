@@ -1,82 +1,152 @@
-import SearchIcon from "@mui/icons-material/Search";
-import { Button, Card, CardContent, TextField } from "@mui/material";
-import { DataGrid, frFR } from "@mui/x-data-grid";
-import dayjs from "dayjs";
-import { useState } from "react";
-import { Chart } from "react-chartjs-2";
-import { StatFiltre, StatsTopUtilisateur } from "../../types/stats.type";
-import StatsCard from "../stats-card/stats-card.component";
+
+import { useEffect, useState } from "react";
 import {
-  statsFiltreColumns,
-  statsTopUtilisateurColumns,
-} from "./services/tabs-columns";
+  Inscription,
+  StatInscription,
+  StatProps,
+  StatRequest,
+  StatRequestAnnee,
+  StatTopUser,
+  TopUserRequest,
+} from "../../types/stats.type";
+import { DataGrid, frFR } from "@mui/x-data-grid";
+import { statsTopUtilisateurColumns } from "./services/tabs-columns";
 import "./stats-app.component.scss";
 
+import StatsCard from "../stats-card/stats-card.component";
+import { Button, Card, CardContent, TextField } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import dayjs from "dayjs";
+import { Chart } from "react-chartjs-2";
+import { getStatInscription, getTopSellers } from "../../service/stats.service";
+import { ApiResponse } from "../../../shared/types/Response";
+import { getErrorMessage } from "../../../shared/service/api-service";
+
+
 interface StatsAppState {
+  statInscription: StatInscription;
+  topSellers: StatTopUser;
   nbrUtilisateur: number;
+  loading: boolean;
+  isLoaded: boolean;
+  errorMessage: string;
+  openError: boolean;
+  inscriptionArray: number[];
 }
 
 const initialState: StatsAppState = {
-  nbrUtilisateur: 3,
+  statInscription: {
+    users: 0,
+    inscriptions: [],
+  },
+  topSellers: {
+    topUsers: [],
+  },
+  nbrUtilisateur: 5,
+  loading: true,
+  isLoaded: false,
+  errorMessage: "",
+  openError: false,
+  inscriptionArray: [102, 90,101, 54, 15, 100, 90, 40, 20, 15, 128, 118],
 };
 
-const StatsApp = () => {
-  //   alaina am props
+const StatsApp = (props: StatProps) => {
   const [state, setState] = useState<StatsAppState>(initialState);
+  useEffect(() => {
+    console.log("entrer");
+    const reqTopSeller: TopUserRequest = {
+      toShow: state.nbrUtilisateur,
+      annee: props.monthYear.year(),
+      mois: props.monthYear.month() + 1,
+    };
+    const req: StatRequestAnnee = {
+      annee: props.monthYear.year(),
+    };
+    getTopSellers(reqTopSeller)
+      .then((res) => {
+        const response: ApiResponse = res.data;
+        if (response.ok) {
+          console.log(response.data);
+          
+          setState((state) => ({
+            ...state,
+            topSellers: response.data,
+          }));
+        } else {
+          setState((state) => ({
+            ...state,
+            errorMessage: response.err,
+            openError: true,
+            idLoaded: false,
+            loading: true,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        let errorMessage = "";
+        if (
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
+        }
+        setState((state) => ({
+          ...state,
+          loading: true,
+          isLoaded: false,
+          errorMessage: errorMessage,
+          openError: true,
+        }));
+      });
+    getStatInscription(req)
+      .then((res) => {
+        const response: ApiResponse = res.data;
+        if (response.ok) {
+          console.log(response.data);
 
-  const dataFiltre: StatFiltre[] = [
-    {
-      filtre: "Catégorie",
-      valeur: "Citadines",
-    },
-    {
-      filtre: "Mot clé",
-      valeur: "Citadines",
-    },
-    {
-      filtre: "Couleur",
-      valeur: "#45678",
-    },
-    {
-      filtre: "Marque",
-      valeur: "Audi",
-    },
-  ];
-
-  const dataTopUtilisateurs: StatsTopUtilisateur[] = [
-    {
-      utilisateur: {
-        nom: "Rakoto",
-        prenom: "Jean",
-      },
-      annonce: 15,
-      vente: 8,
-      commission: 250000,
-      pourcentage: (8 / 15) * 100,
-    },
-    {
-      utilisateur: {
-        nom: "Rabe",
-        prenom: "Marc",
-      },
-      annonce: 10,
-      vente: 4,
-      commission: 200000,
-      pourcentage: (4 / 10) * 100,
-    },
-    {
-      utilisateur: {
-        nom: "Rasoa",
-        prenom: "Kely",
-      },
-      annonce: 9,
-      vente: 3,
-      commission: 180000,
-      pourcentage: (3 / 9) * 100,
-    },
-  ];
-
-  //   chart nbr utilisateurs
+          setState((state) => ({
+            ...state,
+            statInscription: response.data,
+            inscriptionArray: response.data.inscriptions.map(
+              (inscription: Inscription) => inscription.nbInscrit
+            ),
+          }));
+        } else {
+          setState((state) => ({
+            ...state,
+            errorMessage: response.err,
+            openError: true,
+            idLoaded: false,
+            loading: true,
+          }));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        let errorMessage = "";
+        if (
+          !err.response?.data.err ||
+          err.response?.data.err == "" ||
+          err.response?.data.err == null
+        ) {
+          errorMessage = getErrorMessage(err.code);
+        } else {
+          errorMessage = err.response.data.err;
+        }
+        setState((state) => ({
+          ...state,
+          loading: true,
+          isLoaded: false,
+          errorMessage: errorMessage,
+          openError: true,
+        }));
+      });
+    console.log(state.nbrUtilisateur);
+  }, [props.monthYear, state.nbrUtilisateur]);
   const mois: string[] = [];
   for (let i = 0; i < 12; i++) {
     mois.push(dayjs().month(i).locale("fr").format("MMM"));
@@ -92,7 +162,7 @@ const StatsApp = () => {
         borderWidth: 1,
         hoverBackgroundColor: "rgba(75,192,192,0.4)",
         hoverBorderColor: "rgba(75,192,192,1)",
-        data: [65, 59, 80, 81, 56, 65, 59, 80, 81, 56, 12, 45],
+        data: state.inscriptionArray,
       },
     ],
   };
@@ -111,7 +181,7 @@ const StatsApp = () => {
         <div className="nbr_utilisateurs">
           <StatsCard
             label="Utilisateurs inscrits"
-            data={<h1 className="light">1 250</h1>}
+            data={<h1 className="light">{state.statInscription.users}</h1>}
           />
           <Card className="chart_inscrits">
             <CardContent>
@@ -121,7 +191,7 @@ const StatsApp = () => {
         </div>
 
         <div className="top_utilisateurs">
-          <h2>Top {state.nbrUtilisateur} du meilleur vendeur</h2>
+          <h2>Top {state.nbrUtilisateur} des meilleurs vendeurs</h2>
           <form>
             <TextField
               label="Nombre d'utilisateur"
@@ -138,10 +208,8 @@ const StatsApp = () => {
           </form>
           <div className="tab">
             <DataGrid
-              rows={dataTopUtilisateurs}
-              getRowId={(row) =>
-                `${row.utilisateur.nom} ${row.utilisateur.prenom}`
-              }
+              rows={state.topSellers}
+              getRowId={(row) => `${row.nom} ${row.prenom}`}
               rowHeight={60}
               columns={statsTopUtilisateurColumns}
               initialState={{
@@ -154,20 +222,6 @@ const StatsApp = () => {
               sx={{ width: "max-size" }}
             />
           </div>
-        </div>
-      </div>
-      <div className="stats_filtre">
-        <h2>Les filtres les plus utilisés</h2>
-        <div className="tab">
-          <DataGrid
-            rows={dataFiltre}
-            getRowId={(row) => row.filtre}
-            rowHeight={60}
-            columns={statsFiltreColumns}
-            hideFooter={true}
-            localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-            sx={{ width: "max-size" }}
-          />
         </div>
       </div>
     </div>

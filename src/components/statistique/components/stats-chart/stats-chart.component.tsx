@@ -3,10 +3,13 @@ import "./stats-chart.component.scss";
 import "chart.js/auto";
 import dayjs from "dayjs";
 import "dayjs/locale";
+import { BeneficeMois } from "../../types/stats.type";
 
 dayjs.locale("fr");
-
-const StatsChart = () => {
+interface StatsChatProps{
+  benefices: BeneficeMois[];
+}
+const StatsChart = (props: StatsChatProps) => {
   const mois: string[] = [];
   for (let i = 0; i < 12; i++) {
     mois.push(dayjs().month(i).locale("fr").format("MMMM"));
@@ -22,10 +25,7 @@ const StatsChart = () => {
         borderWidth: 1,
         hoverBackgroundColor: "rgba(75,192,192,0.4)",
         hoverBorderColor: "rgba(75,192,192,1)",
-        data: [
-          650000, 590000, 800000, 810000, 560000, 650000, 590000, 800000,
-          810000, 560000, 120000, 450000,
-        ],
+        data: props.benefices.map((b: BeneficeMois) => b.benefice)
       },
     ],
   };

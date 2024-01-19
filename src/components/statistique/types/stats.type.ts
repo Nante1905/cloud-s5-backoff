@@ -1,15 +1,57 @@
-export interface StatFiltre {
-    filtre: string,
-    valeur: string
-}
+import { Dayjs } from "dayjs";
+import { Marque } from "../../shared/types/Marque";
 
-export interface StatsTopUtilisateur {
-    utilisateur: {
-        nom: string,
-        prenom: string
-    },
-    annonce: number,
-    vente: number,
-    commission: number,
-    pourcentage: number
+export interface MarqueBenefice {
+  logo: string;
+  montant: number;
+  marque: Marque;
+}
+export interface StatGenerale{
+  avgCreationVente:number;
+  nbAnnonce:number;
+  nbVendu:number;
+  beneficeParMois: BeneficeMois[]
+}
+export interface BeneficeMois {
+  benefice:number, 
+  mois: number
+}
+export interface StatBenefice {
+  benefice: number;
+  beneficeMarque: MarqueBenefice[];
+}
+export interface TopUserRequest{
+  toShow: number;
+  annee:number;
+  mois:number;
+}
+export interface TopUser {
+  nom: string;
+  prenom: string;
+  annonce: number;
+  valide: number;
+  vendu: number;
+  commission: number;
+  pourcentage: number;
+}
+export interface StatTopUser{
+  topUsers: TopUser[]
+}
+export interface StatRequestAnnee{
+  annee:number
+}
+export interface StatRequest {
+  mois: number;
+  annee: number;
+}
+export interface Inscription {
+  mois: number;
+  nbInscrit: number;
+}
+export interface StatInscription {
+  users: number;
+  inscriptions: Inscription[];
+}
+export interface StatProps {
+  monthYear: Dayjs;
 }

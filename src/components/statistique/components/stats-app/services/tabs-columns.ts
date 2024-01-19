@@ -25,21 +25,24 @@ export const statsFiltreColumns: GridColDef[] = [
 
 export const statsTopUtilisateurColumns: GridColDef[] = [
   {
-    field: "utilisateur",
-    headerName: "Utilisateur",
+    field: "nom",
+    headerName: "Nom",
     minWidth: 300,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.utilisateur.nom} ${params.row.utilisateur.prenom}`,
   },
   {
-    field: "annonce",
-    headerName: "Annonces",
+    field: "prenom",
+    headerName: "Prenom",
+    minWidth: 300,
+  },
+  {
+    field: "valide",
+    headerName: "Validés",
     type: "number",
     minWidth: 100,
   },
   {
-    field: "vente",
-    headerName: "Ventes",
+    field: "vendu",
+    headerName: "Vendus",
     minWidth: 100,
     type: "number",
   },
@@ -48,7 +51,7 @@ export const statsTopUtilisateurColumns: GridColDef[] = [
     headerName: "Pourcentage",
     minWidth: 150,
     align: "right",
-    cellClassName: (_params: GridCellParams<any, any, any, GridTreeNode>) =>
+    cellClassName: (params: GridCellParams<any, any, any, GridTreeNode>) =>
       "big strong",
     valueGetter: (params: GridValueGetterParams) =>
       `${params.row.pourcentage.toLocaleString("fr")}%`,
