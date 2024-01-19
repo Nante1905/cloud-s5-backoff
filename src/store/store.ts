@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { PaginationSlice } from "./pagination/PaginationSlice";
+import { AnnoncePageSlice } from "./annonce-page/AnnoncePageSlice";
 
 
 export const store = configureStore({
   reducer: {
-    paginationState: PaginationSlice.reducer
-
+    paginationState: PaginationSlice.reducer,
+    annoncePage: AnnoncePageSlice.reducer
   },
 });
 
