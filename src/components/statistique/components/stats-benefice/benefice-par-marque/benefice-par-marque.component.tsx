@@ -8,6 +8,7 @@ import {
 import StatsCard from "../../stats-card/stats-card.component";
 
 import { MarqueBenefice, StatBenefice } from "../../../types/stats.type";
+import "./benefice-par-marque.component.scss";
 interface BeneficeProps {
   statBenefice: StatBenefice;
 }
@@ -51,7 +52,6 @@ const BeneficeParMarque = (props: BeneficeProps) => {
       <div className="div_table_marque">
         <DataGrid
           rows={props.statBenefice.beneficeMarque}
-
           rowHeight={100}
           columns={columns}
           initialState={{

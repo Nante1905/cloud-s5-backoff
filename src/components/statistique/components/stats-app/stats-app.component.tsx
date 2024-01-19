@@ -1,27 +1,25 @@
-
+import { DataGrid, frFR } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import {
   Inscription,
   StatInscription,
   StatProps,
-  StatRequest,
   StatRequestAnnee,
   StatTopUser,
   TopUserRequest,
 } from "../../types/stats.type";
-import { DataGrid, frFR } from "@mui/x-data-grid";
 import { statsTopUtilisateurColumns } from "./services/tabs-columns";
 import "./stats-app.component.scss";
 
-import StatsCard from "../stats-card/stats-card.component";
-import { Button, Card, CardContent, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { Button, Card, CardContent, TextField } from "@mui/material";
 import dayjs from "dayjs";
 import { Chart } from "react-chartjs-2";
-import { getStatInscription, getTopSellers } from "../../service/stats.service";
-import { ApiResponse } from "../../../shared/types/Response";
 import { getErrorMessage } from "../../../shared/service/api-service";
-
+import { ApiResponse } from "../../../shared/types/Response";
+import { getStatInscription, getTopSellers } from "../../service/stats.service";
+import StatsCard from "../stats-card/stats-card.component";
+import "./stats-app.component.scss";
 
 interface StatsAppState {
   statInscription: StatInscription;
@@ -47,7 +45,7 @@ const initialState: StatsAppState = {
   isLoaded: false,
   errorMessage: "",
   openError: false,
-  inscriptionArray: [102, 90,101, 54, 15, 100, 90, 40, 20, 15, 128, 118],
+  inscriptionArray: [102, 90, 101, 54, 15, 100, 90, 40, 20, 15, 128, 118],
 };
 
 const StatsApp = (props: StatProps) => {
@@ -67,7 +65,7 @@ const StatsApp = (props: StatProps) => {
         const response: ApiResponse = res.data;
         if (response.ok) {
           console.log(response.data);
-          
+
           setState((state) => ({
             ...state,
             topSellers: response.data,

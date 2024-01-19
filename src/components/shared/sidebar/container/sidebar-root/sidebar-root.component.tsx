@@ -2,6 +2,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AlignVerticalCenterIcon from "@mui/icons-material/AlignVerticalCenter";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import BuildIcon from "@mui/icons-material/Build";
 import ClassIcon from "@mui/icons-material/Class";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
@@ -13,7 +14,6 @@ import StarsIcon from "@mui/icons-material/Stars";
 import SidebarComponent from "../../components/sidebar-component/sidebar.component";
 import { DropdownItem } from "../../types/dropdownItem.type";
 import { NavItem } from "../../types/navItem.type";
-import BarChartIcon from '@mui/icons-material/BarChart';
 interface SidebarRootProps {
   children: JSX.Element;
 }
@@ -21,12 +21,12 @@ interface SidebarRootProps {
 const SidebarRoot = ({ children }: SidebarRootProps) => {
   const navs: (NavItem | DropdownItem)[] = [
     {
-
-      text:"Statistiques",
+      text: "Statistiques",
       icon: <BarChartIcon />,
-      authorization:[],
-      link: "/dashboard/"
-
+      authorization: [],
+      link: "/dashboard/",
+    },
+    {
       text: "Dashboard",
       icon: <InsightsIcon />,
       link: "/dashboard",
