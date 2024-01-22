@@ -28,6 +28,9 @@ import AjoutCouleurComponent from "./components/crud/couleur/pages/ajout-couleur
 import ModeleCreateRoot from "./components/crud/modele/container/modele-form-create-root.tsx";
 import ModeleEditRoot from "./components/crud/modele/container/modele-form-edit-root.tsx";
 import ModeleListRoot from "./components/crud/modele/container/modele-list-root.tsx";
+import EditSuggestionMessageRoot from "./components/crud/suggestion-message/container/form-root/suggestion-message-form-edit.tsx";
+import InsertSuggestionMessageRoot from "./components/crud/suggestion-message/container/form-root/suggestion-message-form-insert.tsx";
+import SuggestionListRoot from "./components/crud/suggestion-message/container/list-root/suggestion-message-list-root.tsx";
 import AjoutVitesseComponent from "./components/crud/vitesse/pages/ajout-vitesse.component.tsx";
 import EditVitesseComponent from "./components/crud/vitesse/pages/edit-vitesse.comopnent.tsx";
 import VitesseListRoot from "./components/crud/vitesse/pages/list-component.tsx";
@@ -169,6 +172,18 @@ const routes = createBrowserRouter([
       {
         path: "/commissions",
         element: <CommissionEditRoot />,
+      },
+      {
+        path: "/suggestions/add",
+        element: <InsertSuggestionMessageRoot />,
+      },
+      {
+        path: "/suggestions/edit/:id",
+        element: <EditSuggestionMessageRoot />,
+      },
+      {
+        path: "/suggestions",
+        element: <SuggestionListRoot />,
       },
     ],
   },

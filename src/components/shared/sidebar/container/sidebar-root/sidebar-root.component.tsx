@@ -91,6 +91,12 @@ const SidebarRoot = ({ children }: SidebarRootProps) => {
           link: "/couleurs/",
           authorization: [],
         },
+        {
+          text: "Suggestion message",
+          icon: <ColorLensIcon />,
+          link: "/suggestions/",
+          authorization: [],
+        },
       ],
     },
   ];
