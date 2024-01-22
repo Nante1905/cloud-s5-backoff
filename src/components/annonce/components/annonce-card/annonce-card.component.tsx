@@ -1,7 +1,8 @@
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import { Button } from "@mui/material";
+import dayjs from "dayjs";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
@@ -11,7 +12,6 @@ import {
   validerAnnonce,
 } from "../../../validation-annonce/service/validation-annonce.service";
 import "./annonce-card.component.scss";
-import dayjs from "dayjs";
 
 interface AnnonceCardComponentProps {
   annonce?: Annonce;
@@ -20,6 +20,7 @@ interface AnnonceCardComponentProps {
 const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
   const [state, setState] = useState(initialState);
   const photos: Photo[] = props.annonce?.photos as Photo[];
+  const navigate = useNavigate();
 
   const onValider = (id: number) => {
     setState((pervState) => ({
@@ -68,7 +69,12 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
   return (
     <div className="annonce-card">
       <div className="annonce-card-root">
-        <div className="container">
+        <div
+          className="container"
+          onClick={() => {
+            navigate(`/validation/${props.annonce?.id}`);
+          }}
+        >
           <div className="image">
             {photos.length > 1 ? (
               <img src={props.annonce?.photos[0]?.url} alt="Image" />

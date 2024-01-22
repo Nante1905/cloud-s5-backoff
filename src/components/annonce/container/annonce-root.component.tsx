@@ -95,16 +95,26 @@ const AnnonceRoot = () => {
         initialScrollY={0}
       >
         <div className="annonce-container">
-          {state.annonceLoading === false
-            ? state.annonces?.map((annonce, index) => (
-                <AnnonceCardComponent
-                  key={`${annonce.reference}-${index}`}
-                  annonce={annonce}
-                />
-              ))
-            : state.endScrolling == true
-            ? "Aucune annonce à valider"
-            : ""}
+          {
+            // state.annonceLoading === false
+            //   ? state.annonces?.map((annonce, index) => (
+            //       <AnnonceCardComponent
+            //         key={`${annonce.reference}-${index}`}
+            //         annonce={annonce}
+            //       />
+            //     ))
+            //   : !state.annonceLoading && state.annonces.length == 0
+            //   ? "Aucune annonce à valider"
+            //   : ""
+            state.annonceLoading == false && state.annonces.length == 0
+              ? "Aucune annonce à valider"
+              : state.annonces?.map((annonce, index) => (
+                  <AnnonceCardComponent
+                    key={`${annonce.reference}-${index}`}
+                    annonce={annonce}
+                  />
+                ))
+          }
         </div>
       </InfiniteScroll>
       <ErrorSnackBar

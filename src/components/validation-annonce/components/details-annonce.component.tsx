@@ -1,8 +1,8 @@
 import { Button, Card, CardContent } from "@mui/material";
-import "./details-annonce.component.scss";
 import dayjs from "dayjs";
-import { Annonce } from "../../shared/types/Annonce";
 import AppLoaderComponent from "../../shared/loader/app-loader.component";
+import { Annonce } from "../../shared/types/Annonce";
+import "./details-annonce.component.scss";
 
 interface DetailsAnnonceProps {
   annonce: Annonce;
@@ -136,6 +136,9 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
           </Button>
         </div>
         <div className="div_images_container">
+          {annonce.photos.length == 0 && (
+            <p className="text-center">Aucune photo</p>
+          )}
           {annonce.photos.map((p, index) => (
             <div key={`${p.url}_${index}`} className="div_images_item">
               <p>
