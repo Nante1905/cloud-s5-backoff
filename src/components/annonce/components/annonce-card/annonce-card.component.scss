@@ -66,3 +66,11 @@
     }
   }
 }
+
+@media (max-width: 900px) {
+  .card-action {
+    width: 80%;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+  }
+}

@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
-import { Annonce, Photo } from "../../../shared/types/Annonce";
+import { AnnonceGeneral, Photo } from "../../../shared/types/Annonce";
 import {
   refuserAnnonce,
   validerAnnonce,
@@ -14,7 +14,7 @@ import {
 import "./annonce-card.component.scss";
 
 interface AnnonceCardComponentProps {
-  annonce?: Annonce;
+  annonce?: AnnonceGeneral;
 }
 
 const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
@@ -79,18 +79,13 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
             {photos.length > 1 ? (
               <img src={props.annonce?.photos[0]?.url} alt="Image" />
             ) : (
-              <img
-                src={props.annonce?.voiture.modele.marque.logo}
-                alt="Image"
-              />
+              <img src={props.annonce?.marque.logo} alt="Image" />
             )}
           </div>
           <div className="annonce-card-text">
             <Link to={`/validation/${props.annonce?.id}`}>
               <div className="vehicule-name">
-                {props.annonce?.voiture.modele.nom +
-                  " - " +
-                  props.annonce?.voiture.modele.marque.nom}
+                {props.annonce?.modele.nom + " - " + props.annonce?.marque.nom}
               </div>
             </Link>
             <div className="vehicule-info">
@@ -108,9 +103,7 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
           </div>
           <span className="annonce-date">
             {" "}
-            {dayjs(props.annonce?.dateCreation).format(
-              "DD MMMM YYYY à HH:MM"
-            )}{" "}
+            {dayjs(props.annonce?.creation).format("DD MMMM YYYY à HH:MM")}{" "}
           </span>
         </div>
         <div className="card-action">
