@@ -45,7 +45,11 @@ const BeneficeParMarque = (props: BeneficeProps) => {
     <>
       <StatsCard
         label="Bénéfice"
-        data={<h1 className="light">{props.statBenefice.benefice}</h1>}
+        data={
+          <h1 className="light">
+            {props.statBenefice.benefice.toLocaleString("fr")} MGA
+          </h1>
+        }
         className="card_benef"
       />
       <h2>Classement de bénéfice par marques</h2>

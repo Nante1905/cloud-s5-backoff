@@ -100,6 +100,7 @@ const StatsApp = (props: StatProps) => {
           openError: true,
         }));
       });
+
     getStatInscription(req)
       .then((res) => {
         const response: ApiResponse = res.data;

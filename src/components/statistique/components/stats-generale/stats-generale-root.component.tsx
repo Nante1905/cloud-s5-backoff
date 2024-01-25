@@ -1,17 +1,16 @@
-import "./stats-list-root.component.scss";
-import StatsCard from "../stats-card/stats-card.component";
-import StatsChart from "../stats-chart/stats-chart.component";
-import { Dayjs } from "dayjs";
+import { useEffect, useState } from "react";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import { ApiResponse } from "../../../shared/types/Response";
+import { getStatBenefice, getStatGenerale } from "../../service/stats.service";
 import {
   StatBenefice,
   StatGenerale,
   StatProps,
   StatRequest,
 } from "../../types/stats.type";
-import { useEffect, useState } from "react";
-import { getStatBenefice, getStatGenerale } from "../../service/stats.service";
-import { ApiResponse } from "../../../shared/types/Response";
-import { getErrorMessage } from "../../../shared/service/api-service";
+import StatsCard from "../stats-card/stats-card.component";
+import StatsChart from "../stats-chart/stats-chart.component";
+import "./stats-list-root.component.scss";
 interface StatGeneraleState {
   statGenerale: StatGenerale;
   loading: boolean;
@@ -176,12 +175,18 @@ const StatsGenerales = (props: StatProps) => {
       <div className="stats_list">
         <StatsCard
           label="Bénéfice"
-          data={<h1 className="light">{state.statBenefice.benefice} MGA</h1>}
+          data={
+            <h1 className="light">
+              {state.statBenefice.benefice.toLocaleString()} MGA
+            </h1>
+          }
         />
         <StatsCard
           label="Ecartype entre date d'annonce et vente"
           data={
-            <h1 className="light">{state.statGenerale.avgCreationVente} jours</h1>
+            <h1 className="light">
+              {state.statGenerale.avgCreationVente.toLocaleString()} jours
+            </h1>
           }
         />
         <StatsCard
@@ -189,10 +194,10 @@ const StatsGenerales = (props: StatProps) => {
           data={
             <>
               <h2 className="light text-left">
-                Annonces: {state.statGenerale.nbAnnonce}
+                Annonces: {state.statGenerale.nbAnnonce.toLocaleString()}
               </h2>
               <h2 className="light text-left">
-                Ventes: {state.statGenerale.nbVendu}
+                Ventes: {state.statGenerale.nbVendu.toLocaleString()}
               </h2>
             </>
           }
