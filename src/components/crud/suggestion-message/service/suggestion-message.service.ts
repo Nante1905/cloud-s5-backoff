@@ -1,6 +1,7 @@
 import { SuggestionMessage } from "../../../shared/types/SuggestionMessage";
 import { http } from "../../../shared/service/interceptor/axios.interceptor";
 
+
 export const insertSuggestionMessage = (suggestionMessage: SuggestionMessage) =>
   http.post(`/suggestion_messages`, suggestionMessage);
 

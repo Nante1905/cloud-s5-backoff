@@ -1,21 +1,21 @@
 // apiService.js
-import axios from "axios";
-import { Url_api } from "../shared/constants/global";
-import { Couleur } from "../shared/types/Couleur";
 import { PaginationState } from "../../store/pagination/PaginationSlice";
+import { Url_api } from "../shared/constants/global";
+import { http } from "../shared/service/interceptor/axios.interceptor";
+import { Couleur } from "../shared/types/Couleur";
 
 export const findAllCouleur = (page: PaginationState) =>
-  axios.get(
+  http.get(
     `${Url_api}/couleurs?page=${page.numero}&pageSize=${page.nbrParPage}`
   );
 export const findCouleurById = (id: number) =>
-  axios.get(`${Url_api}/couleurs/${id}`);
+  http.get(`${Url_api}/couleurs/${id}`);
 
 export const updateCouleur = async (form: Couleur) =>
-  axios.put(`${Url_api}/couleurs/${form.id}`, form);
+  http.put(`${Url_api}/couleurs/${form.id}`, form);
 
 export const insertCouleur = async (form: Couleur) =>
-  axios.post(`${Url_api}/couleurs`, form);
+  http.post(`${Url_api}/couleurs`, form);
 
 export const deleteCouleur = (id: number) =>
-  axios.delete(`${Url_api}/couleurs/${id}`);
+  http.delete(`${Url_api}/couleurs/${id}`);
