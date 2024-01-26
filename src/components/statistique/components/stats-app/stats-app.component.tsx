@@ -223,7 +223,7 @@ const StatsApp = (props: StatProps) => {
             </form>
             <div className="tab">
               <DataGrid
-                rows={state.topSellers}
+                rows={state.topSellers.topUsers}
                 getRowId={(row) => `${row.nom} ${row.prenom}`}
                 rowHeight={60}
                 columns={statsTopUtilisateurColumns}

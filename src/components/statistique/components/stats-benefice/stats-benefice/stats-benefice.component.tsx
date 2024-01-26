@@ -1,17 +1,15 @@
+import { useEffect, useState } from "react";
 
-import  { useEffect, useState } from "react";
-
-import BeneficeParMarque from "../benefice-par-marque/benefice-par-marque.component";
+import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
+import { getErrorMessage } from "../../../../shared/service/api-service";
+import { ApiResponse } from "../../../../shared/types/Response";
+import { getStatBenefice } from "../../../service/stats.service";
 import {
   StatBenefice,
   StatProps,
   StatRequest,
 } from "../../../types/stats.type";
-import { getStatBenefice } from "../../../service/stats.service";
-import { ApiResponse } from "../../../../shared/types/Response";
-import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
-import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
-import { getErrorMessage } from "../../../../shared/service/api-service";
+import BeneficeParMarque from "../benefice-par-marque/benefice-par-marque.component";
 
 interface StatBeneficeState {
   statBenefice: StatBenefice;

@@ -1,6 +1,5 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 import { Url_api } from "../../constants/global";
-import { useNavigate } from "react-router-dom";
 
 export const http = axios.create({
   baseURL: Url_api,
