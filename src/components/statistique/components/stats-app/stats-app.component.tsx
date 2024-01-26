@@ -30,6 +30,7 @@ interface StatsAppState {
   errorMessage: string;
   openError: boolean;
   inscriptionArray: number[];
+  pendingNbrUtilisateur: number;
 }
 
 const initialState: StatsAppState = {
@@ -46,6 +47,7 @@ const initialState: StatsAppState = {
   errorMessage: "",
   openError: false,
   inscriptionArray: [102, 90, 101, 54, 15, 100, 90, 40, 20, 15, 128, 118],
+  pendingNbrUtilisateur: 5,
 };
 
 const StatsApp = (props: StatProps) => {
@@ -191,13 +193,21 @@ const StatsApp = (props: StatProps) => {
 
         <div className="top_utilisateurs">
           <h2>Top {state.nbrUtilisateur} des meilleurs vendeurs</h2>
-          <form>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              setState((state) => ({
+                ...state,
+                nbrUtilisateur: state.pendingNbrUtilisateur,
+              }));
+            }}
+          >
             <TextField
               label="Nombre d'utilisateur"
               onChange={(event) => {
                 setState((state) => ({
                   ...state,
-                  nbrUtilisateur: Number(event.target.value),
+                  pendingNbrUtilisateur: Number(event.target.value),
                 }));
               }}
             />
