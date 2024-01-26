@@ -34,6 +34,9 @@ import SuggestionListRoot from "./components/crud/suggestion-message/container/l
 import AjoutVitesseComponent from "./components/crud/vitesse/pages/ajout-vitesse.component.tsx";
 import EditVitesseComponent from "./components/crud/vitesse/pages/edit-vitesse.comopnent.tsx";
 import VitesseListRoot from "./components/crud/vitesse/pages/list-component.tsx";
+import "./components/guards/login-protection/login-protection.component.tsx";
+import LoginProtection from "./components/guards/login-protection/login-protection.component.tsx";
+import IndexComponent from "./components/index/index.component.tsx";
 import LoginRoot from "./components/login/connexion/login-root.tsx";
 import Dashboard from "./components/statistique/pages/dashboard.component.tsx";
 import DetailsAnnonceRoot from "./components/validation-annonce/pages/details-annonce.root.tsx";
@@ -57,15 +60,17 @@ const routes = createBrowserRouter([
   {
     path: "",
     element: (
-      // TODO : add login protection
-      <App>
-        <Outlet />
-      </App>
+      <LoginProtection>
+        <App>
+          <Outlet />
+        </App>
+      </LoginProtection>
     ),
     children: [
       {
         path: "/",
-        element: <Dashboard />,
+        index: true,
+        element: <IndexComponent />,
       },
       {
         path: "marques/edit/:id",
@@ -158,7 +163,7 @@ const routes = createBrowserRouter([
         element: <EditVitesseComponent />,
       },
       {
-        path: "dashboard",
+        path: "/dashboard",
         element: <Dashboard />,
       },
       {

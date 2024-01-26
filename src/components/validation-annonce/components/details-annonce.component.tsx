@@ -97,11 +97,13 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             </div>
             <div className="div_info_item">
               <strong>Consommation: </strong>
-              <span>{annonce.voiture.consommation} L/100 km</span>
+              <span>
+                {annonce.voiture.consommation?.toLocaleString()} L/100 km
+              </span>
             </div>
             <div className="div_info_item">
               <strong>Kilométrage: </strong>
-              <span>{annonce.voiture.kilometrage} km</span>
+              <span>{annonce.voiture.kilometrage?.toLocaleString()} km</span>
             </div>
             <div className="div_info_item">
               <strong>Nombre de place: </strong>

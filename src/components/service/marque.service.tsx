@@ -1,22 +1,16 @@
 // apiService.js
-import axios from "axios";
 import { PaginationState } from "../../store/pagination/PaginationSlice";
-import { Url_api } from "../shared/constants/global";
+import { http } from "../shared/service/interceptor/axios.interceptor";
 import { Marque } from "../shared/types/Marque";
 
 export const findAllMarque = (page: PaginationState) =>
-  axios.get(
-    `${Url_api}/marques?page=${page.numero}&pageSize=${page.nbrParPage}`
-  );
-export const findAllMarqueWithoutPage = () => axios.get(`${Url_api}/marques`);
-export const findMarqueById = (id: number) =>
-  axios.get(`${Url_api}/marques/${id}`);
+  http.get(`/marques?page=${page.numero}&pageSize=${page.nbrParPage}`);
+export const findAllMarqueWithoutPage = () => http.get(`/marques`);
+export const findMarqueById = (id: number) => http.get(`/marques/${id}`);
 
 export const updateMarque = async (form: Marque) =>
-  axios.put(`${Url_api}/marques/${form.id}`, form);
+  http.put(`/marques/${form.id}`, form);
 
-export const insertMarque = async (form: Marque) =>
-  axios.post(`${Url_api}/marques`, form);
+export const insertMarque = async (form: Marque) => http.post(`/marques`, form);
 
-export const deleteMarque = (id: number) =>
-  axios.delete(`${Url_api}/marques/${id}`);
+export const deleteMarque = (id: number) => http.delete(`/marques/${id}`);

@@ -1,4 +1,5 @@
-// const Url_api = "https://cloud-s5-back-stage.up.railway.app";
+// TODO: verify API url
+// const Url_api = "https://cloud-s5-back-production.up.railway.app";
 const Url_api = "http://localhost:8080";
 
 const firebase_img =

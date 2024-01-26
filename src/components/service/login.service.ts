@@ -1,10 +1,8 @@
 // apiService.js
-import axios from "axios";
+import { http } from "../shared/service/interceptor/axios.interceptor";
 import { Url_api } from "../shared/constants/global";
 import { Auth, Utilisateur } from "../shared/types/Utilisateur";
 
 export const connexion = async (form: Auth) =>
-  axios.post(`${Url_api}/auth/login`, form);
+  http.post(`/auth/login-bo`, form);
 
-export const inscription = async (form: Utilisateur) =>
-  axios.post(`${Url_api}/marques`, form);

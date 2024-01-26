@@ -2,7 +2,6 @@ import CategoryIcon from "@mui/icons-material/Category";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AlignVerticalCenterIcon from "@mui/icons-material/AlignVerticalCenter";
-import BarChartIcon from "@mui/icons-material/BarChart";
 import BuildIcon from "@mui/icons-material/Build";
 import ClassIcon from "@mui/icons-material/Class";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
@@ -22,15 +21,9 @@ const SidebarRoot = ({ children }: SidebarRootProps) => {
   const navs: (NavItem | DropdownItem)[] = [
     {
       text: "Statistiques",
-      icon: <BarChartIcon />,
-      authorization: [],
-      link: "/dashboard/",
-    },
-    {
-      text: "Dashboard",
       icon: <InsightsIcon />,
-      link: "/dashboard",
       authorization: [],
+      link: "/dashboard",
     },
     {
       text: "Validation des annonces",

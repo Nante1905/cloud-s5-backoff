@@ -1,3 +1,5 @@
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
   Alert,
   Button,
@@ -6,15 +8,13 @@ import {
   Snackbar,
   TextField,
 } from "@mui/material";
-import { FormEvent, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import "../../../assets/fontawesome-5/css/all.min.css";
 import { connexion } from "../../service/login.service";
 import AppLoaderComponent from "../../shared/loader/app-loader.component";
 import Title from "../../shared/title/title.component";
 import { Auth } from "../../shared/types/Utilisateur";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import "./login-form.component.scss";
 
 const LoginFormComponent = () => {
@@ -22,8 +22,18 @@ const LoginFormComponent = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const showMessage =
+  const [searchParam] = useSearchParams();
+  const redirect = searchParam.get("redirect");
+
+  let showMessage =
     (location?.state as { showMessage: boolean })?.showMessage || false;
+
+  useEffect(() => {
+    setState((state) => ({
+      ...state,
+      redirectMessage: showMessage,
+    }));
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,10 +53,12 @@ const LoginFormComponent = () => {
         navigate("/dashboard");
       })
       .catch((err) => {
+        console.error(err);
+
         setState((state) => ({
           ...state,
-          error: err?.response?.data.message
-            ? err?.response?.data.message
+          error: err?.response?.data.err
+            ? err?.response?.data.err
             : "Une erreur s'est produite.",
           submitLoading: false,
         }));
@@ -67,11 +79,6 @@ const LoginFormComponent = () => {
               textAlign: "center",
             }}
           >
-            {showMessage ? (
-              <h4>Veuillez vous connecter pour continuer</h4>
-            ) : (
-              <></>
-            )}
             <Title>{"Login Admin"}</Title>
           </div>
           <form onSubmit={handleSubmit}>
@@ -152,11 +159,26 @@ const LoginFormComponent = () => {
         </div>
       </div>
 
-      <Snackbar open={state.error !== null}>
+      <Snackbar
+        open={state.error !== null}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
         <Alert severity="error">{state.error as string}</Alert>
       </Snackbar>
       <Snackbar open={state.success !== null}>
         <Alert severity="success">{state.success as string}</Alert>
+      </Snackbar>
+      <Snackbar
+        open={state.redirectMessage || redirect != undefined}
+        onClose={() =>
+          setState((state) => ({
+            ...state,
+            redirectMessage: false,
+          }))
+        }
+        autoHideDuration={3000}
+      >
+        <Alert severity="error">Veuillez vous connecter pour continuer</Alert>
       </Snackbar>
     </div>
   );
@@ -168,6 +190,7 @@ interface UtilisateurFormState {
   error: string | null;
   submitLoading: boolean;
   viewPassword: boolean;
+  redirectMessage: boolean;
 }
 
 const initialState: UtilisateurFormState = {
@@ -179,6 +202,7 @@ const initialState: UtilisateurFormState = {
   error: null,
   submitLoading: false,
   viewPassword: false,
+  redirectMessage: false,
 };
 
 export default LoginFormComponent;

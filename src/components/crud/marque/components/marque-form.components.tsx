@@ -1,4 +1,5 @@
-import { Button, TextField } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Button, TextField, styled } from "@mui/material";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -14,7 +15,6 @@ import { Marque } from "../../../shared/types/Marque";
 import { ApiResponse } from "../../../shared/types/Response";
 import "./marque-form.component.css";
 import "./marque-form.component.scss";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 
 interface MarqueFormProps {
   entity?: Marque;
@@ -27,6 +27,9 @@ interface MarqueFormProps {
 
 const MarqueFormComponent = (props: MarqueFormProps) => {
   const [state, setState] = useState(initialState);
+  // const setImgUrl = (imgUrl: string[]) => {
+  //   setState((state) => ({ ...state, imgUrl }));
+  // };
   const marque = props.entity;
 
   useEffect(() => {
@@ -169,22 +172,28 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
               }
               value={state.form.nom}
             />
-            <TextField
-              type="file"
-              label="logo"
-              onChange={(event) =>
-                setState((state) => ({
-                  ...state,
-                  file_name: (event.target as HTMLInputElement).files?.[0]
-                    .name as string,
-                  file_img: (event.target as HTMLInputElement).files?.[0],
-                }))
-              }
-            />
+            <div>
+              <Button
+                component="label"
+                startIcon={<CloudUploadIcon />}
+                className="btn__upload"
+              >
+                {state.file_name === "" ? "Ajouter une image" : state.file_name}
+                <VisuallyHiddenInput
+                  type="file"
+                  onChange={(event) =>
+                    setState((state) => ({
+                      ...state,
+                      file_name: (event.target as HTMLInputElement).files?.[0]
+                        .name as string,
+                      file_img: (event.target as HTMLInputElement).files?.[0],
+                    }))
+                  }
+                />
+              </Button>
+            </div>
             <Button variant="contained" type="submit">
-              <AppLoaderComponent loading={state.submitLoading}>
-                <>{marque ? "Modifier" : "Créer"}</>
-              </AppLoaderComponent>
+              {marque ? "Modifier" : "Créer"}
             </Button>
           </div>
         </form>
@@ -239,5 +248,17 @@ const initialState: MarqueFormState = {
   openSuccess: false,
   imgUrl: [],
 };
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 export default MarqueFormComponent;

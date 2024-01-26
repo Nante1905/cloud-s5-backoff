@@ -7,6 +7,7 @@ import { findHistoriqueCommission } from "../../service/commission.service";
 import "./comission-edit-root.scss";
 
 const CommissionEditRoot = () => {
+  document.title = "Commission";
   const [state, setState] = useState(initialState);
 
   useEffect(() => {

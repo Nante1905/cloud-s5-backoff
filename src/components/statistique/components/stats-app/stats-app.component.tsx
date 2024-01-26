@@ -15,6 +15,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Button, Card, CardContent, TextField } from "@mui/material";
 import dayjs from "dayjs";
 import { Chart } from "react-chartjs-2";
+import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import { ApiResponse } from "../../../shared/types/Response";
 import { getStatInscription, getTopSellers } from "../../service/stats.service";
@@ -30,6 +31,7 @@ interface StatsAppState {
   errorMessage: string;
   openError: boolean;
   inscriptionArray: number[];
+  pendingNbrUtilisateur: number;
 }
 
 const initialState: StatsAppState = {
@@ -46,6 +48,7 @@ const initialState: StatsAppState = {
   errorMessage: "",
   openError: false,
   inscriptionArray: [102, 90, 101, 54, 15, 100, 90, 40, 20, 15, 128, 118],
+  pendingNbrUtilisateur: 5,
 };
 
 const StatsApp = (props: StatProps) => {
@@ -100,6 +103,7 @@ const StatsApp = (props: StatProps) => {
           openError: true,
         }));
       });
+
     getStatInscription(req)
       .then((res) => {
         const response: ApiResponse = res.data;
@@ -174,55 +178,76 @@ const StatsApp = (props: StatProps) => {
   };
 
   return (
-    <div>
-      <div className="stats_utilisateurs">
-        <div className="nbr_utilisateurs">
-          <StatsCard
-            label="Utilisateurs inscrits"
-            data={<h1 className="light">{state.statInscription.users}</h1>}
-          />
-          <Card className="chart_inscrits">
-            <CardContent>
-              <Chart type="bar" data={nbrInscriptions} options={chartOptions} />
-            </CardContent>
-          </Card>
-        </div>
+    <>
+      <div>
+        <div className="stats_utilisateurs">
+          <div className="nbr_utilisateurs">
+            <StatsCard
+              label="Utilisateurs inscrits"
+              data={<h1 className="light">{state.statInscription.users}</h1>}
+            />
+            <Card className="chart_inscrits">
+              <CardContent>
+                <Chart
+                  type="bar"
+                  data={nbrInscriptions}
+                  options={chartOptions}
+                />
+              </CardContent>
+            </Card>
+          </div>
 
-        <div className="top_utilisateurs">
-          <h2>Top {state.nbrUtilisateur} des meilleurs vendeurs</h2>
-          <form>
-            <TextField
-              label="Nombre d'utilisateur"
-              onChange={(event) => {
+          <div className="top_utilisateurs">
+            <h2>Top {state.nbrUtilisateur} des meilleurs vendeurs</h2>
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
                 setState((state) => ({
                   ...state,
-                  nbrUtilisateur: Number(event.target.value),
+                  nbrUtilisateur: state.pendingNbrUtilisateur,
                 }));
               }}
-            />
-            <Button type="submit" variant="contained" className="btn">
-              <SearchIcon />
-            </Button>
-          </form>
-          <div className="tab">
-            <DataGrid
-              rows={state.topSellers}
-              getRowId={(row) => `${row.nom} ${row.prenom}`}
-              rowHeight={60}
-              columns={statsTopUtilisateurColumns}
-              initialState={{
-                pagination: {
-                  paginationModel: { page: 0, pageSize: 5 },
-                },
-              }}
-              pageSizeOptions={[5, 10]}
-              localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-              sx={{ width: "max-size" }}
-            />
+            >
+              <TextField
+                label="Nombre d'utilisateur"
+                onChange={(event) => {
+                  setState((state) => ({
+                    ...state,
+                    pendingNbrUtilisateur: Number(event.target.value),
+                  }));
+                }}
+              />
+              <Button type="submit" variant="contained" className="btn">
+                <SearchIcon />
+              </Button>
+            </form>
+            <div className="tab">
+              <DataGrid
+                rows={state.topSellers}
+                getRowId={(row) => `${row.nom} ${row.prenom}`}
+                rowHeight={60}
+                columns={statsTopUtilisateurColumns}
+                initialState={{
+                  pagination: {
+                    paginationModel: { page: 0, pageSize: 5 },
+                  },
+                }}
+                pageSizeOptions={[5, 10]}
+                localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+                sx={{ width: "max-size" }}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <ErrorSnackBar
+        open={state.openError}
+        error={state.errorMessage}
+        onClose={() => {
+          setState((state) => ({ ...state, openError: false }));
+        }}
+      />
+    </>
   );
 };
 

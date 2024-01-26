@@ -1,9 +1,9 @@
-import axios from "axios";
-import { Url_api } from "../../../shared/constants/global";
+
 import { Commission } from "../../../shared/types/Commission";
+import { http } from '../../../shared/service/interceptor/axios.interceptor';
 
 export const findHistoriqueCommission = () =>
-  axios.get(`${Url_api}/commissions/historiques`);
+  http.get(`/commissions/historiques`);
 
 export const updateCommission = (commission: Commission) =>
-  axios.post(`${Url_api}/commissions`, commission);
+  http.post(`/commissions`, commission);

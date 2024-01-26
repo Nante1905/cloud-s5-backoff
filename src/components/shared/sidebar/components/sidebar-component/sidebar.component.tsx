@@ -85,14 +85,6 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
 
         <div className="menu-bar">
           <div className="menu">
-            {/* <li
-              className="search-box"
-              onClick={() => sidebarRef.current?.classList.remove("close")}
-            >
-              <i className="bx bx-search icon" style={{}}></i>
-              <input type="text" placeholder="Search..." />
-            </li> */}
-
             <ul className="menu-links">
               {navItems.map((navItem, index) => {
                 if (typeof navItem === "object" && "subNav" in navItem) {
@@ -124,11 +116,11 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
               }}
             >
               <a
-                href="#"
                 onClick={() => {
                   localStorage.removeItem("token");
-                  navigate("/");
+                  navigate("/login");
                 }}
+                className="pointer"
               >
                 <i className="bx bx-log-out icon">
                   <LogoutIcon />
@@ -136,14 +128,6 @@ const SidebarComponent = ({ children, navItems }: SidebarProps) => {
                 <span className="text nav-text">Se déconnecter</span>
               </a>
             </li>
-
-            {/* <li className="mode">
-              <div className="sun-moon">
-                <i className="bx bx-moon icon moon"></i>
-                <i className="bx bx-sun icon sun"></i>
-              </div>
-              <span className="mode-text text">Dark mode</span>
-            </li> */}
           </div>
         </div>
       </nav>
