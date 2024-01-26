@@ -7,16 +7,16 @@ import { http } from "../shared/service/interceptor/axios.interceptor";
 
 export const findAllVitesse = (page: PaginationState) =>
   http.get(
-    `${Url_api}/vitesses?page=${page.numero}&pageSize=${page.nbrParPage}`
+    `/vitesses?page=${page.numero}&pageSize=${page.nbrParPage}`
   );
 export const findVitesseById = (id: number) =>
-  http.get(`${Url_api}/vitesses/${id}`);
+  http.get(`/vitesses/${id}`);
 
 export const updateVitesse = async (form: Vitesse) =>
-  http.put(`${Url_api}/vitesses/${form.id}`, form);
+  http.put(`/vitesses/${form.id}`, form);
 
 export const insertVitesse = async (form: Vitesse) =>
-  http.post(`${Url_api}/vitesses`, form);
+  http.post(`/vitesses`, form);
 
 export const deleteVitesse = (id: number) =>
-  http.delete(`${Url_api}/vitesses/${id}`);
+  http.delete(`/vitesses/${id}`);
