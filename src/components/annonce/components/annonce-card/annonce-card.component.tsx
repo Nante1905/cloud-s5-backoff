@@ -76,7 +76,7 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
           }}
         >
           <div className="image">
-            {photos.length > 1 ? (
+            {photos.length >= 1 ? (
               <img src={props.annonce?.photos[0]?.url} alt="Image" />
             ) : (
               <img src={props.annonce?.marque.logo} alt="Image" />

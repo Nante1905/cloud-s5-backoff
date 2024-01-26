@@ -7,7 +7,8 @@
   overflow: hidden;
 
   .container-form {
-    width: 55%;
+    min-width: 30rem;
+    width: 30rem;
     padding: 2rem;
     max-height: 100vh;
     overflow-y: scroll;
@@ -20,8 +21,17 @@
 
   .content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    width: 100%;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1rem;
+    .logo-img {
+      width: 40%;
+      img {
+        width: 100%;
+      }
+    }
   }
   .bold {
     .MuiInputBase-input {

@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import { ApiResponse } from "../../../shared/types/Response";
 import { getStatBenefice, getStatGenerale } from "../../service/stats.service";
@@ -25,57 +27,57 @@ const initialState: StatGeneraleState = {
     beneficeMarque: [],
   },
   statGenerale: {
-    avgCreationVente: 13,
-    nbAnnonce: 240,
-    nbVendu: 200,
+    avgCreationVente: 0,
+    nbAnnonce: 0,
+    nbVendu: 0,
     beneficeParMois: [
       {
         mois: 1,
-        benefice: 1000,
+        benefice: 0,
       },
       {
         mois: 2,
-        benefice: 2000,
+        benefice: 0,
       },
       {
         mois: 3,
-        benefice: 3000,
+        benefice: 0,
       },
       {
         mois: 4,
-        benefice: 4000,
+        benefice: 0,
       },
       {
         mois: 5,
-        benefice: 5000,
+        benefice: 0,
       },
       {
         mois: 6,
-        benefice: 6000,
+        benefice: 0,
       },
       {
         mois: 7,
-        benefice: 7000,
+        benefice: 0,
       },
       {
         mois: 8,
-        benefice: 8000,
+        benefice: 0,
       },
       {
         mois: 9,
-        benefice: 9000,
+        benefice: 0,
       },
       {
         mois: 10,
-        benefice: 10000,
+        benefice: 0,
       },
       {
         mois: 11,
-        benefice: 11000,
+        benefice: 0,
       },
       {
         mois: 12,
-        benefice: 12000,
+        benefice: 0,
       },
     ],
   },
@@ -100,11 +102,12 @@ const StatsGenerales = (props: StatProps) => {
           setState((state) => ({
             ...state,
             statBenefice: response.data,
+            loading: false,
           }));
         } else {
           setState((state) => ({
             ...state,
-            loading: true,
+            loading: false,
             isLoaded: false,
             errorMessage: response.err,
             openError: true,
@@ -125,7 +128,7 @@ const StatsGenerales = (props: StatProps) => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
+          loading: false,
           isLoaded: false,
           errorMessage: errorMessage,
           openError: true,
@@ -176,17 +179,27 @@ const StatsGenerales = (props: StatProps) => {
         <StatsCard
           label="Bénéfice"
           data={
-            <h1 className="light">
-              {state.statBenefice.benefice.toLocaleString()} MGA
-            </h1>
+            <AppLoaderComponent
+              loading={state.loading}
+              children={
+                <h1 className="light">
+                  {state.statBenefice.benefice.toLocaleString()} MGA
+                </h1>
+              }
+            ></AppLoaderComponent>
           }
         />
         <StatsCard
           label="Ecartype entre date d'annonce et vente"
           data={
-            <h1 className="light">
-              {state.statGenerale.avgCreationVente.toLocaleString()} jours
-            </h1>
+            <AppLoaderComponent
+              loading={state.loading}
+              children={
+                <h1 className="light">
+                  {state.statGenerale.avgCreationVente.toLocaleString()} jours
+                </h1>
+              }
+            />
           }
         />
         <StatsCard
@@ -204,8 +217,20 @@ const StatsGenerales = (props: StatProps) => {
         />
       </div>
       <div className="chart">
-        <StatsChart benefices={state.statGenerale.beneficeParMois} />
+        <AppLoaderComponent
+          loading={state.loading}
+          children={
+            <StatsChart benefices={state.statGenerale.beneficeParMois} />
+          }
+        />
       </div>
+      <ErrorSnackBar
+        open={state.openError}
+        error={state.errorMessage}
+        onClose={() => {
+          setState((state) => ({ ...state, openError: false }));
+        }}
+      />
     </>
   );
 };

@@ -23,7 +23,7 @@ const SidebarRoot = ({ children }: SidebarRootProps) => {
       text: "Statistiques",
       icon: <InsightsIcon />,
       authorization: [],
-      link: "/dashboard/",
+      link: "/dashboard",
     },
     {
       text: "Validation des annonces",

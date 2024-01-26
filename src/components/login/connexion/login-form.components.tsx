@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { FormEvent, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import "../../../assets/fontawesome-5/css/all.min.css";
 import { connexion } from "../../service/login.service";
 import AppLoaderComponent from "../../shared/loader/app-loader.component";
@@ -22,6 +22,9 @@ const LoginFormComponent = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParam] = useSearchParams();
+  const redirect = searchParam.get("redirect");
+
   let showMessage =
     (location?.state as { showMessage: boolean })?.showMessage || false;
 
@@ -166,7 +169,7 @@ const LoginFormComponent = () => {
         <Alert severity="success">{state.success as string}</Alert>
       </Snackbar>
       <Snackbar
-        open={state.redirectMessage}
+        open={state.redirectMessage || redirect != undefined}
         onClose={() =>
           setState((state) => ({
             ...state,
