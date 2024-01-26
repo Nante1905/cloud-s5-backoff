@@ -2,21 +2,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface AnnoncePageState {
-    page: number
+  page: number;
 }
 
 const initialState: AnnoncePageState = {
-    page: 1
+  page: 1,
 };
 
 export const AnnoncePageSlice = createSlice({
-    name: "paginationState",
-    initialState,
-    reducers: {
-        addPage: (state) => {
-            state.page = state.page + 1
-        },
-    }
+  name: "paginationState",
+  initialState,
+  reducers: {
+    addPage: (state) => {
+      state.page = state.page + 1;
+    },
+    init: (state) => {
+      state.page = 1;
+    },
+  },
 });
 
-export const { addPage } = AnnoncePageSlice.actions
+export const { addPage, init } = AnnoncePageSlice.actions;
