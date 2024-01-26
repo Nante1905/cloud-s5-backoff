@@ -5,7 +5,7 @@ import {
   StatInscription,
   StatProps,
   StatRequestAnnee,
-  StatTopUser,
+  TopUser,
   TopUserRequest,
 } from "../../types/stats.type";
 import { statsTopUtilisateurColumns } from "./services/tabs-columns";
@@ -24,7 +24,7 @@ import "./stats-app.component.scss";
 
 interface StatsAppState {
   statInscription: StatInscription;
-  topSellers: StatTopUser;
+  topSellers: TopUser[];
   nbrUtilisateur: number;
   loading: boolean;
   isLoaded: boolean;
@@ -39,9 +39,7 @@ const initialState: StatsAppState = {
     users: 0,
     inscriptions: [],
   },
-  topSellers: {
-    topUsers: [],
-  },
+  topSellers: [],
   nbrUtilisateur: 5,
   loading: true,
   isLoaded: false,
@@ -223,7 +221,7 @@ const StatsApp = (props: StatProps) => {
             </form>
             <div className="tab">
               <DataGrid
-                rows={state.topSellers.topUsers}
+                rows={state.topSellers}
                 getRowId={(row) => `${row.nom} ${row.prenom}`}
                 rowHeight={60}
                 columns={statsTopUtilisateurColumns}
