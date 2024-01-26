@@ -25,7 +25,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             <div className="div_info_item">
               <strong>Création: </strong>
               <span>
-                {dayjs(annonce.dateCreation).format("DD MMMM YYYY à HH:MM")}
+                {dayjs(annonce.creation).format("DD MMMM YYYY à HH:MM")}
               </span>
             </div>
             <div className="div_info_item_no_flex">
@@ -49,9 +49,7 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             <div className="div_info_item">
               <strong>Membre depuis: </strong>
               <span>
-                {dayjs(annonce.utilisateur.dateInscription).format(
-                  "DD MMMM YYYY"
-                )}
+                {dayjs(annonce.utilisateur.inscription).format("DD MMMM YYYY")}
               </span>
             </div>
           </CardContent>
@@ -78,7 +76,9 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             </div>
             <div className="div_info_item">
               <strong>Etat: </strong>
-              <span>{annonce.voiture.etat} / 10</span>
+              <span>
+                <strong>{annonce.voiture.etat} / 10</strong>
+              </span>
             </div>
             <div className="div_info_item">
               <strong>Couleur: </strong>
@@ -102,6 +102,14 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             <div className="div_info_item">
               <strong>Kilométrage: </strong>
               <span>{annonce.voiture.kilometrage} km</span>
+            </div>
+            <div className="div_info_item">
+              <strong>Nombre de place: </strong>
+              <span>{annonce.voiture.modele.nbPlace}</span>
+            </div>
+            <div className="div_info_item">
+              <strong>Nombre de porte: </strong>
+              <span>{annonce.voiture.modele.nbPorte}</span>
             </div>
           </CardContent>
         </Card>

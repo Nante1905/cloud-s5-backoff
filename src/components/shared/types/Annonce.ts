@@ -1,3 +1,5 @@
+import { Marque } from "./Marque";
+import { Modele } from "./Modele";
 import { Utilisateur } from "./Utilisateur";
 import { Voiture } from "./Voiture";
 
@@ -9,11 +11,27 @@ export interface Annonce {
     id: number,
     reference: string,
     description: string,
-    dateCreation: string,
+    creation: string,
     prix: number,
-    commission?: number,
-    nbVues?: number,
+    commission: number,
+    nbVues: number,
     utilisateur: Utilisateur,
     voiture: Voiture,
+    photos: Photo[],
+}
+
+interface ModeleDTO {
+    id: number,
+    nom: string
+}
+
+export interface AnnonceGeneral {
+    id: number,
+    reference: string,
+    marque: Marque,
+    prix: number,
+    creation: string,
+    modele: ModeleDTO,
+    utilisateur: Utilisateur,
     photos: Photo[]
 }

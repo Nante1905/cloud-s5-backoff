@@ -10,7 +10,7 @@ import { getAnnoncePage } from "../../../store/selector";
 import ErrorSnackBar from "../../shared/components/snackbar/ErrorSnackBar";
 import AppLoaderComponent from "../../shared/loader/app-loader.component";
 import Title from "../../shared/title/title.component";
-import { Annonce } from "../../shared/types/Annonce";
+import { AnnonceGeneral } from "../../shared/types/Annonce";
 import { ApiResponse } from "../../shared/types/Response";
 import AnnonceCardComponent from "../components/annonce-card/annonce-card.component";
 import {
@@ -45,7 +45,10 @@ const AnnonceRoot = () => {
         } else {
           setState((state) => ({
             ...state,
-            annonces: [...state.annonces, ...(res.data?.data as Annonce[])],
+            annonces: [
+              ...state.annonces,
+              ...(res.data?.data as AnnonceGeneral[]),
+            ],
             annonceLoading: false,
             endScrolling: response.data.length < TAILLE_PAGE,
           }));
@@ -134,7 +137,7 @@ const AnnonceRoot = () => {
 export default AnnonceRoot;
 
 interface AnnonceRootState {
-  annonces: Annonce[];
+  annonces: AnnonceGeneral[];
   annonceLoading: boolean;
   annonceError?: string;
   annonceSuccess?: string;
