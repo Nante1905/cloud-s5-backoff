@@ -1,17 +1,15 @@
+import { useEffect, useState } from "react";
 
-import  { useEffect, useState } from "react";
-
-import BeneficeParMarque from "../benefice-par-marque/benefice-par-marque.component";
+import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
+import { getErrorMessage } from "../../../../shared/service/api-service";
+import { ApiResponse } from "../../../../shared/types/Response";
+import { getStatBenefice } from "../../../service/stats.service";
 import {
   StatBenefice,
   StatProps,
   StatRequest,
 } from "../../../types/stats.type";
-import { getStatBenefice } from "../../../service/stats.service";
-import { ApiResponse } from "../../../../shared/types/Response";
-import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
-import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
-import { getErrorMessage } from "../../../../shared/service/api-service";
+import BeneficeParMarque from "../benefice-par-marque/benefice-par-marque.component";
 
 interface StatBeneficeState {
   statBenefice: StatBenefice;
@@ -44,11 +42,12 @@ const StatsBenefice = (props: StatProps) => {
           setState((state) => ({
             ...state,
             statBenefice: response.data,
+            loading: false,
           }));
         } else {
           setState((state) => ({
             ...state,
-            loading: true,
+            loading: false,
             isLoaded: false,
             errorMessage: response.err,
             openError: true,
@@ -69,7 +68,7 @@ const StatsBenefice = (props: StatProps) => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
+          loading: false,
           isLoaded: false,
           errorMessage: errorMessage,
           openError: true,
@@ -78,7 +77,10 @@ const StatsBenefice = (props: StatProps) => {
   }, [props.monthYear]);
   return (
     <div>
-      <BeneficeParMarque statBenefice={state.statBenefice} />
+      <BeneficeParMarque
+        loading={state.loading}
+        statBenefice={state.statBenefice}
+      />
       <ErrorSnackBar
         open={state.openError}
         onClose={() =>

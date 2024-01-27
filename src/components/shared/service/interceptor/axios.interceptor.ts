@@ -1,12 +1,9 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 import { Url_api } from "../../constants/global";
-import { useNavigate } from "react-router-dom";
 
 export const http = axios.create({
   baseURL: Url_api,
 });
-
-// const navigate = useNavigate();
 
 http.interceptors.request.use(
   (
@@ -29,7 +26,12 @@ http.interceptors.request.use(
 http.interceptors.response.use(res => {
   return res;
 }, err => {
+  console.log(err);
   if ((err.response.status == 401 || err.response.status == 403) && !window.location.href.includes('login')) {
     window.location.href = '/login?redirect=true'
+  } else {
+    console.log('reject error')
+    Promise.reject(err)
   }
+
 })

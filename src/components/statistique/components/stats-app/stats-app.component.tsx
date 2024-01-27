@@ -16,6 +16,7 @@ import { Button, Card, CardContent, TextField } from "@mui/material";
 import dayjs from "dayjs";
 import { Chart } from "react-chartjs-2";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import { ApiResponse } from "../../../shared/types/Response";
 import { getStatInscription, getTopSellers } from "../../service/stats.service";
@@ -32,6 +33,7 @@ interface StatsAppState {
   openError: boolean;
   inscriptionArray: number[];
   pendingNbrUtilisateur: number;
+  loadingSellers: boolean;
 }
 
 const initialState: StatsAppState = {
@@ -47,8 +49,9 @@ const initialState: StatsAppState = {
   isLoaded: false,
   errorMessage: "",
   openError: false,
-  inscriptionArray: [102, 90, 101, 54, 15, 100, 90, 40, 20, 15, 128, 118],
+  inscriptionArray: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   pendingNbrUtilisateur: 5,
+  loadingSellers: true,
 };
 
 const StatsApp = (props: StatProps) => {
@@ -72,6 +75,8 @@ const StatsApp = (props: StatProps) => {
           setState((state) => ({
             ...state,
             topSellers: response.data,
+            loading: false,
+            loadingSellers: false,
           }));
         } else {
           setState((state) => ({
@@ -79,7 +84,8 @@ const StatsApp = (props: StatProps) => {
             errorMessage: response.err,
             openError: true,
             idLoaded: false,
-            loading: true,
+            loading: false,
+            loadingSellers: false,
           }));
         }
       })
@@ -97,10 +103,11 @@ const StatsApp = (props: StatProps) => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
+          loading: false,
           isLoaded: false,
           errorMessage: errorMessage,
           openError: true,
+          loadingSellers: false,
         }));
       });
 
@@ -116,6 +123,7 @@ const StatsApp = (props: StatProps) => {
             inscriptionArray: response.data.inscriptions.map(
               (inscription: Inscription) => inscription.nbInscrit
             ),
+            loading: false,
           }));
         } else {
           setState((state) => ({
@@ -123,7 +131,7 @@ const StatsApp = (props: StatProps) => {
             errorMessage: response.err,
             openError: true,
             idLoaded: false,
-            loading: true,
+            loading: false,
           }));
         }
       })
@@ -141,7 +149,7 @@ const StatsApp = (props: StatProps) => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
+          loading: false,
           isLoaded: false,
           errorMessage: errorMessage,
           openError: true,
@@ -149,6 +157,7 @@ const StatsApp = (props: StatProps) => {
       });
     console.log(state.nbrUtilisateur);
   }, [props.monthYear, state.nbrUtilisateur]);
+
   const mois: string[] = [];
   for (let i = 0; i < 12; i++) {
     mois.push(dayjs().month(i).locale("fr").format("MMM"));
@@ -184,7 +193,14 @@ const StatsApp = (props: StatProps) => {
           <div className="nbr_utilisateurs">
             <StatsCard
               label="Utilisateurs inscrits"
-              data={<h1 className="light">{state.statInscription.users}</h1>}
+              data={
+                <AppLoaderComponent
+                  loading={state.loading}
+                  children={
+                    <h1 className="light">{state.statInscription.users}</h1>
+                  }
+                />
+              }
             />
             <Card className="chart_inscrits">
               <CardContent>
@@ -204,6 +220,7 @@ const StatsApp = (props: StatProps) => {
                 event.preventDefault();
                 setState((state) => ({
                   ...state,
+                  loadingSellers: true,
                   nbrUtilisateur: state.pendingNbrUtilisateur,
                 }));
               }}
@@ -222,19 +239,26 @@ const StatsApp = (props: StatProps) => {
               </Button>
             </form>
             <div className="tab">
-              <DataGrid
-                rows={state.topSellers}
-                getRowId={(row) => `${row.nom} ${row.prenom}`}
-                rowHeight={60}
-                columns={statsTopUtilisateurColumns}
-                initialState={{
-                  pagination: {
-                    paginationModel: { page: 0, pageSize: 5 },
-                  },
-                }}
-                pageSizeOptions={[5, 10]}
-                localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-                sx={{ width: "max-size" }}
+              <AppLoaderComponent
+                loading={state.loadingSellers}
+                children={
+                  <DataGrid
+                    rows={state.topSellers}
+                    getRowId={(row) => `${row.nom} ${row.prenom}`}
+                    rowHeight={60}
+                    columns={statsTopUtilisateurColumns}
+                    initialState={{
+                      pagination: {
+                        paginationModel: { page: 0, pageSize: 5 },
+                      },
+                    }}
+                    pageSizeOptions={[5, 10]}
+                    localeText={
+                      frFR.components.MuiDataGrid.defaultProps.localeText
+                    }
+                    sx={{ width: "max-size" }}
+                  />
+                }
               />
             </div>
           </div>
