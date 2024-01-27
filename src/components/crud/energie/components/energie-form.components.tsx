@@ -5,15 +5,15 @@ import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import { insertEnergie, updateEnergie } from "../../../service/energie.service";
-import Title from "../../../shared/title/title.component";
-import { Energie } from "../../../shared/types/Energie";
-import "./couleur-form.component.css";
-import "./couleur-form.component.scss";
-import { ApiResponse } from "../../../shared/types/Response";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
-import { getErrorMessage } from "../../../shared/service/api-service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import Title from "../../../shared/title/title.component";
+import { Energie } from "../../../shared/types/Energie";
+import { ApiResponse } from "../../../shared/types/Response";
+import "./couleur-form.component.css";
+import "./couleur-form.component.scss";
 
 interface EnergieFormProps {
   entity?: Energie;
@@ -132,7 +132,9 @@ const EnergieFormComponent = (props: EnergieFormProps) => {
             <i className="form-return fas fa-arrow-left"></i>
           </Link>{" "}
           <div className="title-form">
-            <Title>{energie ? "Modifier energie" : "Créer energie"}</Title>
+            <Title>
+              {energie ? "Modifier l'énergie" : "Créer une énergie"}
+            </Title>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="form">

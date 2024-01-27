@@ -79,7 +79,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
           <i className="form-return fas fa-arrow-left"></i>
         </Link>{" "}
         <div className="title-form">
-          <Title>{couleur ? "Modifier couleur" : "Créer couleur"}</Title>
+          <Title>{couleur ? "Modifier couleur" : "Ajouter une couleur"}</Title>
         </div>
         {state.error && (
           <div className="success-error-form" style={{ color: "red" }}>
@@ -108,7 +108,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
             />
             <TextField
               type="color"
-              label="Valeur hexadécimale"
+              label=""
               onChange={(event) =>
                 setState((state) => ({
                   ...state,

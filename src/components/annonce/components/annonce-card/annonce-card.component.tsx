@@ -103,7 +103,7 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
           </div>
           <span className="annonce-date">
             {" "}
-            {dayjs(props.annonce?.creation).format("DD MMMM YYYY à HH:MM")}{" "}
+            {dayjs(props.annonce?.creation).format("DD MMMM YYYY à HH:mm")}{" "}
           </span>
         </div>
         <div className="card-action">
