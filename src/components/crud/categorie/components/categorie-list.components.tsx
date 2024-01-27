@@ -1,5 +1,6 @@
 // CategorieListComponent.tsx
 
+import { Button } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,20 +8,20 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { GridDeleteForeverIcon } from "@mui/x-data-grid";
+import _ from "lodash";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
-import { Categorie } from "../../../shared/types/Categorie";
-import "./couleur-list.components.scss";
-import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
-import { getErrorMessage } from "../../../shared/service/api-service";
-import { ApiResponse } from "../../../shared/types/Response";
-import { useState } from "react";
 import { deleteCategorie } from "../../../service/categorie.service";
-import { Button } from "@mui/material";
-import AppLoaderComponent from "../../../shared/loader/app-loader.component";
-import { GridDeleteForeverIcon } from "@mui/x-data-grid";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
+import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import { Categorie } from "../../../shared/types/Categorie";
+import { ApiResponse } from "../../../shared/types/Response";
+import "./couleur-list.components.scss";
 
 interface CategorieListComponentProps {
   categories: Categorie[];
@@ -67,6 +68,7 @@ const CategorieListComponent = ({
             submitLoading: false,
             openSuccess: true,
           }));
+          _.remove(categories, (value) => value?.id === id);
         } else {
           setState((state) => ({
             ...state,

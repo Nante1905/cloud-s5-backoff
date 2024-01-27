@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SuggestionMessage } from "../../../../shared/types/SuggestionMessage";
 
+import _ from "lodash";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
 import AppLoaderComponent from "../../../../shared/loader/app-loader.component";
@@ -65,6 +66,7 @@ const SuggestionListComponent = ({
             submitLoading: false,
             openSuccess: true,
           }));
+          _.remove(suggestions, (value) => value?.id === id);
         } else {
           setState((state) => ({
             ...state,
