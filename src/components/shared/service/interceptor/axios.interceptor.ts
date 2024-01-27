@@ -23,15 +23,17 @@ http.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
-http.interceptors.response.use(res => {
-  return res;
-}, err => {
-  console.log(err);
-  if ((err.response.status == 401 || err.response.status == 403) && !window.location.href.includes('login')) {
-    window.location.href = '/login?redirect=true'
-  } else {
-    console.log('reject error')
-    Promise.reject(err)
+http.interceptors.response.use(
+  (res) => {
+    return res;
+  },
+  (err) => {
+    if (
+      (err.response.status == 401 || err.response.status == 403) &&
+      !window.location.href.includes("login")
+    ) {
+      window.location.href = "/login?redirect=true";
+    }
+    return Promise.reject(err);
   }
-
-})
+);

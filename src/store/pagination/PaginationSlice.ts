@@ -31,8 +31,8 @@ export const PaginationSlice = createSlice({
       (state.numero = action.payload.numero),
         (state.total = action.payload.total);
     },
-    initialize: (state) => {
-      state = initialState
+    initialize: (_state) => {
+      _state = initialState;
     },
   },
 });

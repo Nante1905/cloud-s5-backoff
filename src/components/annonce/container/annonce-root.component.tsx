@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  AnnoncePageState,
-  addPage,
-} from "../../../store/annonce-page/AnnoncePageSlice";
-import { getAnnoncePage } from "../../../store/selector";
+import { useDispatch } from "react-redux";
+import { init } from "../../../store/annonce-page/AnnoncePageSlice";
 import ErrorSnackBar from "../../shared/components/snackbar/ErrorSnackBar";
 import AppLoaderComponent from "../../shared/loader/app-loader.component";
 import Title from "../../shared/title/title.component";
@@ -22,7 +18,7 @@ import "./annonce-root.component.scss";
 const AnnonceRoot = () => {
   document.title = "Validation annonces";
   const [state, setState] = useState(initialState);
-  const page: AnnoncePageState = useSelector(getAnnoncePage);
+  // const page: AnnoncePageState = useSelector(getAnnoncePage);
   const initialized = useRef(false);
   const dispatch = useDispatch();
 
@@ -31,8 +27,8 @@ const AnnonceRoot = () => {
       ...state,
       annonceLoading: true,
     }));
-    console.log("fetch page ", page.page);
-    findAnnonceNonValideParPage(page.page)
+    console.log("fetch page ", state.page);
+    findAnnonceNonValideParPage(state.page)
       .then((res) => {
         const response: ApiResponse = res.data;
         console.log(res);
@@ -51,8 +47,9 @@ const AnnonceRoot = () => {
             ],
             annonceLoading: false,
             endScrolling: response.data.length < TAILLE_PAGE,
+            page: state.page + 1,
           }));
-          dispatch(addPage());
+          // dispatch(addPage());
         }
       })
       .catch((err) => {
@@ -67,6 +64,7 @@ const AnnonceRoot = () => {
 
   useEffect(() => {
     // juste pour éviter qu'USeEffect se réexecute en env dev fa jsp en prod otrn tsy manao check intsony React.StrictMode
+    dispatch(init());
     if (initialized.current == false) {
       console.log("sending request");
       fetchAnnonce();
@@ -79,47 +77,49 @@ const AnnonceRoot = () => {
     <div className="annonce-root">
       <Title>Liste des annonces à valider</Title>
       {/* TODO : Add loader */}
-      <InfiniteScroll
-        dataLength={state.annonces.length}
-        next={fetchAnnonce}
-        hasMore={true}
-        scrollThreshold={0.9}
-        loader={
-          state.endScrolling ? (
-            <p className="text-center p_end_scroll">
-              Vous avez atteint la fin.
-            </p>
-          ) : (
-            <AppLoaderComponent loading={state.endScrolling == false}>
-              <></>
-            </AppLoaderComponent>
-          )
-        }
-        initialScrollY={0}
-      >
-        <div className="annonce-container">
-          {
-            // state.annonceLoading === false
-            //   ? state.annonces?.map((annonce, index) => (
-            //       <AnnonceCardComponent
-            //         key={`${annonce.reference}-${index}`}
-            //         annonce={annonce}
-            //       />
-            //     ))
-            //   : !state.annonceLoading && state.annonces.length == 0
-            //   ? "Aucune annonce à valider"
-            //   : ""
-            state.annonceLoading == false && state.annonces.length == 0
-              ? "Aucune annonce à valider"
-              : state.annonces?.map((annonce, index) => (
-                  <AnnonceCardComponent
-                    key={`${annonce.reference}-${index}`}
-                    annonce={annonce}
-                  />
-                ))
+      <div className="scroll-container">
+        <InfiniteScroll
+          className="scroll-container"
+          dataLength={state.annonces.length}
+          next={fetchAnnonce}
+          hasMore={true}
+          loader={
+            state.endScrolling ? (
+              <p className="text-center p_end_scroll">
+                Vous avez atteint la fin.
+              </p>
+            ) : (
+              <AppLoaderComponent loading={state.endScrolling == false}>
+                <></>
+              </AppLoaderComponent>
+            )
           }
-        </div>
-      </InfiniteScroll>
+          initialScrollY={0}
+        >
+          <div className="annonce-container">
+            {
+              // state.annonceLoading === false
+              //   ? state.annonces?.map((annonce, index) => (
+              //       <AnnonceCardComponent
+              //         key={`${annonce.reference}-${index}`}
+              //         annonce={annonce}
+              //       />
+              //     ))
+              //   : !state.annonceLoading && state.annonces.length == 0
+              //   ? "Aucune annonce à valider"
+              //   : ""
+              state.annonceLoading == false && state.annonces.length == 0
+                ? "Aucune annonce à valider"
+                : state.annonces?.map((annonce, index) => (
+                    <AnnonceCardComponent
+                      key={`${annonce.reference}-${index}`}
+                      annonce={annonce}
+                    />
+                  ))
+            }
+          </div>
+        </InfiniteScroll>
+      </div>
       <ErrorSnackBar
         open={state.annonceError !== ""}
         onClose={() => {

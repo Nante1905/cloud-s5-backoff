@@ -54,6 +54,7 @@ const LoginFormComponent = () => {
       })
       .catch((err) => {
         console.error(err);
+        console.error(err);
 
         setState((state) => ({
           ...state,
