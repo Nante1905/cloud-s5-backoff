@@ -205,14 +205,19 @@ const StatsGenerales = (props: StatProps) => {
         <StatsCard
           label="Taux de vente"
           data={
-            <>
-              <h2 className="light text-left">
-                Annonces: {state.statGenerale.nbAnnonce.toLocaleString()}
-              </h2>
-              <h2 className="light text-left">
-                Ventes: {state.statGenerale.nbVendu.toLocaleString()}
-              </h2>
-            </>
+            <AppLoaderComponent
+              loading={state.loading}
+              children={
+                <>
+                  <h2 className="light text-left">
+                    Annonces: {state.statGenerale.nbAnnonce.toLocaleString()}
+                  </h2>
+                  <h2 className="light text-left">
+                    Ventes: {state.statGenerale.nbVendu.toLocaleString()}
+                  </h2>
+                </>
+              }
+            />
           }
         />
       </div>

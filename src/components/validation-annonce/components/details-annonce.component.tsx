@@ -1,5 +1,7 @@
 import { Button, Card, CardContent } from "@mui/material";
 import dayjs from "dayjs";
+// import { JSDOM } from "jsdom";
+// import DOMPurify from "dompurify";
 import AppLoaderComponent from "../../shared/loader/app-loader.component";
 import { Annonce } from "../../shared/types/Annonce";
 import "./details-annonce.component.scss";
@@ -15,6 +17,7 @@ interface DetailsAnnonceProps {
 const DetailsAnnonce = (props: DetailsAnnonceProps) => {
   const annonce: Annonce = props.annonce;
   document.title = "Validation annonce " + annonce.reference;
+  console.log(annonce);
 
   return (
     <div className="div_details_annonce">
@@ -25,12 +28,19 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             <div className="div_info_item">
               <strong>Création: </strong>
               <span>
-                {dayjs(annonce.creation).format("DD MMMM YYYY à HH:MM")}
+                {annonce.dateCreation
+                  ? dayjs(annonce.dateCreation).format("DD MMMM YYYY à HH:mm")
+                  : ""}
               </span>
             </div>
             <div className="div_info_item_no_flex">
               <strong>Description</strong>
-              <p>{annonce.description}</p>
+              <p
+                dangerouslySetInnerHTML={{
+                  // __html: DOMPurify.sanitize(annonce.description),
+                  __html: annonce.description,
+                }}
+              />
             </div>
             <div className="div_info_item">
               <strong>Prix: </strong>
@@ -49,7 +59,9 @@ const DetailsAnnonce = (props: DetailsAnnonceProps) => {
             <div className="div_info_item">
               <strong>Membre depuis: </strong>
               <span>
-                {dayjs(annonce.utilisateur.inscription).format("DD MMMM YYYY")}
+                {dayjs(annonce.utilisateur.dateInscription).format(
+                  "DD MMMM YYYY"
+                )}
               </span>
             </div>
           </CardContent>

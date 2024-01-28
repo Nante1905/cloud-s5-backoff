@@ -237,7 +237,7 @@ const ModeleFormComponent = (props: ModeleFormProps) => {
                       }));
                       console.log(value?.year());
                     }}
-                    value={dayjs().year(state.form.anneeSortie)}
+                    value={dayjs().year(state.form.anneeSortie as number)}
                   />
                 </LocalizationProvider>
               </FormControl>

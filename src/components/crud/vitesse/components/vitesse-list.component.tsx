@@ -9,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { GridDeleteForeverIcon } from "@mui/x-data-grid";
+import _ from "lodash";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
@@ -64,6 +65,7 @@ const VitesseListComponent = ({ vitesses }: VitesseListComponentProps) => {
             submitLoading: false,
             openSuccess: true,
           }));
+          _.remove(vitesses, (value) => value?.id === id);
         } else {
           setState((state) => ({
             ...state,

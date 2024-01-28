@@ -9,11 +9,11 @@ import {
   updateCategorie,
 } from "../../../service/categorie.service";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
 import Title from "../../../shared/title/title.component";
 import { Categorie } from "../../../shared/types/Categorie";
 import "./couleur-form.component.css";
 import "./couleur-form.component.scss";
-import { getErrorMessage } from "../../../shared/service/api-service";
 
 interface CategorieFormProps {
   entity?: Categorie;
@@ -54,7 +54,26 @@ const CategorieFormComponent = (props: CategorieFormProps) => {
           }));
           console.log(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+
+          let errorMessage = "";
+          if (
+            !err.response.data.err ||
+            err.response.data.err == "" ||
+            err.response.data.err == null
+          ) {
+            errorMessage = getErrorMessage(err.code);
+          } else {
+            errorMessage = err.response.data.err;
+          }
+          setState((state) => ({
+            ...state,
+            error: errorMessage,
+            submitLoading: false,
+            openError: true,
+          }));
+        });
     } else {
       insertCategorie(state.form)
         .then((res) => {

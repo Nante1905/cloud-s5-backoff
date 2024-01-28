@@ -95,7 +95,7 @@ const EnergieListComponentRoot = () => {
   return (
     <div className="list-crud">
       <div className="title-form">
-        <Title> Liste des energies </Title>
+        <Title> Liste des énergies </Title>
       </div>
       <div className="add-button">
         <Link to="/energies/add">

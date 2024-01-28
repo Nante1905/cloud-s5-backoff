@@ -91,7 +91,7 @@ const MarqueListRoot = () => {
           errorMessage: errorMessage,
         }));
       });
-  }, [page.numero]);
+  }, [page]);
 
   return (
     <div className="list-crud">

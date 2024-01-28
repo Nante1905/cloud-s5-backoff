@@ -28,7 +28,7 @@ const EditEnergieComponent = () => {
         if (response.ok) {
           setState((state) => ({
             ...state,
-            etat: response.data,
+            energie: response.data,
           }));
         } else {
           setState((state) => ({

@@ -1,4 +1,7 @@
 .annonce-root {
+  // .scroll-container {
+  //   overflow: auto;
+  // }
   .annonce-container {
     display: grid;
     grid-template-columns: 100%;
@@ -8,7 +11,7 @@
   .p_end_scroll {
     padding: 1rem 0rem;
   }
-  .infinite-scroll-component  {
+  .infinite-scroll-component {
     height: inherit !important;
     overflow: inherit !important;
   }

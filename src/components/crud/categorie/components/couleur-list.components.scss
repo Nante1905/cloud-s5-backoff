@@ -4,13 +4,11 @@
   margin-right: auto;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   .MuiButton-root {
     width: 5rem;
     aspect-ratio: 2/1;
   }
-
 }
 .title-form {
   margin-bottom: 20px;

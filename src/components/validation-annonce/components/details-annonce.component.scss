@@ -6,6 +6,12 @@
 }
 
 .div_details_annonce {
+  .div_images {
+    img {
+      max-height: 500px;
+    }
+  }
+
   .card {
     padding-inline: 3rem;
     max-width: 90%;

@@ -5,6 +5,7 @@ import AlignVerticalCenterIcon from "@mui/icons-material/AlignVerticalCenter";
 import BuildIcon from "@mui/icons-material/Build";
 import ClassIcon from "@mui/icons-material/Class";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import ForumIcon from "@mui/icons-material/Forum";
 import InsightsIcon from "@mui/icons-material/Insights";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import PercentIcon from "@mui/icons-material/Percent";
@@ -86,7 +87,7 @@ const SidebarRoot = ({ children }: SidebarRootProps) => {
         },
         {
           text: "Suggestion message",
-          icon: <ColorLensIcon />,
+          icon: <ForumIcon />,
           link: "/suggestions/",
           authorization: [],
         },

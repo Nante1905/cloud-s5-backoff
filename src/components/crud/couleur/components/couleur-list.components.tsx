@@ -9,21 +9,22 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import "../../../../assets/fontawesome-5/css/all.min.css";
-import { Couleur } from "../../../shared/types/Couleur";
-import "./couleur-list.components.css";
-import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
-import { Link, useNavigate } from "react-router-dom";
-import { GridDeleteForeverIcon } from "@mui/x-data-grid";
-import "./couleur-list.component.scss";
-import { deleteCouleur } from "../../../service/couleur.service";
-import { ApiResponse } from "../../../shared/types/Response";
-import { useState } from "react";
-import { getErrorMessage } from "../../../shared/service/api-service";
 import { Button } from "@mui/material";
+import { GridDeleteForeverIcon } from "@mui/x-data-grid";
+import _ from "lodash";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../../../../assets/fontawesome-5/css/all.min.css";
+import { deleteCouleur } from "../../../service/couleur.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
+import CustomPagination from "../../../shared/components/snackbar/pagination/CustomPagination";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
+import { Couleur } from "../../../shared/types/Couleur";
+import { ApiResponse } from "../../../shared/types/Response";
+import "./couleur-list.component.scss";
+import "./couleur-list.components.css";
 
 interface CouleurListComponentProps {
   couleurs: Couleur[];
@@ -61,6 +62,8 @@ const CouleurListComponent = (props: CouleurListComponentProps) => {
     deleteCouleur(id)
       .then((res) => {
         const response: ApiResponse = res.data;
+        console.log(response);
+
         if (response.ok) {
           setState((state) => ({
             ...state,
@@ -68,6 +71,7 @@ const CouleurListComponent = (props: CouleurListComponentProps) => {
             submitLoading: false,
             openSuccess: true,
           }));
+          _.remove(props.couleurs, (value) => value?.id === id);
         } else {
           setState((state) => ({
             ...state,
@@ -122,7 +126,6 @@ const CouleurListComponent = (props: CouleurListComponentProps) => {
                 >
                   <TableCell>{couleur.nom}</TableCell>
                   <TableCell>
-
                     <div className="cell_couleur">
                       <div
                         style={{

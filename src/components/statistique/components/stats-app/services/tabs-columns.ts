@@ -51,7 +51,7 @@ export const statsTopUtilisateurColumns: GridColDef[] = [
     headerName: "Pourcentage",
     minWidth: 150,
     align: "right",
-    cellClassName: (params: GridCellParams<any, any, any, GridTreeNode>) =>
+    cellClassName: (_params: GridCellParams<any, any, any, GridTreeNode>) =>
       "big strong",
     valueGetter: (params: GridValueGetterParams) =>
       `${params.row.pourcentage.toLocaleString("fr")}%`,

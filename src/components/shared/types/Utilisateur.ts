@@ -3,7 +3,7 @@ export interface Utilisateur {
     nom: string,
     prenom: string,
     email?: string,
-    inscription: string,
+    dateInscription: string,
     adresse: string
 }
 
