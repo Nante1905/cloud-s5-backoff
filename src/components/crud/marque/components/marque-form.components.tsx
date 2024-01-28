@@ -9,6 +9,7 @@ import { insertMarque, updateMarque } from "../../../service/marque.service";
 import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../shared/components/snackbar/SuccessSnackBar";
 import { imageDb } from "../../../shared/firebase/config";
+import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import Title from "../../../shared/title/title.component";
 import { Marque } from "../../../shared/types/Marque";
@@ -61,6 +62,10 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setState((state) => ({
+      ...state,
+      submitLoading: true,
+    }));
     uploadImage.then((url) => {
       const newMarque: Marque = {
         ...state.form,
@@ -193,7 +198,10 @@ const MarqueFormComponent = (props: MarqueFormProps) => {
               </Button>
             </div>
             <Button variant="contained" type="submit">
-              {marque ? "Modifier" : "Créer"}
+              <AppLoaderComponent
+                loading={state.submitLoading}
+                children={marque ? <>Modifier</> : <>Créer</>}
+              />
             </Button>
           </div>
         </form>

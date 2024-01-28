@@ -5,8 +5,6 @@ export const http = axios.create({
   baseURL: Url_api,
 });
 
-// const navigate = useNavigate();
-
 http.interceptors.request.use(
   (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

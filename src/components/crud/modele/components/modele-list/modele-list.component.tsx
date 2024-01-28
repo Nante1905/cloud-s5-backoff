@@ -8,19 +8,19 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
-import CustomPagination from "../../../../shared/components/snackbar/pagination/CustomPagination";
-import { Modele } from "../../../../shared/types/Modele";
-import "./modele-list.component.scss";
-import { useState } from "react";
-import { deleteModele } from "../../service/modele.service";
-import { ApiResponse } from "../../../../shared/types/Response";
-import { getErrorMessage } from "../../../../shared/service/api-service";
-import AppLoaderComponent from "../../../../shared/loader/app-loader.component";
 import { GridDeleteForeverIcon } from "@mui/x-data-grid";
+import _ from "lodash";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorSnackBar from "../../../../shared/components/snackbar/ErrorSnackBar";
 import SuccessSnackBar from "../../../../shared/components/snackbar/SuccessSnackBar";
-
+import CustomPagination from "../../../../shared/components/snackbar/pagination/CustomPagination";
+import AppLoaderComponent from "../../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../../shared/service/api-service";
+import { Modele } from "../../../../shared/types/Modele";
+import { ApiResponse } from "../../../../shared/types/Response";
+import { deleteModele } from "../../service/modele.service";
+import "./modele-list.component.scss";
 interface ModeleListComponentProps {
   modeles: Modele[];
 }
@@ -64,6 +64,7 @@ const ModeleListComponent = (props: ModeleListComponentProps) => {
             submitLoading: false,
             openSuccess: true,
           }));
+          _.remove(props.modeles, (value) => value?.id === id);
         } else {
           setState((state) => ({
             ...state,

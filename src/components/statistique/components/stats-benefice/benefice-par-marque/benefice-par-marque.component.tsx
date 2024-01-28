@@ -7,10 +7,12 @@ import {
 } from "@mui/x-data-grid";
 import StatsCard from "../../stats-card/stats-card.component";
 
+import AppLoaderComponent from "../../../../shared/loader/app-loader.component";
 import { MarqueBenefice, StatBenefice } from "../../../types/stats.type";
 import "./benefice-par-marque.component.scss";
 interface BeneficeProps {
   statBenefice: StatBenefice;
+  loading: boolean;
 }
 const BeneficeParMarque = (props: BeneficeProps) => {
   const columns: GridColDef[] = [
@@ -46,26 +48,36 @@ const BeneficeParMarque = (props: BeneficeProps) => {
       <StatsCard
         label="Bénéfice"
         data={
-          <h1 className="light">
-            {props.statBenefice.benefice.toLocaleString("fr")} MGA
-          </h1>
+          <AppLoaderComponent
+            loading={props.loading}
+            children={
+              <h1 className="light">
+                {props.statBenefice.benefice.toLocaleString("fr")} MGA
+              </h1>
+            }
+          />
         }
         className="card_benef"
       />
       <h2>Classement de bénéfice par marques</h2>
       <div className="div_table_marque">
-        <DataGrid
-          rows={props.statBenefice.beneficeMarque}
-          rowHeight={100}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-          getRowId={getRowId}
+        <AppLoaderComponent
+          loading={props.loading}
+          children={
+            <DataGrid
+              rows={props.statBenefice.beneficeMarque}
+              rowHeight={100}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 5 },
+                },
+              }}
+              pageSizeOptions={[5, 10]}
+              localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+              getRowId={getRowId}
+            />
+          }
         />
       </div>
     </>

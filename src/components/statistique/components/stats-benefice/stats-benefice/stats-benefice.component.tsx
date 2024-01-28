@@ -42,11 +42,12 @@ const StatsBenefice = (props: StatProps) => {
           setState((state) => ({
             ...state,
             statBenefice: response.data,
+            loading: false,
           }));
         } else {
           setState((state) => ({
             ...state,
-            loading: true,
+            loading: false,
             isLoaded: false,
             errorMessage: response.err,
             openError: true,
@@ -67,7 +68,7 @@ const StatsBenefice = (props: StatProps) => {
         }
         setState((state) => ({
           ...state,
-          loading: true,
+          loading: false,
           isLoaded: false,
           errorMessage: errorMessage,
           openError: true,
@@ -76,7 +77,10 @@ const StatsBenefice = (props: StatProps) => {
   }, [props.monthYear]);
   return (
     <div>
-      <BeneficeParMarque statBenefice={state.statBenefice} />
+      <BeneficeParMarque
+        loading={state.loading}
+        statBenefice={state.statBenefice}
+      />
       <ErrorSnackBar
         open={state.openError}
         onClose={() =>

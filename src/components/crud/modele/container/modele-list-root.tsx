@@ -7,6 +7,7 @@ import {
   setNumeroEtTotal,
 } from "../../../../store/pagination/PaginationSlice";
 import { getPagination } from "../../../../store/selector";
+import ErrorSnackBar from "../../../shared/components/snackbar/ErrorSnackBar";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
 import { getErrorMessage } from "../../../shared/service/api-service";
 import Title from "../../../shared/title/title.component";
@@ -78,19 +79,31 @@ const ModeleListRoot = () => {
   }, [page]);
 
   return (
-    <div className="modele-list-root">
-      <Title>Liste des modeles</Title>
-      <div className="modele-add-button add-button">
-        <Link to="/modeles/add">
-          <Button variant="contained">
-            <i className="fas fa-plus"></i>
-          </Button>
-        </Link>
+    <>
+      <div className="modele-list-root">
+        <Title>Liste des modeles</Title>
+        <div className="modele-add-button add-button">
+          <Link to="/modeles/add">
+            <Button variant="contained">
+              <i className="fas fa-plus"></i>
+            </Button>
+          </Link>
+        </div>
+        <AppLoaderComponent loading={state.loading}>
+          <ModeleListComponent modeles={state.modeles} />
+        </AppLoaderComponent>
       </div>
-      <AppLoaderComponent loading={state.loading}>
-        <ModeleListComponent modeles={state.modeles} />
-      </AppLoaderComponent>
-    </div>
+      <ErrorSnackBar
+        error={state.errorMessage}
+        open={state.openError}
+        onClose={() => {
+          setState((state) => ({
+            ...state,
+            openError: false,
+          }));
+        }}
+      />
+    </>
   );
 };
 

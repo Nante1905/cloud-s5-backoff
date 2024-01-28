@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "../../../../assets/fontawesome-5/css/all.min.css";
 import { insertCouleur, updateCouleur } from "../../../service/couleur.service";
 import AppLoaderComponent from "../../../shared/loader/app-loader.component";
+import { getErrorMessage } from "../../../shared/service/api-service";
 import Title from "../../../shared/title/title.component";
 import { Couleur } from "../../../shared/types/Couleur";
 import "./couleur-form.component.css";
@@ -45,8 +46,8 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
         .catch((err) => {
           setState((state) => ({
             ...state,
-            error: err?.response?.data.message
-              ? err?.response?.data.message
+            error: err?.response?.data.err
+              ? err?.response?.data.err
               : "Une erreur s'est produite.",
             submitLoading: false,
           }));
@@ -54,6 +55,8 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
     } else {
       insertCouleur(state.form)
         .then((res) => {
+          console.log(res);
+
           setState((state) => ({
             ...state,
             success: res.data.message,
@@ -61,10 +64,23 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
           }));
         })
         .catch((err) => {
+          console.log(err);
+
+          let errorMessage = "";
+          if (
+            !err.response.data.err ||
+            err.response.data.err == "" ||
+            err.response.data.err == null
+          ) {
+            errorMessage = getErrorMessage(err.code);
+          } else {
+            errorMessage = err.response.data.err;
+          }
           setState((state) => ({
             ...state,
-            error: err.response.data.message,
+            error: errorMessage,
             submitLoading: false,
+            openError: true,
           }));
         });
     }
@@ -79,18 +95,8 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
           <i className="form-return fas fa-arrow-left"></i>
         </Link>{" "}
         <div className="title-form">
-          <Title>{couleur ? "Modifier couleur" : "Créer couleur"}</Title>
+          <Title>{couleur ? "Modifier couleur" : "Ajouter une couleur"}</Title>
         </div>
-        {state.error && (
-          <div className="success-error-form" style={{ color: "red" }}>
-            {state.error}
-          </div>
-        )}
-        {state.success && (
-          <div className="success-error-form" style={{ color: "green" }}>
-            {state.success}
-          </div>
-        )}
         <form onSubmit={handleSubmit}>
           <div className="form">
             <TextField
@@ -108,7 +114,7 @@ const CouleurFormComponent = (props: CouleurFormProps) => {
             />
             <TextField
               type="color"
-              label="Valeur hexadécimale"
+              label=""
               onChange={(event) =>
                 setState((state) => ({
                   ...state,

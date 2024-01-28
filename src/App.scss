@@ -1,25 +1,21 @@
 @import "./variables.module.scss";
 
 .box-color {
-    aspect-ratio: 2/1;
-    width: 3rem;
+  aspect-ratio: 2/1;
+  width: 3rem;
+  border: 1px solid black;
 }
 
-
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-  }
-  
+  width: 5px;
+  height: 5px;
+}
 
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
+::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-  ::-webkit-scrollbar-thumb {
-    background: #59a8c3d6;
-    border-radius: 6px;
-  }
-
- 
-  
+::-webkit-scrollbar-thumb {
+  background: #59a8c3d6;
+  border-radius: 6px;
+}

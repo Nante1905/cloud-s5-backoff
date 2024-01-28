@@ -29,6 +29,8 @@ const LoginFormComponent = () => {
     (location?.state as { showMessage: boolean })?.showMessage || false;
 
   useEffect(() => {
+    console.log(showMessage, location.state);
+
     setState((state) => ({
       ...state,
       redirectMessage: showMessage,
