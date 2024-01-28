@@ -58,6 +58,11 @@ const routes = createBrowserRouter([
     element: <LoginRoot />,
   },
   {
+    path: "/",
+    index: true,
+    element: <IndexComponent />,
+  },
+  {
     path: "",
     element: (
       <LoginProtection>
@@ -67,11 +72,6 @@ const routes = createBrowserRouter([
       </LoginProtection>
     ),
     children: [
-      {
-        path: "/",
-        index: true,
-        element: <IndexComponent />,
-      },
       {
         path: "marques/edit/:id",
         element: <EditMarqueComponent />,

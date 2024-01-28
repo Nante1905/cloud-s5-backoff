@@ -49,7 +49,7 @@ const CommissionEditFormComponent = (
         setState((state) => ({
           ...state,
           updateLoading: false,
-          updateError: err.response?.data?.message,
+          updateError: err.response?.data?.err,
         }));
       });
   };

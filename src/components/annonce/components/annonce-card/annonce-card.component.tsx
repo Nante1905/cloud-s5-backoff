@@ -39,7 +39,7 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
         setState((prevState) => ({
           ...prevState,
           validerLoading: false,
-          validerErrorMessage: err.response?.data?.message,
+          validerErrorMessage: err.response?.data?.err,
         }));
       });
   };
@@ -51,6 +51,8 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
     }));
     refuserAnnonce(id)
       .then((res) => {
+        console.log(res);
+
         setState((prevState) => ({
           ...prevState,
           refuserLoading: false,
@@ -58,10 +60,12 @@ const AnnonceCardComponent = (props: AnnonceCardComponentProps) => {
         }));
       })
       .catch((err) => {
+        console.log(err);
+
         setState((prevState) => ({
           ...prevState,
           refuserLoading: false,
-          refuserErrorMessage: err.response?.data?.message,
+          refuserErrorMessage: err.response?.data?.err,
         }));
       });
   };

@@ -11,7 +11,11 @@ const LoginProtection = (props: LoginProtectionProps) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    if (!token) {
+    if (
+      !token &&
+      !window.location.href.includes("login") &&
+      window.location.href != "/"
+    ) {
       navigate("/login", {
         state: {
           showMessage: true,
